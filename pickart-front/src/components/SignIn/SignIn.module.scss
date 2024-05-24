@@ -1,0 +1,133 @@
+$black: #121212;
+$grafit: #313131;
+$lightGrafit: #4a4a4a;
+$darkGrafit: #202020;
+$white: #ffffff;
+$op: 0.6;
+$hightTotBar: 2.5rem;
+
+.SignIn {
+    display: flex;
+}
+
+.Background {
+    background-image: url("/Background.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+    width: 70vw;
+}
+
+.RightSite {
+    width: 30vw;
+    min-height: 100vh;
+    background-color: $darkGrafit;
+    color: $white;
+    filter: drop-shadow(-2px 2px 2px $black);
+    // padding: 1vw;
+    // display: flex;
+    // justify-content: center;
+    // flex-direction: column;
+}
+
+.centr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 55%;
+    height: $hightTotBar*1.5;
+
+    p {
+        font-size: $hightTotBar*0.75;
+        margin: 0;
+    }
+
+    margin: auto;
+}
+
+.Active {
+    opacity: 1;
+    text-decoration: underline solid $white;
+    text-underline-offset: calc($hightTotBar /5);
+    text-decoration-thickness: calc($hightTotBar /15);
+}
+
+.Passive {
+    opacity: $op;
+}
+
+.centr p:hover {
+    opacity: 1;
+}
+
+.SignInInput {
+    width: 85%;
+    display: flex;
+    height: calc($hightTotBar*1.25);
+    background-color: $black;
+    border-radius: calc($hightTotBar/5);
+    margin: calc(15%/2);
+    margin-bottom: calc(15%/2/2);
+    margin-top: calc(15%/2/2);
+    // padding: 20%;
+    opacity: $op;
+    align-items: center;
+
+    input {
+        height: 75%;
+        margin-left: calc($hightTotBar*1/2);
+        text-decoration: none;
+        background-color: $black;
+        border: none;
+        color: $white;
+    }
+}
+
+.Button {
+    width: 85%;
+    height: calc($hightTotBar*1.25);
+    background-color: $white;
+    border-radius: calc($hightTotBar/5);
+    margin: calc(15%/2);
+    margin-top: calc(15%/2/2);
+    margin-bottom: calc(15%/2/2);
+    opacity: $op;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    p {
+        font-size: $hightTotBar*0.65;
+        color: $black;
+    }
+}
+
+.Button:hover {
+    background-color: $darkGrafit;
+    color: $white;
+    border-style: solid;
+    border-color: $white;
+    box-sizing: border-box;
+
+    p {
+        color: $white;
+    }
+}
+
+.delitel {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 85%;
+    height: calc($hightTotBar*1.25/2);
+    opacity: $op;
+    margin: auto;
+    div {
+        width: 45%;
+        height: 2px;
+        background-color: $white;
+    }
+}
+.hidden{
+    display: none;
+}
