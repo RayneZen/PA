@@ -40,7 +40,7 @@ export default function Header() {
                     <div className={styles.RightSite}>
                         <input id='Search' placeholder="Search"></input>
                         {session?.data ? (
-                            <><Link href={`/Loading`} className={styles.Logo}>
+                            <><Link href={`/auth/google`} className={styles.Logo}>
                                 <ImgButton img={"/Loading_Wite.png"} ></ImgButton>
                             </Link>
                                 {/* onClick={() => signOut({ callbackUrl: "/" })} */}

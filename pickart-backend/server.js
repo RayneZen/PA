@@ -97,10 +97,11 @@ app.get('/Art/:id', async (req, res) => {
 
 
 function isLoggedIn(req, res, next) {
+  // console.log(req.user);
     req.user ? next() : res.sendStatus(401);
   }
   
-  app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+  app.use(session({ secret: 'cats', resave: false, saveUninitialized: false }));
   app.use(passport.initialize());
   app.use(passport.session());
   
@@ -120,13 +121,22 @@ function isLoggedIn(req, res, next) {
   );
   
   app.get('/protected', isLoggedIn, (req, res) => {
-    res.send(`Hello ${req.user.displayName}`);
+    res.send(`Hello ${req.user.displayName} <a href="/logout">Authenticate with Google</a>`);
   });
   
-  app.get('/logout', (req, res) => {
-    req.logout();
-    req.session.destroy();
-    res.send('Goodbye!');
+  app.get('/logout', (req, res, next) => {
+    req.logout((err) => {
+      if (err) {
+        return next(err);
+      }
+      req.session.destroy((err) => {
+        if (err) {
+          return next(err);
+        }
+        res.clearCookie('connect.sid');
+        res.redirect('/');
+      });
+    });
   });
   
   app.get('/auth/google/failure', (req, res) => {
