@@ -12,7 +12,7 @@ interface Art {
     Description: string | null;
     AuthorId: number;
     Date_of_creation: string | null;
-    Login: string;
+    Name: string;
 }
 
 const filePath = "http://localhost:3001/Arts/";
@@ -51,7 +51,7 @@ export default function Art({ id }: { id: number }) {
                 <ArtImg img={filePath + art.FileName} />
                 <ArtInfo
                     Title={art.Title}
-                    Login={art.Login}
+                    Login={art.Name}
                 ></ArtInfo>
             </div>
         );

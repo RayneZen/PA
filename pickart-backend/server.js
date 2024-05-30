@@ -33,13 +33,13 @@ function verifyUserToken(req, res, next) {
   }
 }
 async function IsUser(req, res, next) {
-  if (req.user.user_type_id === 0) {
+  if (req.user.Role === "User") {
     next();
   }
   return res.status(401).send("Unauthorized!");
 }
 async function IsAdmin(req, res, next) {
-  if (req.user.user_type_id === 1) {
+  if (req.user.Role === "Admin") {
     next();
   } else return res.status(401).send("Unauthorized!");
 }
@@ -73,11 +73,11 @@ app.post('/Reg', async (req, res) => {
       database: "PickArt",
       password: "AdRootPass123"
     });
-    const query = `INSERT INTO user (Login, UserPassword, Email) VALUES('${req.body.name}','${hasPassword}','${req.body.email}')`;
+    const query = `INSERT INTO user (Name, Password, Email) VALUES('${req.body.name}','${hasPassword}','${req.body.email}')`;
     const [results] = await connection.query(query);
-    console.log(results);
+    // console.log(results);
     await connection.end(); // Close the connection after query execution
-    let payload = { Name: req.body.name, user_type_id: req.body.user_type_id || 0 };
+    let payload = { Name: req.body.name, Role: "User" };
     const token = jwt.sign(payload, "config.TOKEN_SECRET");
     res.status(200).send({ token })
     // res.status(200).json({ message: 'User registered successfully' });
@@ -90,12 +90,12 @@ app.post('/Log', async (req, res) => {
   try {
     const user = await mysql.query(`SELECT * FROM user where user.Email='${req.body.email}'`);
     // console.log(user[0][0].Email);
-    if (user[0][0].Email != null) {
-      const validPass = await bcrypt.compare(req.body.password, user[0][0].UserPassword);
+    if (user != null) {
+      const validPass = await bcrypt.compare(req.body.password, user[0][0].Password);
       if (!validPass) return res.status(401).send("Mobile/Email or Password is wrong");
-      let payload = { id: user[0][0].UserId };
+      let payload = { id: user[0][0].Id, Role: user[0][0].Role, };
       const token = jwt.sign(payload, "config.TOKEN_SECRET");
-      res.status(200).header("auth-token", token).send({ "token": token });
+      res.status(200).header("auth-token", token).send({ "token": token,"Id": user[0][0].Id, "Name": user[0][0].Name, "Avatar": user[0][0].Avatar });
     } else {
       res.status(401).send('Invalid mobile')
     }
@@ -131,6 +131,39 @@ app.get('/', async (req, res) => {
     console.log(error)
   }
 })
+app.get('/Profile', async (req, res) => {
+  try {
+    // console.log(req.query)
+    const Id = req.query.Id
+    // const ID = req.query.page
+    const Artist = await mysql.query(`SELECT Name,Avatar,Information_about_yourself from user where Id=${Id}`)
+    // console.log("Artist ", Artist[0][0]);
+    res.json(Artist[0][0])
+  }
+  catch (error) {
+    console.log(error)
+  }
+})
+app.get('/CreatedBy', async (req, res) => {
+  try {
+    // console.log(req.query)
+    const page = req.query.page
+    const AuthorId = req.query.AuthorId
+    const limit = 6 * 4
+    const offset = (page - 1) * limit
+    const [totalPageData] = await mysql.query("SELECT count(*) as count from artwork")
+    const totalPage = Math.ceil(+totalPageData[0]?.count / limit)
+    if (page > totalPage || page == 0)
+      return;
+    else {
+      // console.log(offset)
+      const [data] = await mysql.query(`SELECT * FROM artwork where AuthorId=${AuthorId}`)
+      res.json(data)
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 
 
@@ -138,7 +171,7 @@ app.get('/Art', async (req, res) => {
   try {
     // console.log("art: ", req.query)
     const Id = req.query.Id
-    const sql = `SELECT * FROM artwork, user where artwork.AuthorId = user.UserId and ArtWorkId=${Id}`
+    const sql = `SELECT * FROM artwork, user where artwork.AuthorId = user.Id and ArtWorkId=${Id}`
     // const sql =`SELECT * FROM artwork where ArtWorkId=${Id}`
     const [data] = await mysql.query(sql)
     res.json(data)
@@ -147,30 +180,6 @@ app.get('/Art', async (req, res) => {
   }
 })
 
-app.get('/Art/:id', async (req, res) => {
-  try {
-    const Id = req.params.id
-    const sql = `SELECT * FROM artwork, user where artwork.AuthorId = user.UserId and ArtWorkId=${Id}`
-    // const sql =`SELECT * FROM artwork where ArtWorkId=${Id}`
-    const [data] = await mysql.query(sql)
-    res.json(data)
-  } catch (error) {
-    console.log(error)
-  }
-})
-app.get(`/Art/:Id`, (req, res) => {
-  // const sql =`SELECT * FROM art where id=${req.params.Id}`
-  // const sql =`SELECT * FROM artwork where ArtWorkId=${req.params.Id}`
-  const sql = `SELECT * FROM artwork, user where artwork.AuthorId = user.UserId and ArtWorkId=${req.params.Id}`
-  // mysql.query(sql,(err, data)=>{
-  //     if(err) return res.json(err);
-  //     return res.json(data);
-  // })
-  const [data] = mysql.query(sql)
-  return res.json(data);
-
-  // res.send(req.params)
-})
 app.listen(PORT, () => {
   console.log("Start server");
 })

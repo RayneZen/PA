@@ -1,9 +1,9 @@
 import styles from './Styles.module.scss'
 import Header from '@/components/Header/Header'
 import Footer from '@/components/Footer/Footer'
-import { Providers } from '@/components/Providers'
 import { useState } from 'react';
 import Menu from '@/components/SignInMenu/SignInMenu'
+import Providers from '@/components/Providers';
 
 
 export const metadata = {
@@ -24,7 +24,6 @@ export default function RootLayout({
           {children}
           <Footer></Footer>
         </Providers>
-
       </body>
     </html>
   )

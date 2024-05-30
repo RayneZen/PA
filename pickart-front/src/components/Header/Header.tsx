@@ -4,7 +4,9 @@ import IPT from '../ImgPlusText/IPT'
 import Image from 'next/image'
 import ImgButton from './ImgButton'
 import Link from 'next/link';
-import { useSession, signOut } from "next-auth/react";
+// import { useSession, signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
+
 import { useState } from 'react';
 import SignInMenu from '../SignInMenu/SignInMenu';
 import SignOutMenu from '../SignInMenu/SignOutMenu';
@@ -22,12 +24,11 @@ export default function Header() {
     };
     const SignOutClick = () => {
         setIsHideSOM(!isHideSOM);
-        console.log(isHideSOM);
     };
     const BurgerClick = () => {
+        // console.log("Log: ",session.data?.user);
         setIsHideUM(!isHideUM);
     };
-    // console.log(session.data?.user);
     return (
         <>
             <div className={styles.Empty}></div>
@@ -40,25 +41,27 @@ export default function Header() {
                     <div className={styles.RightSite}>
                         <input id='Search' placeholder="Search"></input>
                         {session?.data ? (
-                            <><Link href={`/auth/google`} className={styles.Logo}>
+                            <>
+                            {/* <div>{session.data.user.Name}</div> */}
+                            <Link href={`/auth/google`} className={styles.Logo}>
                                 <ImgButton img={"/Loading_Wite.png"} ></ImgButton>
                             </Link>
                                 {/* onClick={() => signOut({ callbackUrl: "/" })} */}
                                 <div onClick={SignOutClick} >
-                                    <IPT title={"Sign Out"} img={session.data.user?.image}  ></IPT>
+                                    <IPT title={session.data.user.Name} img={"http://localhost:3001/Avatars/"+session.data.user?.Avatar}  ></IPT>
                                 </div>
                                 <div onClick={BurgerClick} className={isHideUM ? styles.ImgButton : styles.ImgButtonClick}>
                                     <ImgButton img={"/BM.png"}></ImgButton>
                                 </div>
                             </>
                         ) : (
-                            <div onClick={SignInClick}>
+                            <div onClick={() => signIn()}>
                                 <IPT title={"Sign In"} img='/Login_White.png'  ></IPT>
                             </div>
                         )}
                     </div >
                 </div>
-                {!isHideSM && !session?.data ? <SignInMenu></SignInMenu> : <div></div>}
+                {/* {!isHideSM && !session?.data ? <SignInMenu></SignInMenu> : <div></div>} */}
                 {!isHideSOM && session?.data ? <SignOutMenu></SignOutMenu> : <div></div>}
                 {!isHideUM && session?.data ? <UserMenu></UserMenu> : <div></div>}
             </div>
