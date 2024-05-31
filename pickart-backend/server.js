@@ -171,7 +171,7 @@ app.get('/Profile', async (req, res) => {
     const Id = req.query.Id
     // const ID = req.query.page
     const Artist = await mysql.query(`SELECT Name,Avatar,Information_about_yourself from user where Id=${Id}`)
-    // console.log("Artist ", Artist[0][0]);
+    console.log("Artist ", Artist[0][0]);
     res.json(Artist[0][0])
   }
   catch (error) {

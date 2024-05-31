@@ -21,8 +21,8 @@
     "/Profile/[Id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/Profile/[Id]/page.js",
-      "static/css/app/Profile/[Id]/page.css"
+      "static/css/app/Profile/[Id]/page.css",
+      "static/chunks/app/Profile/[Id]/page.js"
     ]
   }
 }
