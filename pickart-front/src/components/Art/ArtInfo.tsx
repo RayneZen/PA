@@ -5,14 +5,14 @@ import Image from 'next/image'
 import Link from 'next/link';
 import Comment from '../Comment/Comment';
 
-export default function ArtInfo({ Title, Login }: { Title: string, Login: string }) {
+export default function ArtInfo({ Title, Name,AuthorId,AuthorImg }: { Title: string, Name: string,AuthorId: number,AuthorImg:string }) {
     const Liks: number = 1;
     return (
         <>
             <div className={styles.ArtInfo}>
                 <div className={styles.AuthorInfo}>
-                    <Link href={`/`}>
-                        <IPT title={Login} img="/Login_White.png" size='L'></IPT>
+                    <Link href={`/Profile/${AuthorId}`}>
+                        <IPT title={Name} img={AuthorImg} size='L'></IPT>
                     </Link>
                     <SubButton></SubButton>
                 </div>

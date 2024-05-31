@@ -19,13 +19,14 @@ const bcrypt = require('bcrypt');
 
 function verifyUserToken(req, res, next) {
   let token = req.headers.authorization;
+  // console.log("Req VUT ", req.body)
   if (!token) return res.status(401).send("Access Denied / Unauthorized request");
   try {
     token = token.split(' ')[2] // Remove Bearer from string
-    if (token === 'null' || !token) return res.status(401).send('Unauthorized request');
+    if (token === 'null' || !token) return res.status(401).send('Unauthorized token request ');
     let verifiedUser = jwt.verify(token, "config.TOKEN_SECRET");   // config.TOKEN_SECRET => 'secretKey'
-    console.log(verifiedUser);
-    if (!verifiedUser) return res.status(401).send('Unauthorized request')
+    // console.log("VS1 ",verifiedUser);
+    if (!verifiedUser) return res.status(401).send('Unauthorized request ')
     req.user = verifiedUser; // user_id & user_type_id
     next();
   } catch (error) {
@@ -93,7 +94,7 @@ app.post('/Log', async (req, res) => {
     if (user != null) {
       const validPass = await bcrypt.compare(req.body.password, user[0][0].Password);
       if (!validPass) return res.status(401).send("Mobile/Email or Password is wrong");
-      let payload = { id: user[0][0].Id, Role: user[0][0].Role, };
+      let payload = { Id: user[0][0].Id, Role: user[0][0].Role, };
       const token = jwt.sign(payload, "config.TOKEN_SECRET");
       res.status(200).header("auth-token", token).send({ "token": token,"Id": user[0][0].Id, "Name": user[0][0].Name, "Avatar": user[0][0].Avatar });
     } else {
@@ -110,6 +111,39 @@ app.post('/User', verifyUserToken, IsUser, async (req, res) => {
 });
 app.post('/Admin', verifyUserToken, IsAdmin, async (req, res) => {
   res.status(200).send("Admin");
+});
+
+app.post("/Subscription",verifyUserToken,  async (req, res) => {
+  try{
+    // console.log("Req: ", req.user )
+    await mysql.query(`INSERT INTO Subscription (SubscriberId,AuthorId) VALUE (${req.user.Id},${req.body.AuthorId})`)
+    res.status(200).send("sucsess Subscription!");
+  }catch(error) {
+    console.log(error)
+  }
+});
+app.post("/Subscribed",  async (req, res) => {
+  try{
+    // console.log("Req: ", req.user )
+    let Sub = await mysql.query(`SELECT AuthorId from Subscription where SubscriberId = ${req.body.SubscriberId}`)
+    const Res = Sub[0].map(obj => obj.AuthorId);
+    // console.log("SUb: ", Sub[0])
+    res.status(200).send(Res);
+  }catch(error) {
+    console.log(error)
+  }
+});app.post("/SubscribedArts",  async (req, res) => {
+  try{
+    // console.log("Req: ", req.user )
+    let Sub = await mysql.query(`SELECT AuthorId from Subscription where SubscriberId = ${req.body.SubscriberId}`)
+    let Res = Sub[0].map(obj => obj.AuthorId);
+    let Arts =await mysql.query(`SELECT * from artwork where AuthorId IN (${Res})`)
+    // console.log("Arts: ", Arts)
+    Res=Arts[0];
+    res.status(200).send(Res);
+  }catch(error) {
+    console.log(error)
+  }
 });
 
 app.get('/', async (req, res) => {

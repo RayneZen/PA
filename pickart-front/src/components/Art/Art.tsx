@@ -13,9 +13,11 @@ interface Art {
     AuthorId: number;
     Date_of_creation: string | null;
     Name: string;
+    Avatar:string
 }
 
 const filePath = "http://localhost:3001/Arts/";
+const AvatarPath = "http://localhost:3001/Avatars/";
 
 
 export default function Art({ id }: { id: number }) {
@@ -51,7 +53,9 @@ export default function Art({ id }: { id: number }) {
                 <ArtImg img={filePath + art.FileName} />
                 <ArtInfo
                     Title={art.Title}
-                    Login={art.Name}
+                    Name={art.Name}
+                    AuthorId={art.AuthorId}
+                    AuthorImg={AvatarPath+art.Avatar}
                 ></ArtInfo>
             </div>
         );
