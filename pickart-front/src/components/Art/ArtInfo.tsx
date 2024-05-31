@@ -2,11 +2,14 @@ import IPT from '../ImgPlusText/IPT';
 import SubButton from '../SubButton/SubButton';
 import styles from './Art.module.scss'
 import Image from 'next/image'
+import React, { useEffect, useState } from "react";
 import Link from 'next/link';
+
 import Comment from '../Comment/Comment';
 
-export default function ArtInfo({ Title, Name,AuthorId,AuthorImg }: { Title: string, Name: string,AuthorId: number,AuthorImg:string }) {
+export default function ArtInfo({ArtWorkId, Title, Name,AuthorId,AuthorImg }: {ArtWorkId:number, Title: string, Name: string,AuthorId: number,AuthorImg:string }) {
     const Liks: number = 1;
+   
     return (
         <>
             <div className={styles.ArtInfo}>
@@ -44,7 +47,7 @@ export default function ArtInfo({ Title, Name,AuthorId,AuthorImg }: { Title: str
                         <p>Description:</p>
                     </div>
                     <div className={styles.ConteinerInside}>
-                        <text>Пример большого длинного текста для описания произведения исскуства, такого как показано слево от блока на котором написано описание. Этого еще мало поэтому нужно добавить дополнительный текст. вот еще что-то</text>
+                        <p>Пример большого длинного текста для описания произведения исскуства, такого как показано слево от блока на котором написано описание. Этого еще мало поэтому нужно добавить дополнительный текст. вот еще что-то</p>
                     </div>
                 </div>
                 <div className={styles.Conteiner}>

@@ -199,7 +199,23 @@ app.get('/CreatedBy', async (req, res) => {
   }
 })
 
-
+app.get('/isSub', async (req, res) => {
+  try {
+    console.log("req: ", req.query)
+    const Id = req.query.Id
+    const sql = `SELECT * FROM subscription where subscription.AuthorId =${Id}  and SubscriberId=${4}`
+    // const sql =`SELECT * FROM artwork where ArtWorkId=${Id}`
+    const [data] = await mysql.query(sql)
+    // console.log("isSub: ", data)
+    if (data.length > 0) {
+      res.json({ isSub: true });
+    } else {
+      res.json({ isSub: false });
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 app.get('/Art', async (req, res) => {
   try {

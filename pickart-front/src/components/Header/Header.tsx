@@ -21,6 +21,7 @@ export default function Header() {
 
     const SignInClick = () => {
         setIsHideSM(!isHideSM);
+
     };
     const SignOutClick = () => {
         setIsHideSOM(!isHideSOM);

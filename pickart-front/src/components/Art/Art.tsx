@@ -4,6 +4,8 @@ import axios from "axios"
 import styles from './Art.module.scss'
 import ArtImg from './ArtImg'
 import ArtInfo from "./ArtInfo";
+// import { Session } from "inspector";
+
 
 interface Art {
     ArtWorkId: number;
@@ -13,7 +15,7 @@ interface Art {
     AuthorId: number;
     Date_of_creation: string | null;
     Name: string;
-    Avatar:string
+    Avatar: string
 }
 
 const filePath = "http://localhost:3001/Arts/";
@@ -21,7 +23,7 @@ const AvatarPath = "http://localhost:3001/Avatars/";
 
 
 export default function Art({ id }: { id: number }) {
-    const [art, setArt] = useState<Art | null>(null);
+    const [art, setArt] = useState<Art >();
     const [fetching, setFetching] = useState<boolean>(false);
     const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true);
     useEffect(() => {
@@ -44,6 +46,8 @@ export default function Art({ id }: { id: number }) {
                 });
         }
     }, [fetching]);
+    
+
 
     if (!art) {
         return <div>Loading...</div>;
@@ -52,10 +56,11 @@ export default function Art({ id }: { id: number }) {
             <div className={styles.Art}>
                 <ArtImg img={filePath + art.FileName} />
                 <ArtInfo
+                    ArtWorkId={art.ArtWorkId}
                     Title={art.Title}
                     Name={art.Name}
                     AuthorId={art.AuthorId}
-                    AuthorImg={AvatarPath+art.Avatar}
+                    AuthorImg={AvatarPath + art.Avatar}
                 ></ArtInfo>
             </div>
         );
