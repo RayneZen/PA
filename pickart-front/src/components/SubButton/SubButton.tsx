@@ -7,7 +7,7 @@ const SubButton = ({ AuthorId }: { AuthorId: number }) => {
     const session = useSession();
     const [isSub, setIsSub] = useState(false);
     const [fetching, setFetching] = useState(false);
-    const [isInitialLoad, setIsInitialLoad] = useState(true);
+    // const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     useEffect(() => {
         if (session.status === "authenticated") {
@@ -55,7 +55,7 @@ const SubButton = ({ AuthorId }: { AuthorId: number }) => {
     return (
         <>{session.status === "authenticated" ? (
             isSub ? (
-                <div className={styles.Button} onClick={() => unSub(AuthorId)}>Subscribed</div>
+                <div className={styles.ButtonSub} onClick={() => unSub(AuthorId)}>Subscribed</div>
             ) : (
                 <div className={styles.Button} onClick={() => addSub(AuthorId)}>Subscribe</div>
             )

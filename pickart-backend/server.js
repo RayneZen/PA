@@ -62,8 +62,28 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3001
 
+app.get('/', async (req, res) => {
+  try {
+    // console.log(req.query)
+    const page = req.query.page
+    const limit = 6 * 4
+    const offset = (page - 1) * limit
+    const [totalPageData] = await mysql.query("SELECT count(*) as count from artwork")
+    const totalPage = Math.ceil(+totalPageData[0]?.count / limit)
+    if (page > totalPage || page == 0)
+      return;
+    else {
+      // console.log(offset)
+      const [data] = await mysql.query('SELECT * FROM artwork limit ? offset ?', [+limit, +offset])
+      res.json(data)
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 const mysqlP = require('mysql2/promise');
+
 
 app.post('/Reg', async (req, res) => {
   try {
@@ -157,25 +177,45 @@ app.post("/Subscribed",  async (req, res) => {
   }
 });
 
-app.get('/', async (req, res) => {
+
+
+app.get('/isSub',verifyUserToken, async (req, res) => {
   try {
-    // console.log(req.query)
-    const page = req.query.page
-    const limit = 6 * 4
-    const offset = (page - 1) * limit
-    const [totalPageData] = await mysql.query("SELECT count(*) as count from artwork")
-    const totalPage = Math.ceil(+totalPageData[0]?.count / limit)
-    if (page > totalPage || page == 0)
-      return;
-    else {
-      // console.log(offset)
-      const [data] = await mysql.query('SELECT * FROM artwork limit ? offset ?', [+limit, +offset])
-      res.json(data)
+    // console.log("req isSub: ", SubscriberId," ", AuthorId)
+    const sql = `SELECT * FROM subscription where subscription.AuthorId =${req.query.AuthorId}  and SubscriberId=${req.user.Id}`
+    // const sql =`SELECT * FROM artwork where ArtWorkId=${Id}`
+    const [data] = await mysql.query(sql)
+    // console.log("isSub: ", data)
+    if (data.length > 0) {
+      res.json({ isSub: true });
+    } else {
+      res.json({ isSub: false });
     }
   } catch (error) {
     console.log(error)
   }
 })
+app.get('/CountInfo', async (req, res) => {
+  try {
+    let Views = await mysql.query(`SELECT count(*) FROM Views where ArtWorkId =${req.query.ArtWorkId}`)
+    let Liks = await mysql.query(`SELECT count(*) FROM Liks where ArtWorkId =${req.query.ArtWorkId}`)
+    let Comments = await mysql.query(`SELECT count(*) FROM Comments where ArtWorkId =${req.query.ArtWorkId}`)
+    // console.log("Data: ", data[0][0]['count(*)']);
+    res.json({ "Views": Views[0][0]['count(*)'],"Liks": Liks[0][0]['count(*)'],"Comments": Comments[0][0]['count(*)'] });
+  } catch (error) {
+    console.log(error)
+  }
+})
+app.post("/View",verifyUserToken,  async (req, res) => {
+  try{
+    // console.log("Req Subscription: ", req.user.Id, "  ", req.query.AuthorId )
+    await mysql.query(`INSERT INTO Views (ViewerId,AuthorId) VALUE (${req.user.Id},${req.query.AuthorId})`)
+    res.status(200).send("sucsess Subscription!");
+  }catch(error) {
+    console.log(error)
+  }
+});
+
 app.get('/Profile', async (req, res) => {
   try {
     // console.log(req.query)
@@ -209,26 +249,6 @@ app.get('/CreatedBy', async (req, res) => {
     console.log(error)
   }
 })
-
-app.get('/isSub',verifyUserToken, async (req, res) => {
-  try {
-    const AuthorId = req.query.AuthorId
-    const SubscriberId = req.user.Id
-    // console.log("req isSub: ", SubscriberId," ", AuthorId)
-    const sql = `SELECT * FROM subscription where subscription.AuthorId =${AuthorId}  and SubscriberId=${SubscriberId}`
-    // const sql =`SELECT * FROM artwork where ArtWorkId=${Id}`
-    const [data] = await mysql.query(sql)
-    // console.log("isSub: ", data)
-    if (data.length > 0) {
-      res.json({ isSub: true });
-    } else {
-      res.json({ isSub: false });
-    }
-  } catch (error) {
-    console.log(error)
-  }
-})
-
 app.get('/Art', async (req, res) => {
   try {
     // console.log("art: ", req.query)

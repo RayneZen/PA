@@ -6,11 +6,10 @@ import React, { useEffect, useState } from "react";
 import Link from 'next/link';
 
 import Comment from '../Comment/Comment';
+import ArtTitle from './ArtTitle';
 
 export default function ArtInfo({ArtWorkId, Title, Name,AuthorId,AuthorImg }: {ArtWorkId:number, Title: string, Name: string,AuthorId: number,AuthorImg:string }) {
-    const Liks: number = 1;
-   
-    return (
+       return (
         <>
             <div className={styles.ArtInfo}>
                 <div className={styles.AuthorInfo}>
@@ -19,29 +18,7 @@ export default function ArtInfo({ArtWorkId, Title, Name,AuthorId,AuthorImg }: {A
                     </Link>
                     <SubButton AuthorId={AuthorId} ></SubButton>
                 </div>
-                <div className={styles.Conteiner}>
-                    <div className={styles.ConteinerTopCenter}>
-                        <text>{Title}</text>
-                        <p>8 hours ago</p>
-                    </div>
-                    <div className={styles.ConteinerInside}>
-                        <div>
-                            <div>
-                                <Image src="/likesWhite.png" alt="Liks" width={32} height={32} />
-                                <p>{Liks + " Likes"}</p>
-                            </div>
-                            {/* <IPT title={String(Liks+" Likes")} img='/Login_White.png' size='S'></IPT> */}
-                            <div>
-                                <Image src="/viewsWhite.png" alt="Views" width={32} height={32} />
-                                <p>{Liks + " Views"}</p>
-                            </div>
-                            <div>
-                                <Image src="/commentsWite.png" alt="Comments" width={32} height={32} />
-                                <p>{Liks + " Comments"}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <ArtTitle ArtWorkId={ArtWorkId} Title={Title}></ArtTitle>
                 <div className={styles.Conteiner}>
                     <div className={styles.ConteinerTop}>
                         <p>Description:</p>

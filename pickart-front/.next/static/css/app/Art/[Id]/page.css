@@ -382,6 +382,31 @@
   border-style: solid;
   border-color: #ffffff;
 }
+
+.SubButton_ButtonSub__OrWtS {
+  background-color: #202020;
+  color: #ffffff;
+  border-style: solid;
+  border-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  height: 60%;
+  width: 35%;
+  margin: 0.46875rem;
+  box-sizing: border-box;
+  border-radius: 1rem;
+  opacity: 0.6;
+  filter: drop-shadow(-1px 2px 2px #121212);
+}
+
+.SubButton_ButtonSub__OrWtS:hover {
+  background-color: #ffffff;
+  color: #121212;
+  border-style: solid;
+  border-color: #ffffff;
+}
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[13].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[13].oneOf[9].use[5]!./src/components/Comment/Comment.module.scss ***!
   \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
