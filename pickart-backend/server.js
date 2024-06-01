@@ -18,11 +18,13 @@ const bcrypt = require('bcrypt');
 
 
 function verifyUserToken(req, res, next) {
+  // console.log("req: ",req.headers.authorization)
   let token = req.headers.authorization;
-  // console.log("Req VUT ", req.body)
+  // console.log("token: ",token)
+  // console.log("Req VUT ", req.query)
   if (!token) return res.status(401).send("Access Denied / Unauthorized request");
   try {
-    token = token.split(' ')[2] // Remove Bearer from string
+    token = token.split(' ')[1] // Remove Bearer from string
     if (token === 'null' || !token) return res.status(401).send('Unauthorized token request ');
     let verifiedUser = jwt.verify(token, "config.TOKEN_SECRET");   // config.TOKEN_SECRET => 'secretKey'
     // console.log("VS1 ",verifiedUser);
@@ -115,9 +117,18 @@ app.post('/Admin', verifyUserToken, IsAdmin, async (req, res) => {
 
 app.post("/Subscription",verifyUserToken,  async (req, res) => {
   try{
-    // console.log("Req: ", req.user )
-    await mysql.query(`INSERT INTO Subscription (SubscriberId,AuthorId) VALUE (${req.user.Id},${req.body.AuthorId})`)
+    // console.log("Req Subscription: ", req.user.Id, "  ", req.query.AuthorId )
+    await mysql.query(`INSERT INTO Subscription (SubscriberId,AuthorId) VALUE (${req.user.Id},${req.query.AuthorId})`)
     res.status(200).send("sucsess Subscription!");
+  }catch(error) {
+    console.log(error)
+  }
+});
+app.post("/UnSubscription",verifyUserToken,  async (req, res) => {
+  try{
+    // console.log("Req Subscription: ", req.user.Id, "  ", req.query.AuthorId )
+    await mysql.query(`delete from Subscription where SubscriberId=${req.user.Id} and AuthorId =${req.query.AuthorId}`)
+    res.status(200).send("sucsess UnSubscription!");
   }catch(error) {
     console.log(error)
   }
@@ -199,11 +210,12 @@ app.get('/CreatedBy', async (req, res) => {
   }
 })
 
-app.get('/isSub', async (req, res) => {
+app.get('/isSub',verifyUserToken, async (req, res) => {
   try {
-    console.log("req: ", req.query)
-    const Id = req.query.Id
-    const sql = `SELECT * FROM subscription where subscription.AuthorId =${Id}  and SubscriberId=${4}`
+    const AuthorId = req.query.AuthorId
+    const SubscriberId = req.user.Id
+    // console.log("req isSub: ", SubscriberId," ", AuthorId)
+    const sql = `SELECT * FROM subscription where subscription.AuthorId =${AuthorId}  and SubscriberId=${SubscriberId}`
     // const sql =`SELECT * FROM artwork where ArtWorkId=${Id}`
     const [data] = await mysql.query(sql)
     // console.log("isSub: ", data)
