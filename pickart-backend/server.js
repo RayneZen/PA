@@ -132,7 +132,7 @@ app.post('/Reg', async (req, res) => {
 app.post('/Log', async (req, res) => {
   try {
     const user = await mysql.query(`SELECT * FROM user where user.Email='${req.body.email}'`);
-    // console.log(user[0][0].Email);
+    // console.log("Log: ",req.body);
     if (user != null) {
       const validPass = await bcrypt.compare(req.body.password, user[0][0].Password);
       if (!validPass) return res.status(401).send("Mobile/Email or Password is wrong");
@@ -294,8 +294,32 @@ app.get('/CreatedBy', async (req, res) => {
       return;
     else {
       // console.log(offset)
-      const [data] = await mysql.query(`SELECT * FROM artwork where AuthorId=${AuthorId}`)
+      const [data] = await mysql.query(`SELECT * FROM artwork where AuthorId=${AuthorId} limit ? offset ?`, [+limit, +offset])
       res.json(data)
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
+app.get('/LikedBy', async (req, res) => {
+  try {
+    // console.log(req.query)
+    const page = req.query.page
+    const AuthorId = req.query.AuthorId
+    const limit = 6 * 4
+    const offset = (page - 1) * limit
+    let Likes = await mysql.query(`SELECT ArtWorkId from Likes where LikerId = ${AuthorId}`)
+    let Res = Likes[0].map(obj => obj.ArtWorkId);
+    const [totalPageData] = await mysql.query("SELECT count(*) as count from artwork")
+    const totalPage = Math.ceil(+totalPageData[0]?.count / limit)
+    if (page > totalPage || page == 0)
+      return;
+    else {
+      // console.log("Res ",Res);
+      if(Res[0]){
+        const [data] = await mysql.query(`SELECT * FROM artwork where ArtWorkId IN (${Res}) limit ? offset ?`, [+limit, +offset])
+        res.json(data)
+      }else res.json([])
     }
   } catch (error) {
     console.log(error)

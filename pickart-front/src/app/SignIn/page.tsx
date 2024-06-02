@@ -1,10 +1,14 @@
 "use client"
 import SignIn from '@/components/SignIn/SignIn'
 import styles from './Styles.module.scss'
-export default function Home() {
-    return(
+type Props = {
+    searchParams?: Record<"callbackUrl" | "error", string>;
+};
+export default function SignInPage(props: Props) {
+    return (
         <main>
-            <SignIn></SignIn>
+            <SignIn error={props.searchParams?.error}
+                callbackUrl={props.searchParams?.callbackUrl}></SignIn>
         </main>
     )
 }
