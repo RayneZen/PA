@@ -20,6 +20,12 @@ $hightTotBar: 2.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-color: $darkGrafit;
+    border-style: solid;
+    // box-sizing: border-box;
+    border-width: 0;
+    filter: drop-shadow(0 0px 2px #000000b5);
+    border-bottom-width: 3px;
     p {
         color: $white;
         // opacity: $op;

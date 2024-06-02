@@ -25,10 +25,11 @@ export default function Header() {
     };
     const SignOutClick = () => {
         setIsHideSOM(!isHideSOM);
+        setIsHideUM(true);
     };
     const BurgerClick = () => {
-        // console.log("Log: ",session.data?.user);
         setIsHideUM(!isHideUM);
+        setIsHideSOM(true);
     };
     return (
         <>

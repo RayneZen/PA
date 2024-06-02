@@ -1,10 +1,14 @@
 "use client"
-import React, { useEffect, useState } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import Link from 'next/link';
 import axios from "axios"
 import styles from './ImgBoard.module.scss'
 import ImgPreview from './ImgPreview'
-import MidBar from './MidBar'
+import { signIn, signOut, useSession } from 'next-auth/react';
+
+// import MidBar from './MidBar'
+
+
 
 interface Art {
     ArtWorkId: number;
@@ -19,16 +23,35 @@ export default function ImgBoard() {
     const [fetching, setFetching] = useState<boolean>(false);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true);
+    const [isTreading, setIsTreading] = useState<boolean>(true);
+    const [isLatest, setIsLatest] = useState<boolean>(false);
+    const [isFollowing, setIsFollowing] = useState<boolean>(false);
+
+
 
     useEffect(() => {
         if (isInitialLoad) {
             setFetching(true);
         }
     }, [isInitialLoad]);
+   
 
     useEffect(() => {
         if (fetching) {
-            axios.get<Art[]>(`http://localhost:3001/?page=${currentPage}`)
+            if(isTreading){
+                axios.get<Art[]>(`http://localhost:3001/?page=${currentPage}`)
+                    .then(response => {
+                        setArts(arts => [...arts, ...response.data]);
+                        setCurrentPage(currentPage + 1);
+                    })
+                    .finally(() => {
+                        setFetching(false);
+                        if (isInitialLoad) {
+                            setIsInitialLoad(false);
+                        }
+                    });
+            }else if(isLatest){
+                axios.get<Art[]>(`http://localhost:3001/?page=${currentPage}`)
                 .then(response => {
                     setArts(arts => [...arts, ...response.data]);
                     setCurrentPage(currentPage + 1);
@@ -39,6 +62,19 @@ export default function ImgBoard() {
                         setIsInitialLoad(false);
                     }
                 });
+            }else if(isFollowing){
+                axios.get<Art[]>(`http://localhost:3001/Following?page=${currentPage}`)
+                .then(response => {
+                    setArts(arts => [...arts, ...response.data]);
+                    setCurrentPage(currentPage + 1);
+                })
+                .finally(() => {
+                    setFetching(false);
+                    if (isInitialLoad) {
+                        setIsInitialLoad(false);
+                    }
+                });
+            }
         }
     }, [fetching]);
 
@@ -53,10 +89,51 @@ export default function ImgBoard() {
             document.removeEventListener('scroll', scrollHandler);
         };
     }, [fetching]);
-
+    const session = useSession();
+    const TreadingClick = () => {
+        setIsTreading(true);
+        setIsLatest(false);
+        setIsFollowing(false);
+        setCurrentPage(1);
+        setArts([]);
+        setFetching(true);
+    };const LatestClick = () => {
+        setIsTreading(false);
+        setIsLatest(true);
+        setIsFollowing(false);
+        setCurrentPage(1);
+        setArts([]);
+        setFetching(true);
+    };const FollowingClick = () => {
+        setIsTreading(false);
+        setIsLatest(false);
+        setIsFollowing(true);
+        setCurrentPage(1);
+        setArts([]);
+        setFetching(true);
+    };
+    useEffect(() => {
+        if (session.status === "authenticated") {
+            axios.defaults.headers.common['Authorization'] = `Bearer ${session.data?.user.token}`;
+        }
+    }, [session]);
     return (
         <>
-            <MidBar></MidBar>
+
+
+            {session.status === "authenticated" ? (
+                <div className={styles.MidBar}>
+                    <p onClick={TreadingClick} className={isTreading ? styles.Active : styles.Passive}>Trending</p>
+                    <p onClick={LatestClick} className={isLatest ? styles.Active : styles.Passive}>Latest</p>
+                    <p onClick={FollowingClick} className={isFollowing ? styles.Active : styles.Passive}>Following</p>
+                </div>) : (
+                <div className={styles.MidBar}>
+                    <p onClick={TreadingClick} className={isTreading ? styles.Active : styles.Passive}>Trending</p>
+                    <p onClick={LatestClick} className={isLatest ? styles.Active : styles.Passive}>Latest</p>
+                </div>)}
+
+
+            {/* <div className={styles.Shadow}></div> */}
             <div className={styles.ImgBoard}>
                 {arts.map((post: Art) => {
                     return (

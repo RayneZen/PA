@@ -81,6 +81,26 @@ app.get('/', async (req, res) => {
     console.log(error)
   }
 })
+app.get('/Following',verifyUserToken, async (req, res) => {
+  try {
+    let Sub = await mysql.query(`SELECT AuthorId from Subscription where SubscriberId = ${req.user.Id}`)
+    let Res = Sub[0].map(obj => obj.AuthorId);
+    const page = req.query.page
+    const limit = 6 * 4
+    const offset = (page - 1) * limit
+    const [totalPageData] = await mysql.query("SELECT count(*) as count from artwork")
+    const totalPage = Math.ceil(+totalPageData[0]?.count / limit)
+    if (page > totalPage || page == 0)
+      return;
+    else {
+      // console.log(offset)
+      const [data] = await mysql.query(`SELECT * FROM artwork where AuthorId IN (${Res}) limit ? offset ?`, [+limit, +offset])
+      res.json(data)
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 const mysqlP = require('mysql2/promise');
 
@@ -205,7 +225,7 @@ app.get("/isLiked", verifyUserToken, async (req, res) => {
     }
     data=await mysql.query(`SELECT * FROM Likes where Likes.ArtWorkId =${ArtWorkId}  and LikerId=${UserId}`)
     let isLiked=true;
-    console.log("isLiked: ", data[0])
+    // console.log("isLiked: ", data[0])
     if(!data[0].length>0){
        isLiked=false;
     }
