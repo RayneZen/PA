@@ -125,6 +125,28 @@
   margin-left: 0;
 }
 
+.Art_ConteinerInsideArtTitle__hqaDu {
+  height: auto;
+  padding: 1.5%;
+}
+.Art_ConteinerInsideArtTitle__hqaDu .Art_Active__YXFpq {
+  opacity: 1;
+}
+.Art_ConteinerInsideArtTitle__hqaDu .Art_Passive__LnebS {
+  opacity: 0.6;
+}
+.Art_ConteinerInsideArtTitle__hqaDu div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.Art_ConteinerInsideArtTitle__hqaDu div img {
+  aspect-ratio: 1/1;
+  width: 1.5625rem;
+  height: auto;
+  margin-left: 0;
+}
+
 .Art_ConteinerTopCenter__YvxfT {
   display: flex;
   justify-content: space-between;

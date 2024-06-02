@@ -118,7 +118,7 @@ app.post('/Log', async (req, res) => {
       if (!validPass) return res.status(401).send("Mobile/Email or Password is wrong");
       let payload = { Id: user[0][0].Id, Role: user[0][0].Role, };
       const token = jwt.sign(payload, "config.TOKEN_SECRET");
-      res.status(200).header("auth-token", token).send({ "token": token,"Id": user[0][0].Id, "Name": user[0][0].Name, "Avatar": user[0][0].Avatar });
+      res.status(200).header("auth-token", token).send({ "token": token, "Id": user[0][0].Id, "Name": user[0][0].Name, "Avatar": user[0][0].Avatar });
     } else {
       res.status(401).send('Invalid mobile')
     }
@@ -135,51 +135,51 @@ app.post('/Admin', verifyUserToken, IsAdmin, async (req, res) => {
   res.status(200).send("Admin");
 });
 
-app.post("/Subscription",verifyUserToken,  async (req, res) => {
-  try{
+app.post("/Subscription", verifyUserToken, async (req, res) => {
+  try {
     // console.log("Req Subscription: ", req.user.Id, "  ", req.query.AuthorId )
     await mysql.query(`INSERT INTO Subscription (SubscriberId,AuthorId) VALUE (${req.user.Id},${req.query.AuthorId})`)
     res.status(200).send("sucsess Subscription!");
-  }catch(error) {
+  } catch (error) {
     console.log(error)
   }
 });
-app.post("/UnSubscription",verifyUserToken,  async (req, res) => {
-  try{
+app.post("/UnSubscription", verifyUserToken, async (req, res) => {
+  try {
     // console.log("Req Subscription: ", req.user.Id, "  ", req.query.AuthorId )
     await mysql.query(`delete from Subscription where SubscriberId=${req.user.Id} and AuthorId =${req.query.AuthorId}`)
     res.status(200).send("sucsess UnSubscription!");
-  }catch(error) {
+  } catch (error) {
     console.log(error)
   }
 });
-app.post("/Subscribed",  async (req, res) => {
-  try{
+app.post("/Subscribed", async (req, res) => {
+  try {
     // console.log("Req: ", req.user )
     let Sub = await mysql.query(`SELECT AuthorId from Subscription where SubscriberId = ${req.body.SubscriberId}`)
     const Res = Sub[0].map(obj => obj.AuthorId);
     // console.log("SUb: ", Sub[0])
     res.status(200).send(Res);
-  }catch(error) {
+  } catch (error) {
     console.log(error)
   }
-});app.post("/SubscribedArts",  async (req, res) => {
-  try{
+}); app.post("/SubscribedArts", async (req, res) => {
+  try {
     // console.log("Req: ", req.user )
     let Sub = await mysql.query(`SELECT AuthorId from Subscription where SubscriberId = ${req.body.SubscriberId}`)
     let Res = Sub[0].map(obj => obj.AuthorId);
-    let Arts =await mysql.query(`SELECT * from artwork where AuthorId IN (${Res})`)
+    let Arts = await mysql.query(`SELECT * from artwork where AuthorId IN (${Res})`)
     // console.log("Arts: ", Arts)
-    Res=Arts[0];
+    Res = Arts[0];
     res.status(200).send(Res);
-  }catch(error) {
+  } catch (error) {
     console.log(error)
   }
 });
 
 
 
-app.get('/isSub',verifyUserToken, async (req, res) => {
+app.get('/isSub', verifyUserToken, async (req, res) => {
   try {
     // console.log("req isSub: ", SubscriberId," ", AuthorId)
     const sql = `SELECT * FROM subscription where subscription.AuthorId =${req.query.AuthorId}  and SubscriberId=${req.user.Id}`
@@ -195,23 +195,55 @@ app.get('/isSub',verifyUserToken, async (req, res) => {
     console.log(error)
   }
 })
+app.get("/isLiked", verifyUserToken, async (req, res) => {
+  try {
+    const ArtWorkId=req.query.ArtWorkId;
+    const UserId=req.user.Id;
+    let data=await mysql.query(`SELECT * FROM Views where Views.ArtWorkId =${ArtWorkId}  and ViewerId=${UserId}`)
+    if(!data[0].length>0){
+      await mysql.query(`INSERT INTO Views (ViewerId,ArtWorkId) VALUE (${UserId},${ArtWorkId})`)
+    }
+    data=await mysql.query(`SELECT * FROM Likes where Likes.ArtWorkId =${ArtWorkId}  and LikerId=${UserId}`)
+    let isLiked=true;
+    console.log("isLiked: ", data[0])
+    if(!data[0].length>0){
+       isLiked=false;
+    }
+    const result = {
+      isLiked: isLiked
+    };
+
+    res.json(result);
+  } catch (error) {
+    console.log(error)
+  }
+});
 app.get('/CountInfo', async (req, res) => {
   try {
     let Views = await mysql.query(`SELECT count(*) FROM Views where ArtWorkId =${req.query.ArtWorkId}`)
-    let Liks = await mysql.query(`SELECT count(*) FROM Liks where ArtWorkId =${req.query.ArtWorkId}`)
+    let Likes = await mysql.query(`SELECT count(*) FROM Likes where ArtWorkId =${req.query.ArtWorkId}`)
     let Comments = await mysql.query(`SELECT count(*) FROM Comments where ArtWorkId =${req.query.ArtWorkId}`)
     // console.log("Data: ", data[0][0]['count(*)']);
-    res.json({ "Views": Views[0][0]['count(*)'],"Liks": Liks[0][0]['count(*)'],"Comments": Comments[0][0]['count(*)'] });
+    res.json({ "Views": Views[0][0]['count(*)'],"Likes": Likes[0][0]['count(*)'],"Comments": Comments[0][0]['count(*)'] });
   } catch (error) {
     console.log(error)
   }
 })
-app.post("/View",verifyUserToken,  async (req, res) => {
-  try{
+app.post("/AddLike", verifyUserToken, async (req, res) => {
+  try {
     // console.log("Req Subscription: ", req.user.Id, "  ", req.query.AuthorId )
-    await mysql.query(`INSERT INTO Views (ViewerId,AuthorId) VALUE (${req.user.Id},${req.query.AuthorId})`)
-    res.status(200).send("sucsess Subscription!");
-  }catch(error) {
+    await mysql.query(`INSERT INTO Likes (LikerId,ArtWorkId) VALUE (${req.user.Id},${req.query.ArtWorkId})`)
+    res.json({"isLiked": true});
+  } catch (error) {
+    console.log(error)
+  }
+});
+app.post("/UnLike", verifyUserToken, async (req, res) => {
+  try {
+    // console.log("Req Subscription: ", req.user.Id, "  ", req.query.AuthorId )
+    await mysql.query(`delete from Likes where LikerId=${req.user.Id} and ArtWorkId =${req.query.ArtWorkId}`)
+    res.json({"isLiked": false});
+  } catch (error) {
     console.log(error)
   }
 });
@@ -253,10 +285,14 @@ app.get('/Art', async (req, res) => {
   try {
     // console.log("art: ", req.query)
     const Id = req.query.Id
-    const sql = `SELECT * FROM artwork, user where artwork.AuthorId = user.Id and ArtWorkId=${Id}`
-    // const sql =`SELECT * FROM artwork where ArtWorkId=${Id}`
+    const sql = `SELECT artwork.ArtWorkId, artwork.Title, artwork.Description, artwork.AuthorId, artwork.FileName, artwork.Date_of_creation, user.Id, user.Name, user.Avatar  FROM artwork, user where artwork.AuthorId = user.Id and ArtWorkId=${Id}`
     const [data] = await mysql.query(sql)
-    res.json(data)
+    
+    const result = {
+      ...data[0]
+    };
+
+    res.json(result);
   } catch (error) {
     console.log(error)
   }

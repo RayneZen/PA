@@ -7,14 +7,22 @@ import React, { useState, useEffect, useCallback } from 'react';
 export default function ArtTitle({ Title, ArtWorkId }: { Title: string, ArtWorkId: number }) {
     const session = useSession();
     const [views, setViews] = useState();
-    const [liks, setLiks] = useState();
+    const [likes, setLikes] = useState();
+    const [isLiked, setIsLiked] = useState(false);
     const [comments, setComments] = useState();
     const [fetching, setFetching] = useState(true);
 
     useEffect(() => {
         if (session.status === "authenticated") {
-        //     axios.defaults.headers.common['Authorization'] = `Bearer ${session.data?.user.token}`;
-            setFetching(true);
+            axios.defaults.headers.common['Authorization'] = `Bearer ${session.data?.user.token}`;
+            axios.get(`http://localhost:3001/isLiked?ArtWorkId=${ArtWorkId}`)
+                .then((response) => {
+                    setIsLiked(response.data.isLiked);
+                })
+                .finally(() => {
+                    setFetching(true);
+                });
+
         }
     }, [session]);
 
@@ -24,7 +32,7 @@ export default function ArtTitle({ Title, ArtWorkId }: { Title: string, ArtWorkI
             axios.get(`http://localhost:3001/CountInfo?ArtWorkId=${ArtWorkId}`)
                 .then((response) => {
                     setViews(response.data.Views);
-                    setLiks(response.data.Liks);
+                    setLikes(response.data.Likes);
                     setComments(response.data.Comments);
                 })
                 .finally(() => {
@@ -33,6 +41,26 @@ export default function ArtTitle({ Title, ArtWorkId }: { Title: string, ArtWorkI
         }
     }, [fetching]);
 
+    const addLike = useCallback(async (authorId: number) => {
+        axios.post(`http://localhost:3001/AddLike?ArtWorkId=${authorId}`)
+            .then((response) => {
+                setIsLiked(response.data.isLiked);
+            })
+            .finally(() => {
+                setFetching(true);
+            });
+    }, []);
+
+    const unLike = useCallback(async (authorId: number) => {
+        axios.post(`http://localhost:3001/UnLike?ArtWorkId=${authorId}`)
+            .then((response) => {
+                setIsLiked(response.data.isLiked);
+            })
+            .finally(() => {
+                setFetching(true);
+            });
+    }, []);
+
     return (
         <>
             <div className={styles.Conteiner}>
@@ -40,18 +68,25 @@ export default function ArtTitle({ Title, ArtWorkId }: { Title: string, ArtWorkI
                     <text>{Title}</text>
                     <p>8 hours ago</p>
                 </div>
-                <div className={styles.ConteinerInside}>
+                <div className={styles.ConteinerInsideArtTitle}>
                     <div>
-                        <div>
+                        {session.status === "authenticated" ? (isLiked ? 
+                        <div className={styles.Aktive} onClick={() => unLike(ArtWorkId)}>
                             <Image src="/likesWhite.png" alt="Liks" width={32} height={32} />
-                            <p>{liks + " Likes"}</p>
-                        </div>
-                        {/* <IPT title={String(Liks+" Likes")} img='/Login_White.png' size='S'></IPT> */}
-                        <div>
+                            <p>{likes + " Likes"}</p>
+                        </div> :
+                            <div className={styles.Passive}  onClick={() => addLike(ArtWorkId)}>
+                                <Image src="/likesWhite.png" alt="Liks" width={32} height={32} />
+                                <p>{likes + " Likes"}</p>
+                            </div>) : (<div className={styles.Passive} onClick={() => console.log("Need Sign In!")}>
+                                <Image src="/likesWhite.png" alt="Liks" width={32} height={32} />
+                                <p>{likes + " Likes"}</p>
+                            </div>)}
+                        <div className={styles.Passive}>
                             <Image src="/viewsWhite.png" alt="Views" width={32} height={32} />
                             <p>{views + " Views"}</p>
                         </div>
-                        <div>
+                        <div className={styles.Passive}>
                             <Image src="/commentsWite.png" alt="Comments" width={32} height={32} />
                             <p>{comments + " Comments"}</p>
                         </div>

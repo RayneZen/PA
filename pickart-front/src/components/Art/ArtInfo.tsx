@@ -8,7 +8,7 @@ import Link from 'next/link';
 import Comment from '../Comment/Comment';
 import ArtTitle from './ArtTitle';
 
-export default function ArtInfo({ArtWorkId, Title, Name,AuthorId,AuthorImg }: {ArtWorkId:number, Title: string, Name: string,AuthorId: number,AuthorImg:string }) {
+export default function ArtInfo({ArtWorkId, Title, Name,AuthorId,AuthorImg }: {ArtWorkId:number, Title: string, Name: string,AuthorId: number,AuthorImg:string}) {
        return (
         <>
             <div className={styles.ArtInfo}>

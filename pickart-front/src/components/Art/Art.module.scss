@@ -154,6 +154,32 @@ $hightTotBar: 2.5rem;
         }
     }
 }
+.ConteinerInsideArtTitle {
+    // width: 97%;
+    // min-height: calc($hightTotBar*1.25*2);
+    height: auto;
+    // margin: 1.5%;
+    padding: 1.5%;
+    // opacity: $op;
+    .Active{
+        opacity: 1;
+    }
+    .Passive{
+        opacity: $op;
+    }
+    div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        img {
+            aspect-ratio: 1 / 1;
+            width: calc($hightTotBar*1.25/2);
+            height: auto;
+            margin-left: 0;
+        }
+    }
+}
 
 .ConteinerTopCenter {
     display: flex;
@@ -263,6 +289,7 @@ $hightTotBar: 2.5rem;
         background-image: url("/Send_White.png");
     }
 }
+
 .Link {
     color: #ffffff;
     text-decoration: none;

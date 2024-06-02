@@ -15,7 +15,10 @@ interface Art {
     AuthorId: number;
     Date_of_creation: string | null;
     Name: string;
-    Avatar: string
+    Avatar: string;
+    Views: number;
+    Liks: number;
+    Comments: number;
 }
 
 const filePath = "http://localhost:3001/Arts/";
@@ -23,7 +26,7 @@ const AvatarPath = "http://localhost:3001/Avatars/";
 
 
 export default function Art({ id }: { id: number }) {
-    const [art, setArt] = useState<Art >();
+    const [art, setArt] = useState<Art>();
     const [fetching, setFetching] = useState<boolean>(false);
     const [isInitialLoad, setIsInitialLoad] = useState<boolean>(true);
     useEffect(() => {
@@ -34,9 +37,10 @@ export default function Art({ id }: { id: number }) {
 
     useEffect(() => {
         if (fetching) {
-            axios.get<Art[]>(`http://localhost:3001/Art?Id=${id}`)
+            axios.get<Art>(`http://localhost:3001/Art?Id=${id}`)
                 .then(response => {
-                    setArt(response.data[0]);
+                    // console.log("Arts ",response.data);
+                    setArt(response.data);
                 })
                 .finally(() => {
                     setFetching(false);
@@ -46,7 +50,7 @@ export default function Art({ id }: { id: number }) {
                 });
         }
     }, [fetching]);
-    
+
 
 
     if (!art) {
@@ -62,7 +66,7 @@ export default function Art({ id }: { id: number }) {
                     AuthorId={art.AuthorId}
                     AuthorImg={AvatarPath + art.Avatar}
                 ></ArtInfo>
-            </div>
+            </div >
         );
     }
 

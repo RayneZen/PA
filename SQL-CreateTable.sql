@@ -18,6 +18,7 @@ ArtWorkID int );
 CREATE TABLE Liks (
 LikerId int,
 ArtWorkID int );
+
 CREATE TABLE Comments (
 CommentatorId int,
 ArtWorkID int,
