@@ -94,6 +94,23 @@ $hightTotBar: 2.5rem;
     opacity: $op;
 }
 
+.Tegs {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    max-width: 100%;
+    .Teg {
+        background-color: $darkGrafit;
+        height: $hightTotBar*0.6;
+        width: auto;
+        padding-left: 2%;
+        padding-right: 2%;
+        color: $white;
+        opacity: $op;
+        border-radius: 25%;
+    }
+}
+
 .Conteiner {
     background-color: $grafit;
     width: 97%;
@@ -154,19 +171,23 @@ $hightTotBar: 2.5rem;
         }
     }
 }
+
 .ConteinerInsideArtTitle {
     // width: 97%;
     // min-height: calc($hightTotBar*1.25*2);
     height: auto;
     // margin: 1.5%;
     padding: 1.5%;
+
     // opacity: $op;
-    .Active{
+    .Active {
         opacity: 1;
     }
-    .Passive{
+
+    .Passive {
         opacity: $op;
     }
+
     div {
         display: flex;
         justify-content: space-between;

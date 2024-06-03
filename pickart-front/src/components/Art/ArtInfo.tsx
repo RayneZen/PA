@@ -7,6 +7,7 @@ import Link from 'next/link';
 
 import Comment from '../Comment/Comment';
 import ArtTitle from './ArtTitle';
+import Tegs from './Tegs';
 
 export default function ArtInfo({ArtWorkId, Title, Name,AuthorId,AuthorImg }: {ArtWorkId:number, Title: string, Name: string,AuthorId: number,AuthorImg:string}) {
        return (
@@ -54,15 +55,16 @@ export default function ArtInfo({ArtWorkId, Title, Name,AuthorId,AuthorImg }: {A
                         <p>Tegs:</p>
                     </div>
                     <div className={styles.ConteinerInside}>
+                        <Tegs ArtWorkId={ArtWorkId}></Tegs>
                     </div>
                 </div>
-                <div className={styles.Conteiner}>
+                {/* <div className={styles.Conteiner}>
                     <div className={styles.ConteinerTop}>
                         <p>Add to group:</p>
                     </div>
                     <div className={styles.ConteinerInside}>
                     </div>
-                </div>
+                </div> */}
             </div>
         </>
     )

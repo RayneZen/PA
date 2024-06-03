@@ -81,6 +81,23 @@
   opacity: 0.6;
 }
 
+.Art_Tegs__W6G7k {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  max-width: 100%;
+}
+.Art_Tegs__W6G7k .Art_Teg__uIvGI {
+  background-color: #202020;
+  height: 1.5rem;
+  width: auto;
+  padding-left: 2%;
+  padding-right: 2%;
+  color: #ffffff;
+  opacity: 0.6;
+  border-radius: 25%;
+}
+
 .Art_Conteiner__JjwgS {
   background-color: #313131;
   width: 97%;

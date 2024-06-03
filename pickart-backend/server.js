@@ -81,21 +81,25 @@ app.get('/', async (req, res) => {
     console.log(error)
   }
 })
-app.get('/Following',verifyUserToken, async (req, res) => {
+app.get('/Following', verifyUserToken, async (req, res) => {
   try {
     let Sub = await mysql.query(`SELECT AuthorId from Subscription where SubscriberId = ${req.user.Id}`)
-    let Res = Sub[0].map(obj => obj.AuthorId);
-    const page = req.query.page
-    const limit = 6 * 4
-    const offset = (page - 1) * limit
-    const [totalPageData] = await mysql.query("SELECT count(*) as count from artwork")
-    const totalPage = Math.ceil(+totalPageData[0]?.count / limit)
-    if (page > totalPage || page == 0)
-      return;
-    else {
-      // console.log(offset)
-      const [data] = await mysql.query(`SELECT * FROM artwork where AuthorId IN (${Res}) limit ? offset ?`, [+limit, +offset])
-      res.json(data)
+    if(Sub[0][0]){
+      let Res = Sub[0].map(obj => obj.AuthorId);
+      const page = req.query.page
+      const limit = 6 * 4
+      const offset = (page - 1) * limit
+      const [totalPageData] = await mysql.query("SELECT count(*) as count from artwork")
+      const totalPage = Math.ceil(+totalPageData[0]?.count / limit)
+      if (page > totalPage || page == 0)
+        return;
+      else {
+        // console.log(offset)
+        const [data] = await mysql.query(`SELECT * FROM artwork where AuthorId IN (${Res}) limit ? offset ?`, [+limit, +offset])
+        res.json(data)
+      }
+    }else {
+      res.send([])
     }
   } catch (error) {
     console.log(error)
@@ -154,6 +158,112 @@ app.post('/User', verifyUserToken, IsUser, async (req, res) => {
 app.post('/Admin', verifyUserToken, IsAdmin, async (req, res) => {
   res.status(200).send("Admin");
 });
+app.get("/Tegs", async (req, res) => {
+  try {
+    let Sub = await mysql.query(`SELECT TegBody from Tegs where ArtWorkId = ${req.body.ArtWorkId}`)
+    const Res = Sub[0].map(obj => obj.AuthorId);
+    // console.log("SUb: ", Sub[0])
+    res.status(200).send(Res);
+  } catch (error) {
+    console.log(error)
+  }
+});
+app.post("/AddTeg", async (req, res) => {
+  console.log("Req: ", req.query)
+  try {
+    const TegId = await mysql.query(`SELECT Id FROM TegsBody WHERE Title=${req.query.Title}`);
+    if (TegId[0][0]) {
+      const Teg = await mysql.query(`SELECT * FROM Tegs WHERE Id=${TegId[0][0]['Id']} and ArtWorkId=${req.query.ArtWorkId}`);
+      if (Teg[0][0]) {
+        console.log("res1");
+        res.status(200).send('Teg already exists');
+      } else {
+        console.log("res2");
+        await mysql.query(`INSERT INTO Tegs (Id,ArtWorkId) VALUE (${TegId[0][0]['Id']},${req.query.ArtWorkId})`);
+        res.status(200).send('Teg inserted');
+      }
+    } else {
+      console.log("res3");
+      await mysql.query(`INSERT INTO TegsBody (Title) VALUE (${req.query.Title})`);
+      const TegId = await mysql.query(`SELECT Id FROM TegsBody WHERE Title=${req.query.Title}`);
+      await mysql.query(`INSERT INTO Tegs (Id,ArtWorkId) VALUE (${TegId[0][0]['Id']},${req.query.ArtWorkId})`);
+      res.status(200).send('Teg inserted');
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+app.post("/UnTeg", async (req, res) => {
+  try {
+    const TegId = await mysql.query(`SELECT Id FROM TegsBody WHERE Title=${req.query.Title}`);
+    if (TegId[0][0]) {
+      const Teg = await mysql.query(`SELECT * FROM Tegs WHERE Id=${TegId[0][0]['Id']} and ArtWorkId=${req.query.ArtWorkId}`);
+      if (Teg[0][0]) {
+        await mysql.query(`DELETE FROM Tegs WHERE Id=${TegId[0][0]['Id']} and ArtWorkId=${req.query.ArtWorkId}`);
+      } else {
+        await mysql.query(`INSERT INTO Tegs (Id,ArtWorkId) VALUE (${TegId[0][0]['Id']},${req.query.ArtWorkId})`);
+      }
+    } else {
+      res.status(200).send('Teg not found');
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+app.get("/Teged", async (req, res) => {
+  try {
+    const Id = await mysql.query(`SELECT Id FROM TegsBody WHERE TegsBody.Title = ${req.query.Title}`)
+    console.log("Id ", Id)
+    if (Id[0][0]) {
+      const TegedId = await mysql.query(`SELECT ArtWorkId from Tegs WHERE Tegs.Id = ${Id[0][0].Id}`)
+      if (TegedId[0][0]) {
+        console.log("TegedId ", TegedId[0])
+        const Res = TegedId[0].map(item => item.ArtWorkId);
+        const page = req.query.page
+        const limit = 6 * 4
+        const offset = (page - 1) * limit
+        const [totalPageData] = await mysql.query("SELECT count(*) as count from artwork")
+        const totalPage = Math.ceil(+totalPageData[0]?.count / limit)
+        if (page > totalPage || page == 0)
+          return;
+        else {
+          // console.log(offset)
+          const [data] = await mysql.query(`SELECT * from ArtWork WHERE ArtWorkId IN (${Res}) limit ? offset ?`, [+limit, +offset])
+          res.json(data)
+        }
+      } else {
+        console.log("Undefind Arts")
+        res.send([])
+      }
+    } else {
+      console.log("Undefind Teg")
+      res.send([])
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
+app.get("/ArtTegs", async (req, res) => {
+  try {
+    const TegsId=await mysql.query(`SELECT Id FROM Tegs WHERE ArtWorkId=${req.query.ArtWorkId}`)
+    if(TegsId[0][0]){
+      // console.log("res1: ",TegsId[0])
+      let Res = TegsId[0].map(item => item.Id);
+      // console.log("Res: ",Res)
+      const TegsTitles=await mysql.query(`SELECT Title FROM TegsBody WHERE Id IN(${Res})`)
+      // console.log("res: ",TegsTitles[0])
+      Res = TegsTitles[0].map(item => item.Title);
+      res.send(Res)
+    }else {
+      console.log("Dosnt have Tegs")
+      res.send([])
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 app.post("/Subscription", verifyUserToken, async (req, res) => {
   try {
@@ -183,7 +293,8 @@ app.post("/Subscribed", async (req, res) => {
   } catch (error) {
     console.log(error)
   }
-}); app.post("/SubscribedArts", async (req, res) => {
+});
+app.post("/SubscribedArts", async (req, res) => {
   try {
     // console.log("Req: ", req.user )
     let Sub = await mysql.query(`SELECT AuthorId from Subscription where SubscriberId = ${req.body.SubscriberId}`)
@@ -217,17 +328,17 @@ app.get('/isSub', verifyUserToken, async (req, res) => {
 })
 app.get("/isLiked", verifyUserToken, async (req, res) => {
   try {
-    const ArtWorkId=req.query.ArtWorkId;
-    const UserId=req.user.Id;
-    let data=await mysql.query(`SELECT * FROM Views where Views.ArtWorkId =${ArtWorkId}  and ViewerId=${UserId}`)
-    if(!data[0].length>0){
+    const ArtWorkId = req.query.ArtWorkId;
+    const UserId = req.user.Id;
+    let data = await mysql.query(`SELECT * FROM Views where Views.ArtWorkId =${ArtWorkId}  and ViewerId=${UserId}`)
+    if (!data[0].length > 0) {
       await mysql.query(`INSERT INTO Views (ViewerId,ArtWorkId) VALUE (${UserId},${ArtWorkId})`)
     }
-    data=await mysql.query(`SELECT * FROM Likes where Likes.ArtWorkId =${ArtWorkId}  and LikerId=${UserId}`)
-    let isLiked=true;
+    data = await mysql.query(`SELECT * FROM Likes where Likes.ArtWorkId =${ArtWorkId}  and LikerId=${UserId}`)
+    let isLiked = true;
     // console.log("isLiked: ", data[0])
-    if(!data[0].length>0){
-       isLiked=false;
+    if (!data[0].length > 0) {
+      isLiked = false;
     }
     const result = {
       isLiked: isLiked
@@ -244,7 +355,7 @@ app.get('/CountInfo', async (req, res) => {
     let Likes = await mysql.query(`SELECT count(*) FROM Likes where ArtWorkId =${req.query.ArtWorkId}`)
     let Comments = await mysql.query(`SELECT count(*) FROM Comments where ArtWorkId =${req.query.ArtWorkId}`)
     // console.log("Data: ", data[0][0]['count(*)']);
-    res.json({ "Views": Views[0][0]['count(*)'],"Likes": Likes[0][0]['count(*)'],"Comments": Comments[0][0]['count(*)'] });
+    res.json({ "Views": Views[0][0]['count(*)'], "Likes": Likes[0][0]['count(*)'], "Comments": Comments[0][0]['count(*)'] });
   } catch (error) {
     console.log(error)
   }
@@ -253,7 +364,7 @@ app.post("/AddLike", verifyUserToken, async (req, res) => {
   try {
     // console.log("Req Subscription: ", req.user.Id, "  ", req.query.AuthorId )
     await mysql.query(`INSERT INTO Likes (LikerId,ArtWorkId) VALUE (${req.user.Id},${req.query.ArtWorkId})`)
-    res.json({"isLiked": true});
+    res.json({ "isLiked": true });
   } catch (error) {
     console.log(error)
   }
@@ -262,7 +373,7 @@ app.post("/UnLike", verifyUserToken, async (req, res) => {
   try {
     // console.log("Req Subscription: ", req.user.Id, "  ", req.query.AuthorId )
     await mysql.query(`delete from Likes where LikerId=${req.user.Id} and ArtWorkId =${req.query.ArtWorkId}`)
-    res.json({"isLiked": false});
+    res.json({ "isLiked": false });
   } catch (error) {
     console.log(error)
   }
@@ -316,10 +427,10 @@ app.get('/LikedBy', async (req, res) => {
       return;
     else {
       // console.log("Res ",Res);
-      if(Res[0]){
+      if (Res[0]) {
         const [data] = await mysql.query(`SELECT * FROM artwork where ArtWorkId IN (${Res}) limit ? offset ?`, [+limit, +offset])
         res.json(data)
-      }else res.json([])
+      } else res.json([])
     }
   } catch (error) {
     console.log(error)
@@ -331,7 +442,7 @@ app.get('/Art', async (req, res) => {
     const Id = req.query.Id
     const sql = `SELECT artwork.ArtWorkId, artwork.Title, artwork.Description, artwork.AuthorId, artwork.FileName, artwork.Date_of_creation, user.Id, user.Name, user.Avatar  FROM artwork, user where artwork.AuthorId = user.Id and ArtWorkId=${Id}`
     const [data] = await mysql.query(sql)
-    
+
     const result = {
       ...data[0]
     };

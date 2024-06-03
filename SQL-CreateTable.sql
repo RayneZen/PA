@@ -24,6 +24,12 @@ CommentatorId int,
 ArtWorkID int,
 CommentText text
  );
+ CREATE TABLE Tegs (
+Id int,
+ArtWorkID int);
+ CREATE TABLE TegsBody (
+Id int,
+Title VARCHAR(255));
 
 
 
