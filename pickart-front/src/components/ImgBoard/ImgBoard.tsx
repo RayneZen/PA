@@ -119,8 +119,6 @@ export default function ImgBoard() {
     }, [session]);
     return (
         <>
-
-
             {session.status === "authenticated" ? (
                 <div className={styles.MidBar}>
                     <p onClick={TreadingClick} className={isTreading ? styles.Active : styles.Passive}>Trending</p>
@@ -131,9 +129,6 @@ export default function ImgBoard() {
                     <p onClick={TreadingClick} className={isTreading ? styles.Active : styles.Passive}>Trending</p>
                     <p onClick={LatestClick} className={isLatest ? styles.Active : styles.Passive}>Latest</p>
                 </div>)}
-
-
-            {/* <div className={styles.Shadow}></div> */}
             <div className={styles.ImgBoard}>
                 {arts.map((post: Art) => {
                     return (

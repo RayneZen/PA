@@ -5,7 +5,7 @@ import Image from 'next/image'
 import React, { useEffect, useState } from "react";
 import Link from 'next/link';
 
-import Comment from '../Comment/Comment';
+import Comments from './Comment';
 import ArtTitle from './ArtTitle';
 import Tegs from './Tegs';
 
@@ -46,8 +46,7 @@ export default function ArtInfo({ArtWorkId, Title, Name,AuthorId,AuthorImg }: {A
                                 {/* <img src='LibraryTransparent.png' onmouseover="this.src='LibraryHoverTrans.png';" onmouseout="this.src='LibraryTransparent.png';" /> */}
                             </div>
                         </div>
-                        <Comment author="Admin" avatar="/likesWhite.png" comment="Text comment!"></Comment>
-                        <Comment author="Admin" avatar="/likesWhite.png" comment="Text comment!"></Comment>
+                        <Comments ArtWorkId={ArtWorkId}></Comments>
                     </div>
                 </div>
                 <div className={styles.Conteiner}>

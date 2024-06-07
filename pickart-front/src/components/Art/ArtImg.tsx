@@ -8,7 +8,7 @@ export default function ImgPreview ({ title="Art", img }: { title?: string ,img:
             <div className={styles.ArtImg}>
                 <Image src={img}  alt={title} width={1920} height={1080} />
             </div>
-                <ArtButton></ArtButton>
+                {/* <ArtButton></ArtButton> */}
         </>
     )
 }

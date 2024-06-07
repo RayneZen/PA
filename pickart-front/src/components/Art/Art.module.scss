@@ -8,10 +8,14 @@ $hightTotBar: 2.5rem;
 
 .Art {
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
 }
 
 .ArtImg {
+    position: fixed;
+    z-index: 0;
+    top: $hightTotBar;
+    left: 0px;
     display: flex;
     justify-content: center;
     background-color: $black;
@@ -30,8 +34,10 @@ $hightTotBar: 2.5rem;
 }
 
 .ArtInfo {
+    z-index: 10;
+
     width: 30%;
-    min-height: 100%;
+    min-height: calc(100vh - $hightTotBar);
     background-color: $darkGrafit;
     color: $white;
     filter: drop-shadow(-2px 2px 2px $black);
@@ -71,11 +77,11 @@ $hightTotBar: 2.5rem;
     width: 35%;
     margin: calc($hightTotBar*1.25*0.3/2);
     background-color: $white;
+    box-sizing: border-box;
     border-radius: calc($hightTotBar/2.5);
     opacity: $op;
     filter: drop-shadow(-1px 2px 2px $black);
 }
-
 .Button:hover {
     background-color: $darkGrafit;
     color: $white;
@@ -225,9 +231,52 @@ $hightTotBar: 2.5rem;
         opacity: $op;
     }
 }
+.Comment {
+    background-color: $darkGrafit;
+    width: 97%;
+    min-height: calc($hightTotBar*1.25*2);
+    padding-bottom: 0.25%;
+    margin: 1.5%;
+    border-radius: calc($hightTotBar/5);
+    filter: drop-shadow(-1px 2px 2px $black);
+
+    p {
+        margin: 0;
+    }
+
+}
+.CommentTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $darkGrafit;
+    // width: 100%;
+    height: calc($hightTotBar*1.25);
+    border-radius: calc($hightTotBar/5);
+    filter: drop-shadow(-1px 2px 2px $black);
+    font-size: calc($hightTotBar*0.6);
+    padding-left: 1.5%;
+    padding-right: 1.5%;
+    p{
+        // font-size: $hightTotBar/2;
+        opacity: $op;
+    }
+    .time{
+        font-size: $hightTotBar/3;
+
+    }
+}
+.CommentInside {
+    height: auto;
+    padding: 3.5%;
+    opacity: $op;
+    word-wrap: break-word;
+  white-space: normal;
+}
 
 .Comments {
     align-items: center;
+    
 }
 
 .CommentInput {

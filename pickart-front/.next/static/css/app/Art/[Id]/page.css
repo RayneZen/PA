@@ -3,10 +3,14 @@
   \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 .Art_Art__iou5V {
   display: flex;
-  justify-content: space-between;
+  justify-content: right;
 }
 
 .Art_ArtImg__XEA60 {
+  position: fixed;
+  z-index: 0;
+  top: 2.5rem;
+  left: 0px;
   display: flex;
   justify-content: center;
   background-color: #121212;
@@ -24,8 +28,9 @@
 }
 
 .Art_ArtInfo__lIHZr {
+  z-index: 10;
   width: 30%;
-  min-height: 100%;
+  min-height: calc(100vh - 2.5rem);
   background-color: #202020;
   color: #ffffff;
   filter: drop-shadow(-2px 2px 2px #121212);
@@ -59,6 +64,7 @@
   width: 35%;
   margin: 0.46875rem;
   background-color: #ffffff;
+  box-sizing: border-box;
   border-radius: 1rem;
   opacity: 0.6;
   filter: drop-shadow(-1px 2px 2px #121212);
@@ -184,6 +190,46 @@
   opacity: 0.6;
 }
 
+.Art_Comment__FqRMw {
+  background-color: #202020;
+  width: 97%;
+  min-height: 6.25rem;
+  padding-bottom: 0.25%;
+  margin: 1.5%;
+  border-radius: 0.5rem;
+  filter: drop-shadow(-1px 2px 2px #121212);
+}
+.Art_Comment__FqRMw p {
+  margin: 0;
+}
+
+.Art_CommentTop__BSEGw {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #202020;
+  height: 3.125rem;
+  border-radius: 0.5rem;
+  filter: drop-shadow(-1px 2px 2px #121212);
+  font-size: 1.5rem;
+  padding-left: 1.5%;
+  padding-right: 1.5%;
+}
+.Art_CommentTop__BSEGw p {
+  opacity: 0.6;
+}
+.Art_CommentTop__BSEGw .Art_time__9PrgN {
+  font-size: 0.8333333333rem;
+}
+
+.Art_CommentInside__lp4kl {
+  height: auto;
+  padding: 3.5%;
+  opacity: 0.6;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
 .Art_Comments__pEhME {
   align-items: center;
 }
@@ -261,36 +307,6 @@
 .Art_Link__FyvKG {
   color: #ffffff;
   text-decoration: none;
-}
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[13].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[13].oneOf[9].use[5]!./src/components/ArtButton/ArtButton.module.scss ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-.ArtButton_ArtButton__S6DpA {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  background-color: rgba(49, 49, 49, 0.8);
-  border-radius: 0.5rem;
-  width: 6.25rem;
-  height: 2.75rem;
-  position: absolute;
-  top: 90vh;
-  left: 35%;
-  z-index: 5;
-}
-.ArtButton_ArtButton__S6DpA img {
-  aspect-ratio: 1/1;
-  height: 2.125rem;
-  width: auto;
-  margin: 0.1875rem;
-  transition: 0.2s all;
-}
-
-.ArtButton_ArtButton__S6DpA img:hover {
-  opacity: 1;
-  height: 2.375rem;
-  width: auto;
-  margin: 0.0625rem;
 }
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[13].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[13].oneOf[9].use[5]!./src/components/ImgPlusText/IPT.module.scss ***!
@@ -445,37 +461,4 @@
   color: #121212;
   border-style: solid;
   border-color: #ffffff;
-}
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[13].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[13].oneOf[9].use[5]!./src/components/Comment/Comment.module.scss ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-.Comment_Conteiner__4296_ {
-  background-color: #202020;
-  width: 97%;
-  min-height: 3.75rem;
-  margin: 1.5%;
-  display: block;
-  border-radius: 0.5rem;
-  filter: drop-shadow(-1px 2px 2px #121212);
-}
-
-.Comment_ConteinerTop__GPVVv {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #202020;
-  height: 1.875rem;
-  width: 100%;
-  border-radius: 0.5rem;
-  filter: drop-shadow(-1px 2px 2px #121212);
-  font-size: 0.75rem;
-}
-.Comment_ConteinerTop__GPVVv p {
-  opacity: 0.5;
-}
-
-.Comment_ConteinerInside__UZ6pf {
-  height: auto;
-  padding: 1.5%;
-  opacity: 0.5;
 }

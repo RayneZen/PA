@@ -18,10 +18,7 @@ const bcrypt = require('bcrypt');
 
 
 function verifyUserToken(req, res, next) {
-  // console.log("req: ",req.headers.authorization)
   let token = req.headers.authorization;
-  // console.log("token: ",token)
-  // console.log("Req VUT ", req.query)
   if (!token) return res.status(401).send("Access Denied / Unauthorized request");
   try {
     token = token.split(' ')[1] // Remove Bearer from string
@@ -35,6 +32,10 @@ function verifyUserToken(req, res, next) {
     res.status(400).send("Invalid Token");
   }
 }
+
+
+
+
 async function IsUser(req, res, next) {
   if (req.user.Role === "User") {
     next();
@@ -158,6 +159,40 @@ app.post('/User', verifyUserToken, IsUser, async (req, res) => {
 app.post('/Admin', verifyUserToken, IsAdmin, async (req, res) => {
   res.status(200).send("Admin");
 });
+app.post("/AddComment",verifyUserToken, async (req, res) => {
+  console.log("Req: ", req.body)
+  console.log("Req: ", req.user)
+  try {
+    await mysql.query(`INSERT INTO Comments (ArtWorkId, CommentatorId, CommentText) VALUES(${req.body.ArtWorkId}, ${req.user.Id}, ${mysql.escape(req.body.Comment)})`)
+    res.sendStatus(200);
+} catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+}
+});
+app.post("/UnComment",verifyUserToken, async (req, res) => {
+  console.log("Req: ", req.body)
+  console.log("Req: ", req.user)
+  try {
+    await mysql.query(`DELETE FROM Comments WHERE CommentatorID=${req.user.Id} and CommentId=${req.body.CommentId}`)
+    res.sendStatus(200);
+} catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+}
+});
+app.get("/Comments", async (req, res) => {
+  // console.log("Req: ", req.query)
+  try {
+    let [Res] = await mysql.query(`SELECT CommentId,CommentatorId,CommentText,Name,Avatar from Comments,user where ArtWorkId = ${req.query.ArtWorkId} AND user.Id=Comments.CommentatorId`)
+    // const Res = Sub[0].map(obj => obj.AuthorId);
+    // console.log("SUb: ", Sub[0])
+    res.status(200).send(Res);
+  } catch (error) {
+    console.log(error)
+  }
+});
+
 app.get("/Tegs", async (req, res) => {
   try {
     let Sub = await mysql.query(`SELECT TegBody from Tegs where ArtWorkId = ${req.body.ArtWorkId}`)
