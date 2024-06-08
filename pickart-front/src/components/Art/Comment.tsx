@@ -73,9 +73,20 @@ export default function Comments({ ArtWorkId }: { ArtWorkId: number }) {
         useEffect(() => {
             if (inputRef.current) {
                 inputRef.current.focus();
+                const handleKeyUp = (event) => {
+                    if (event.keyCode === 13) {
+                        handleSubmit();
+                    }
+                };
+                inputRef.current.addEventListener("keyup", handleKeyUp);
+                return () => {
+                    if (inputRef.current) {
+                        inputRef.current.removeEventListener("keyup", handleKeyUp);
+                    }
+                };
             }
-        }, [inputValue]);
-        console.log("Sessia ",session);
+        }, []);
+    
         return (
             <div className={styles.CommentInput}>
                 <IPT title=' ' img={session.status === "authenticated"? AvatarPath+session.data.user?.Avatar:"/likesWhite.png"} size='S'></IPT>
