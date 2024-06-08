@@ -146,7 +146,7 @@
   position: fixed;
   top: 90vh;
   left: 95%;
-  z-index: 5;
+  z-index: 999;
 }
 .NavButton_NavButton__PHpj5 img {
   width: 100%;

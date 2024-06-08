@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import Link from 'next/link';
 
 import Comments from './Comment';
-import CommentInput from './CommentInput';
+// import CommentInput from './CommentInput';
 import ArtTitle from './ArtTitle';
 import Tegs from './Tegs';
 

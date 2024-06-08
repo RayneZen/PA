@@ -45,7 +45,7 @@ export default function Header() {
                         {session?.data ? (
                             <>
                             {/* <div>{session.data.user.Name}</div> */}
-                            <Link href={`/auth/google`} className={styles.Logo}>
+                            <Link href={`/UpLoad`} className={styles.Logo}>
                                 <ImgButton img={"/Loading_Wite.png"} ></ImgButton>
                             </Link>
                                 {/* onClick={() => signOut({ callbackUrl: "/" })} */}

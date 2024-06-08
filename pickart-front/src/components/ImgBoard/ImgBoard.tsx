@@ -26,6 +26,7 @@ export default function ImgBoard() {
     const [isTreading, setIsTreading] = useState<boolean>(true);
     const [isLatest, setIsLatest] = useState<boolean>(false);
     const [isFollowing, setIsFollowing] = useState<boolean>(false);
+    const [isLiked, setIsLiked] = useState<boolean>(false);
 
 
 
@@ -74,6 +75,18 @@ export default function ImgBoard() {
                         setIsInitialLoad(false);
                     }
                 });
+            }else if(isLiked){
+                axios.get<Art[]>(`http://localhost:3001/Liked?page=${currentPage}`)
+                .then(response => {
+                    setArts(arts => [...arts, ...response.data]);
+                    setCurrentPage(currentPage + 1);
+                })
+                .finally(() => {
+                    setFetching(false);
+                    if (isInitialLoad) {
+                        setIsInitialLoad(false);
+                    }
+                });
             }
         }
     }, [fetching]);
@@ -91,6 +104,7 @@ export default function ImgBoard() {
     }, [fetching]);
     const session = useSession();
     const TreadingClick = () => {
+        setIsLiked(false);
         setIsTreading(true);
         setIsLatest(false);
         setIsFollowing(false);
@@ -98,6 +112,7 @@ export default function ImgBoard() {
         setArts([]);
         setFetching(true);
     };const LatestClick = () => {
+        setIsLiked(false);
         setIsTreading(false);
         setIsLatest(true);
         setIsFollowing(false);
@@ -105,9 +120,18 @@ export default function ImgBoard() {
         setArts([]);
         setFetching(true);
     };const FollowingClick = () => {
+        setIsLiked(false);
         setIsTreading(false);
         setIsLatest(false);
         setIsFollowing(true);
+        setCurrentPage(1);
+        setArts([]);
+        setFetching(true);
+    };const LikedClick = () => {
+        setIsTreading(false);
+        setIsLatest(false);
+        setIsFollowing(false);
+        setIsLiked(true);
         setCurrentPage(1);
         setArts([]);
         setFetching(true);
@@ -124,6 +148,7 @@ export default function ImgBoard() {
                     <p onClick={TreadingClick} className={isTreading ? styles.Active : styles.Passive}>Trending</p>
                     <p onClick={LatestClick} className={isLatest ? styles.Active : styles.Passive}>Latest</p>
                     <p onClick={FollowingClick} className={isFollowing ? styles.Active : styles.Passive}>Following</p>
+                    <p onClick={LikedClick} className={isLiked ? styles.Active : styles.Passive}>Liked</p>
                 </div>) : (
                 <div className={styles.MidBar}>
                     <p onClick={TreadingClick} className={isTreading ? styles.Active : styles.Passive}>Trending</p>

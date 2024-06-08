@@ -106,6 +106,29 @@ app.get('/Following', verifyUserToken, async (req, res) => {
     console.log(error)
   }
 })
+app.get('/Liked', verifyUserToken, async (req, res) => {
+  try {
+    // console.log(req.query)
+    const page = req.query.page
+    const limit = 6 * 4
+    const offset = (page - 1) * limit
+    let Likes = await mysql.query(`SELECT ArtWorkId from Likes where LikerId = ${req.user.Id}`)
+    let Res = Likes[0].map(obj => obj.ArtWorkId);
+    const [totalPageData] = await mysql.query("SELECT count(*) as count from artwork")
+    const totalPage = Math.ceil(+totalPageData[0]?.count / limit)
+    if (page > totalPage || page == 0)
+      return;
+    else {
+      // console.log("Res ",Res);
+      if (Res[0]) {
+        const [data] = await mysql.query(`SELECT * FROM artwork where ArtWorkId IN (${Res}) limit ? offset ?`, [+limit, +offset])
+        res.json(data)
+      } else res.json([])
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 const mysqlP = require('mysql2/promise');
 
