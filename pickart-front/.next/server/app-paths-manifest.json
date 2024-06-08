@@ -1,6 +1,5 @@
 {
   "/Art/[Id]/page": "app/Art/[Id]/page.js",
   "/page": "app/page.js",
-  "/Profile/[Id]/page": "app/Profile/[Id]/page.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js"
 }

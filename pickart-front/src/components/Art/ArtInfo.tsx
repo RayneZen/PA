@@ -6,11 +6,13 @@ import React, { useEffect, useState } from "react";
 import Link from 'next/link';
 
 import Comments from './Comment';
+import CommentInput from './CommentInput';
 import ArtTitle from './ArtTitle';
 import Tegs from './Tegs';
 
-export default function ArtInfo({ArtWorkId, Title, Name,AuthorId,AuthorImg }: {ArtWorkId:number, Title: string, Name: string,AuthorId: number,AuthorImg:string}) {
-       return (
+export default function ArtInfo({ ArtWorkId, Title, Name, AuthorId, AuthorImg }: { ArtWorkId: number, Title: string, Name: string, AuthorId: number, AuthorImg: string }) {
+    
+    return (
         <>
             <div className={styles.ArtInfo}>
                 <div className={styles.AuthorInfo}>
@@ -33,19 +35,6 @@ export default function ArtInfo({ArtWorkId, Title, Name,AuthorId,AuthorImg }: {A
                         <p>Comments:</p>
                     </div>
                     <div className={styles.Comments}>
-                        <div className={styles.CommentInput}>
-                            <IPT title=' ' img="/likesWhite.png" size='S'></IPT>
-                            {/* <Image src="/likesWhite.png" alt="Liks" width={32} height={32} /> */}
-                            <input placeholder='Comment'></input>
-                            <div className={styles.Send} >
-                                <p>
-                                    Send
-                                </p>
-                                <div className={styles.arrow}></div>
-                                {/* <Image src="/Send.png" alt="Liks" width={32} height={32} /> */}
-                                {/* <img src='LibraryTransparent.png' onmouseover="this.src='LibraryHoverTrans.png';" onmouseout="this.src='LibraryTransparent.png';" /> */}
-                            </div>
-                        </div>
                         <Comments ArtWorkId={ArtWorkId}></Comments>
                     </div>
                 </div>

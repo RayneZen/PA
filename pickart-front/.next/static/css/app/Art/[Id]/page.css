@@ -234,6 +234,14 @@
   align-items: center;
 }
 
+.Art_CommentInput__3ddsP input:focus {
+  outline: none;
+  box-shadow: none;
+  border: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+}
+
 .Art_CommentInput__3ddsP {
   background-color: #202020;
   align-items: center;

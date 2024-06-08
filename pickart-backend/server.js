@@ -160,10 +160,10 @@ app.post('/Admin', verifyUserToken, IsAdmin, async (req, res) => {
   res.status(200).send("Admin");
 });
 app.post("/AddComment",verifyUserToken, async (req, res) => {
-  console.log("Req: ", req.body)
-  console.log("Req: ", req.user)
+  // console.log("Req: ", req.query)
+  // console.log("Req: ", req.user)
   try {
-    await mysql.query(`INSERT INTO Comments (ArtWorkId, CommentatorId, CommentText) VALUES(${req.body.ArtWorkId}, ${req.user.Id}, ${mysql.escape(req.body.Comment)})`)
+    await mysql.query(`INSERT INTO Comments (ArtWorkId, CommentatorId, CommentText) VALUES(${req.query.ArtWorkId}, ${req.user.Id}, ${mysql.escape(req.query.Comment)})`)
     res.sendStatus(200);
 } catch (error) {
     console.log(error);
