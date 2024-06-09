@@ -18,6 +18,7 @@ const bcrypt = require('bcrypt');
 
 
 function verifyUserToken(req, res, next) {
+  // console.log("VT: ",req);
   let token = req.headers.authorization;
   if (!token) return res.status(401).send("Access Denied / Unauthorized request");
   try {
@@ -85,7 +86,7 @@ app.get('/', async (req, res) => {
 app.get('/Following', verifyUserToken, async (req, res) => {
   try {
     let Sub = await mysql.query(`SELECT AuthorId from Subscription where SubscriberId = ${req.user.Id}`)
-    if(Sub[0][0]){
+    if (Sub[0][0]) {
       let Res = Sub[0].map(obj => obj.AuthorId);
       const page = req.query.page
       const limit = 6 * 4
@@ -99,7 +100,7 @@ app.get('/Following', verifyUserToken, async (req, res) => {
         const [data] = await mysql.query(`SELECT * FROM artwork where AuthorId IN (${Res}) limit ? offset ?`, [+limit, +offset])
         res.json(data)
       }
-    }else {
+    } else {
       res.send([])
     }
   } catch (error) {
@@ -182,27 +183,77 @@ app.post('/User', verifyUserToken, IsUser, async (req, res) => {
 app.post('/Admin', verifyUserToken, IsAdmin, async (req, res) => {
   res.status(200).send("Admin");
 });
-app.post("/AddComment",verifyUserToken, async (req, res) => {
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+const multer = require('multer');
+const fs = require('fs/promises');
+// const path = require('path');
+
+const upload = multer({ dest: '/tmp/' });
+
+app.post('/UpLoad', verifyUserToken, upload.single('file'), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ success: false });
+  }
+  try {
+    const filePath = req.file.path;
+    const fileBuffer = await fs.readFile(filePath);
+    const folderPath = path.join(__dirname, './public/ServerDisk/');
+
+    // Check if a file with the same name and size already exists
+    let existingFilePath = req.file.originalname;
+    console.log("ExPathStart ",existingFilePath);
+    try {
+      let index = 1;
+      while (await fs.stat(path.join(folderPath, existingFilePath))) {
+        const fileExtension = path.extname(req.file.originalname);
+        const fileNameWithoutExtension = path.basename(req.file.originalname, fileExtension);
+        existingFilePath = `${fileNameWithoutExtension}-${index}${fileExtension}`;
+        index++;
+        console.log("ExPath ",existingFilePath);
+      }
+      console.log("ExPathWrite ",existingFilePath);
+      req.file.originalname=existingFilePath;
+    } catch (err) {
+      console.log("ExPathWrite ",existingFilePath);
+      req.file.originalname=existingFilePath;
+    }
+    console.log("write", req.file.originalname);
+
+    await fs.writeFile(folderPath+req.file.originalname, fileBuffer);
+
+    await fs.unlink(filePath); // Remove the temporary file
+    await mysql.query(
+      `INSERT INTO artwork (Title, FileName, AuthorId, Description) VALUES (?, ?, ?, ?)`,
+      [req.body.Title, req.file.originalname, req.user.Id, req.body.Description]
+    );
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+app.post("/AddComment", verifyUserToken, async (req, res) => {
   // console.log("Req: ", req.query)
   // console.log("Req: ", req.user)
   try {
     await mysql.query(`INSERT INTO Comments (ArtWorkId, CommentatorId, CommentText) VALUES(${req.query.ArtWorkId}, ${req.user.Id}, ${mysql.escape(req.query.Comment)})`)
     res.sendStatus(200);
-} catch (error) {
+  } catch (error) {
     console.log(error);
     res.status(500).send('Internal Server Error');
-}
+  }
 });
-app.post("/UnComment",verifyUserToken, async (req, res) => {
+app.post("/UnComment", verifyUserToken, async (req, res) => {
   console.log("Req: ", req.body)
   console.log("Req: ", req.user)
   try {
     await mysql.query(`DELETE FROM Comments WHERE CommentatorID=${req.user.Id} and CommentId=${req.body.CommentId}`)
     res.sendStatus(200);
-} catch (error) {
+  } catch (error) {
     console.log(error);
     res.status(500).send('Internal Server Error');
-}
+  }
 });
 app.get("/Comments", async (req, res) => {
   // console.log("Req: ", req.query)
@@ -305,16 +356,16 @@ app.get("/Teged", async (req, res) => {
 })
 app.get("/ArtTegs", async (req, res) => {
   try {
-    const TegsId=await mysql.query(`SELECT Id FROM Tegs WHERE ArtWorkId=${req.query.ArtWorkId}`)
-    if(TegsId[0][0]){
+    const TegsId = await mysql.query(`SELECT Id FROM Tegs WHERE ArtWorkId=${req.query.ArtWorkId}`)
+    if (TegsId[0][0]) {
       // console.log("res1: ",TegsId[0])
       let Res = TegsId[0].map(item => item.Id);
       // console.log("Res: ",Res)
-      const TegsTitles=await mysql.query(`SELECT Title FROM TegsBody WHERE Id IN(${Res})`)
+      const TegsTitles = await mysql.query(`SELECT Title FROM TegsBody WHERE Id IN(${Res})`)
       // console.log("res: ",TegsTitles[0])
       Res = TegsTitles[0].map(item => item.Title);
       res.send(Res)
-    }else {
+    } else {
       console.log("Dosnt have Tegs")
       res.send([])
     }
