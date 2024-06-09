@@ -1,7 +1,8 @@
 {
+  "/Partfolio/page": "app/Partfolio/page.js",
   "/page": "app/page.js",
-  "/UpLoad/page": "app/UpLoad/page.js",
   "/Art/[Id]/page": "app/Art/[Id]/page.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/Profile/[Id]/page": "app/Profile/[Id]/page.js"
+  "/UpLoad/page": "app/UpLoad/page.js",
+  "/Profile/[Id]/page": "app/Profile/[Id]/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js"
 }

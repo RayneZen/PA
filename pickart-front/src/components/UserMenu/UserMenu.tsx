@@ -16,6 +16,9 @@ export default function Menu() {
                     <li>
                         <Link className={styles.Link} href={`/Settings`}>Settings</Link>
                     </li>
+                    <li>
+                        <Link className={styles.Link} href={`/Partfolio`}>Partfolio</Link>
+                    </li>
                 </ul>
             </div>
         </div>
