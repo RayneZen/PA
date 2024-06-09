@@ -18,17 +18,17 @@
       "static/css/app/UpLoad/page.css",
       "static/chunks/app/UpLoad/page.js"
     ],
-    "/Art/[Id]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/Art/[Id]/page.css",
-      "static/chunks/app/Art/[Id]/page.js"
-    ],
     "/Profile/[Id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/Profile/[Id]/page.css",
       "static/chunks/app/Profile/[Id]/page.js"
+    ],
+    "/Art/[Id]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/Art/[Id]/page.css",
+      "static/chunks/app/Art/[Id]/page.js"
     ]
   }
 }
