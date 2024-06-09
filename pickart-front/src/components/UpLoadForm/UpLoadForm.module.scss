@@ -39,6 +39,7 @@ $hightTotBar: 2.5rem;
     border-color: $white;
 
 }
+
 .UpButton {
     display: flex;
     align-items: center;
@@ -62,6 +63,7 @@ $hightTotBar: 2.5rem;
     border-color: $white;
 
 }
+
 .Conteiner {
     background-color: $darkGrafit;
     width: 40%;
@@ -81,7 +83,15 @@ $hightTotBar: 2.5rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        
+
+        img {
+            margin-top: calc($hightTotBar/4 + $hightTotBar/5/2);
+            border-radius: calc($hightTotBar/5);
+            width: 80%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+        }
     }
 
     p {
@@ -139,7 +149,11 @@ $hightTotBar: 2.5rem;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
 }
-
+.Hide{
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
 .Link {
     color: #ffffff;
     text-decoration: none;

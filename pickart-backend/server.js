@@ -201,7 +201,7 @@ app.post('/UpLoad', verifyUserToken, upload.single('file'), async (req, res) => 
 
     // Check if a file with the same name and size already exists
     let existingFilePath = req.file.originalname;
-    console.log("ExPathStart ",existingFilePath);
+    // console.log("ExPathStart ",existingFilePath);
     try {
       let index = 1;
       while (await fs.stat(path.join(folderPath, existingFilePath))) {
@@ -209,15 +209,15 @@ app.post('/UpLoad', verifyUserToken, upload.single('file'), async (req, res) => 
         const fileNameWithoutExtension = path.basename(req.file.originalname, fileExtension);
         existingFilePath = `${fileNameWithoutExtension}-${index}${fileExtension}`;
         index++;
-        console.log("ExPath ",existingFilePath);
+        // console.log("ExPath ",existingFilePath);
       }
-      console.log("ExPathWrite ",existingFilePath);
+      // console.log("ExPathWrite ",existingFilePath);
       req.file.originalname=existingFilePath;
     } catch (err) {
-      console.log("ExPathWrite ",existingFilePath);
+      // console.log("ExPathWrite ",existingFilePath);
       req.file.originalname=existingFilePath;
     }
-    console.log("write", req.file.originalname);
+    // console.log("write", req.file.originalname);
 
     await fs.writeFile(folderPath+req.file.originalname, fileBuffer);
 
@@ -226,7 +226,12 @@ app.post('/UpLoad', verifyUserToken, upload.single('file'), async (req, res) => 
       `INSERT INTO artwork (Title, FileName, AuthorId, Description) VALUES (?, ?, ?, ?)`,
       [req.body.Title, req.file.originalname, req.user.Id, req.body.Description]
     );
-    return res.sendStatus(200);
+    const [data] = await mysql.query(`SELECT ArtWorkId, Title, FileName  FROM artwork where  AuthorId=${req.user.Id} and FileName='${req.file.originalname}'`)
+    const result = {
+      ...data[0]
+    };
+    // console.log("res ",result);
+    return res.json(result);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);

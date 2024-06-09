@@ -77,6 +77,14 @@
   align-items: center;
   justify-content: center;
 }
+.UpLoadForm_Conteiner__5OILZ div img {
+  margin-top: 0.875rem;
+  border-radius: 0.5rem;
+  width: 80%;
+  height: auto;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
 .UpLoadForm_Conteiner__5OILZ p {
   margin: 0;
 }
@@ -124,6 +132,12 @@
   border: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
+}
+
+.UpLoadForm_Hide__o2_5v {
+  width: 0;
+  height: 0;
+  opacity: 0;
 }
 
 .UpLoadForm_Link__Nhds2 {
