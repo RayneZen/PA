@@ -341,10 +341,6 @@ app.post('/UpLoad', verifyUserToken, upload.single('file'), async (req, res) => 
         await mysql.query(`INSERT INTO Tegs (Id,ArtWorkId) VALUE (${newTagId[0][0]['Id']},${ArtWorkId[0][0].ArtWorkId})`);
       }
     });
-
-    /////
-
-    ///////
     const [data] = await mysql.query(`SELECT ArtWorkId, Title, FileName  FROM artwork where  AuthorId=${req.user.Id} and FileName='${req.file.originalname}'`)
     const result = {
       ...data[0]
