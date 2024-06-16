@@ -52,7 +52,7 @@ export default function ImgBoard() {
                         }
                     });
             }else if(isLatest){
-                axios.get<Art[]>(`http://localhost:3001/?page=${currentPage}`)
+                axios.get<Art[]>(`http://localhost:3001/Latest?page=${currentPage}`)
                 .then(response => {
                     setArts(arts => [...arts, ...response.data]);
                     setCurrentPage(currentPage + 1);

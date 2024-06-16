@@ -1,8 +1,6 @@
 {
-  "/Partfolio/page": "app/Partfolio/page.js",
   "/page": "app/page.js",
   "/Art/[Id]/page": "app/Art/[Id]/page.js",
   "/UpLoad/page": "app/UpLoad/page.js",
-  "/Profile/[Id]/page": "app/Profile/[Id]/page.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js"
+  "/Search/[Data]/page": "app/Search/[Data]/page.js"
 }

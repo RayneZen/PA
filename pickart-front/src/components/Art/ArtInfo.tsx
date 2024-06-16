@@ -10,7 +10,7 @@ import Comments from './Comment';
 import ArtTitle from './ArtTitle';
 import Tegs from './Tegs';
 
-export default function ArtInfo({ ArtWorkId, Title, Name, AuthorId, AuthorImg }: { ArtWorkId: number, Title: string, Name: string, AuthorId: number, AuthorImg: string }) {
+export default function ArtInfo({ ArtWorkId, Title, Name, AuthorId, AuthorImg, Description="This work does not have a description of it." }: { ArtWorkId: number, Title: string, Name: string, AuthorId: number, AuthorImg: string,Description?: string }) {
     
     return (
         <>
@@ -27,7 +27,7 @@ export default function ArtInfo({ ArtWorkId, Title, Name, AuthorId, AuthorImg }:
                         <p>Description:</p>
                     </div>
                     <div className={styles.ConteinerInside}>
-                        <p>Пример большого длинного текста для описания произведения исскуства, такого как показано слево от блока на котором написано описание. Этого еще мало поэтому нужно добавить дополнительный текст. вот еще что-то</p>
+                        <p>{Description}</p>
                     </div>
                 </div>
                 <div className={styles.Conteiner}>

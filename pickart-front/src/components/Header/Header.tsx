@@ -6,11 +6,13 @@ import ImgButton from './ImgButton'
 import Link from 'next/link';
 // import { useSession, signOut } from "next-auth/react";
 import { signIn, signOut, useSession } from "next-auth/react";
+import React, { useEffect, useState, useRef } from "react";
 
-import { useState } from 'react';
+// import { useState } from 'react';
 import SignInMenu from '../SignInMenu/SignInMenu';
 import SignOutMenu from '../SignInMenu/SignOutMenu';
 import UserMenu from '../UserMenu/UserMenu';
+import { useRouter } from 'next/navigation';
 // import RightSite from './RightSite'
 
 export default function Header() {
@@ -31,6 +33,38 @@ export default function Header() {
         setIsHideUM(!isHideUM);
         setIsHideSOM(true);
     };
+    const inputSearch = useRef(null);
+  const router = useRouter();
+  const [inputValue, setInputValue] = useState('');
+
+  const handleSubmit = async () => {
+    try {
+      if (inputValue !== '') {
+        // setInputValue('');
+        console.log("Entered!");
+        router.push(`/Search/${inputValue}`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (inputSearch.current) {
+      inputSearch.current.focus();
+      const handleKeyUp = (event) => {
+        if (event.keyCode === 13) {
+          handleSubmit();
+        }
+      };
+      inputSearch.current.addEventListener("keyup", handleKeyUp);
+      return () => {
+        if (inputSearch.current) {
+          inputSearch.current.removeEventListener("keyup", handleKeyUp);
+        }
+      };
+    }
+  }, []);
     return (
         <>
             <div className={styles.Empty}></div>
@@ -41,7 +75,17 @@ export default function Header() {
                         <p>PickArt</p>
                     </Link>
                     <div className={styles.RightSite}>
-                        <input id='Search' placeholder="Search"></input>
+                        <input id='Search'
+                placeholder="Search"
+                ref={inputSearch}
+                type="text"
+                value={inputValue}
+                onChange={(event) => setInputValue(event.target.value)}
+                onKeyPress={(event) => {
+                  if (event.key === 'Enter') {
+                    handleSubmit();
+                  }
+                }}></input>
                         {session?.data ? (
                             <>
                             {/* <div>{session.data.user.Name}</div> */}

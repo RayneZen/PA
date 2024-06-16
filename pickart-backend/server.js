@@ -15,6 +15,9 @@ const bcrypt = require('bcrypt');
 // const { register } = require('module');
 
 
+// import { PrismaClient } from '@prisma/client';
+// const prisma = new PrismaClient()
+
 
 
 function verifyUserToken(req, res, next) {
@@ -62,7 +65,74 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 
+
+
 const PORT = process.env.PORT || 3001
+app.get('/Search', async (req, res) => {
+  try {
+    // console.log(req.body)
+    const SerchData = req.query.SearchData
+    const page = req.query.page
+    const limit = 6 * 4
+    const offset = (page - 1) * limit
+    const [totalPageData] = await mysql.query(`SELECT count(*) as count from artwork where Title LIKE '%${SerchData}%'`)
+    const totalPage = Math.ceil(+totalPageData[0]?.count / limit)
+    const Id = await mysql.query(`SELECT Id FROM TegsBody WHERE Title LIKE '${SerchData}'`)
+    if (Id[0][0]) {
+      const TegedId = await mysql.query(`SELECT ArtWorkId from Tegs WHERE Id = ${Id[0][0].Id}`)
+      const Res = TegedId[0].map(item => item.ArtWorkId);
+      // console.log("TegedID ",Res);
+      if (page > totalPage || page == 0) {
+        return;
+      } else {
+        const [data] = await mysql.query(`SELECT * FROM artwork where Title LIKE '%${SerchData}%' OR ArtWorkId In (${Res}) limit ? offset ?`, [+limit, +offset])
+        res.json(data)
+      }
+    } else {
+      if (page > totalPage || page == 0) {
+        return;
+      } else {
+        const [data] = await mysql.query(`SELECT * FROM artwork where Title LIKE '%${SerchData}%' limit ? offset ?`, [+limit, +offset])
+        res.json(data)
+      }
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
+app.get('/SearchLatest', async (req, res) => {
+  try {
+    // console.log(req.body)
+    const SerchData = req.query.SearchData
+    const page = req.query.page
+    const limit = 6 * 4
+    const offset = (page - 1) * limit
+    const [totalPageData] = await mysql.query(`SELECT count(*) as count from artwork where Title LIKE '%${SerchData}%'`)
+    const totalPage = Math.ceil(+totalPageData[0]?.count / limit)
+    const Id = await mysql.query(`SELECT Id FROM TegsBody WHERE Title LIKE '${SerchData}'`)
+    if (Id[0][0]) {
+      const TegedId = await mysql.query(`SELECT ArtWorkId from Tegs WHERE Id = ${Id[0][0].Id}`)
+      const Res = TegedId[0].map(item => item.ArtWorkId);
+      // console.log("TegedID ",Res);
+      if (page > totalPage || page == 0) {
+        return;
+      } else {
+        const [data] = await mysql.query(`SELECT * FROM artwork where Title LIKE '%${SerchData}%' OR ArtWorkId In (${Res}) order by ArtWorkId desc limit ? offset ?`, [+limit, +offset])
+        res.json(data)
+      }
+    } else {
+      if (page > totalPage || page == 0) {
+        return;
+      } else {
+        const [data] = await mysql.query(`SELECT * FROM artwork where Title LIKE '%${SerchData}%' order by ArtWorkId desc limit ? offset ?`, [+limit, +offset])
+        res.json(data)
+      }
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 
 app.get('/', async (req, res) => {
   try {
@@ -83,6 +153,26 @@ app.get('/', async (req, res) => {
     console.log(error)
   }
 })
+app.get('/Latest', async (req, res) => {
+  try {
+    // console.log(req.query)
+    const page = req.query.page
+    const limit = 6 * 4
+    const offset = (page - 1) * limit
+    const [totalPageData] = await mysql.query("SELECT count(*) as count from artwork")
+    const totalPage = Math.ceil(+totalPageData[0]?.count / limit)
+    if (page > totalPage || page == 0)
+      return;
+    else {
+      // console.log(offset)
+      const [data] = await mysql.query('SELECT * FROM artwork order by ArtWorkId desc limit ? offset ?', [+limit, +offset])
+      res.json(data)
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 app.get('/Following', verifyUserToken, async (req, res) => {
   try {
     let Sub = await mysql.query(`SELECT AuthorId from Subscription where SubscriberId = ${req.user.Id}`)
@@ -191,6 +281,7 @@ const fs = require('fs/promises');
 const upload = multer({ dest: '/tmp/' });
 
 app.post('/UpLoad', verifyUserToken, upload.single('file'), async (req, res) => {
+  console.log("req ", req.body);
   if (!req.file) {
     return res.status(400).json({ success: false });
   }
@@ -212,20 +303,48 @@ app.post('/UpLoad', verifyUserToken, upload.single('file'), async (req, res) => 
         // console.log("ExPath ",existingFilePath);
       }
       // console.log("ExPathWrite ",existingFilePath);
-      req.file.originalname=existingFilePath;
+      req.file.originalname = existingFilePath;
     } catch (err) {
       // console.log("ExPathWrite ",existingFilePath);
-      req.file.originalname=existingFilePath;
+      req.file.originalname = existingFilePath;
     }
     // console.log("write", req.file.originalname);
 
-    await fs.writeFile(folderPath+req.file.originalname, fileBuffer);
+    await fs.writeFile(folderPath + req.file.originalname, fileBuffer);
 
     await fs.unlink(filePath); // Remove the temporary file
     await mysql.query(
       `INSERT INTO artwork (Title, FileName, AuthorId, Description) VALUES (?, ?, ?, ?)`,
       [req.body.Title, req.file.originalname, req.user.Id, req.body.Description]
     );
+    const ArtWorkId = await mysql.query(`select ArtWorkId from ArtWork WHERE AuthorId=${req.user.Id} and FileName='${req.file.originalname}'`)
+    console.log("ArtWorkId: ",ArtWorkId[0][0].ArtWorkId);
+    const tegsArray = req.body.Tegs.split(",");
+    tegsArray.forEach(async (tag) => {
+      // Check if the tag already exists in the database
+      const existingTagId = await mysql.query(`SELECT Id FROM TegsBody WHERE Title='${tag}'`);
+      if (existingTagId[0][0]) {
+        // Tag already exists, so insert the file into the Tegs table
+        const Teg = await mysql.query(`SELECT * FROM Tegs WHERE Id=${existingTagId[0][0]['Id']} and ArtWorkId=${ArtWorkId[0][0].ArtWorkId}`);
+        if (Teg[0][0]) {
+        } else {
+          // Insert the file into the Tegs table
+          // const ArtWorkId = await mysql.query(`select ArtWorlId from ArtWork WHERE AuthorId=${req.user.Id} and FileName='${req.file.originalname}'`)
+          await mysql.query(`INSERT INTO Tegs (Id,ArtWorkId) VALUE (${existingTagId[0][0]['Id']},${ArtWorkId[0][0].ArtWorkId})`);
+        }
+      } else {
+        // Tag does not exist, so insert it into the TegsBody table
+        await mysql.query(`INSERT INTO TegsBody (Title) VALUE ('${tag}')`);
+        const newTagId = await mysql.query(`SELECT Id FROM TegsBody WHERE Title='${tag}'`);
+        // Insert the file into the Tegs table
+        // const ArtWorkId = await mysql.query(`select ArtWorkId from ArtWork WHERE AuthorId=${req.user.Id} and FileName='${req.file.originalname}'`)
+        await mysql.query(`INSERT INTO Tegs (Id,ArtWorkId) VALUE (${newTagId[0][0]['Id']},${ArtWorkId[0][0].ArtWorkId})`);
+      }
+    });
+
+    /////
+
+    ///////
     const [data] = await mysql.query(`SELECT ArtWorkId, Title, FileName  FROM artwork where  AuthorId=${req.user.Id} and FileName='${req.file.originalname}'`)
     const result = {
       ...data[0]

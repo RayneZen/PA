@@ -230,3 +230,57 @@
 .Background_Content__WiO7S {
   padding-top: 3.75rem;
 }
+
+.Background_RightSite__lpPNY {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Background_RightSite__lpPNY input {
+  height: 5rem;
+  width: 40rem;
+  margin: 0.4375rem;
+  margin-right: 0.3125rem;
+  border-radius: 1.25rem;
+  background-color: #4a4a4a;
+  border-color: #4a4a4a;
+  text-decoration: none;
+  outline: #121212;
+  color: #ffffff;
+  padding: 0 1.25rem;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7098039216));
+  border: 1px;
+  background-image: url(/_next/static/media/search_White.ad2d5f5f.png);
+  background-repeat: no-repeat;
+  text-indent: 3%;
+  background-size: 2.5rem;
+  background-position: 2% center;
+}
+
+.Background_RightSite__lpPNY input:hover {
+  opacity: 0.9;
+}
+
+.Background_RightSite__lpPNY input:focus {
+  opacity: 0.9;
+}
+
+.Background_Send__fhnCE {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.40625rem;
+  margin: 0.234375rem;
+  width: 15%;
+  background-color: #ffffff;
+  opacity: 0.6;
+  border-radius: 1rem;
+}
+.Background_Send__fhnCE img {
+  width: 1rem;
+  height: auto;
+  margin: 0.25rem;
+}
+.Background_Send__fhnCE p {
+  color: #121212;
+}
