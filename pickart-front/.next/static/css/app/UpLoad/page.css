@@ -10,6 +10,41 @@
   color: #ffffff;
 }
 
+.UpLoadForm_Tegs__hwpFI {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+.UpLoadForm_Tegs__hwpFI .UpLoadForm_Teg__FpLM0 {
+  background-color: #313131;
+  height: 1.5rem;
+  width: auto;
+  padding: 2%;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  opacity: 0.6;
+  margin-right: 0.25rem;
+  margin-left: 0.25rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  box-sizing: border-box;
+}
+.UpLoadForm_Tegs__hwpFI .UpLoadForm_Teg__FpLM0 .UpLoadForm_delete__bKUFb {
+  background-image: url(/_next/static/media/ArrowWhite.7c4bd42d.png);
+  background-repeat: no-repeat;
+  min-height: 1.25rem;
+  width: auto;
+}
+
+.UpLoadForm_Teg__FpLM0:hover {
+  background-color: #202020;
+  color: #ffffff;
+  border-style: solid;
+  border-color: #ffffff;
+}
+
 .UpLoadForm_Button__S0ihN {
   display: flex;
   align-items: center;

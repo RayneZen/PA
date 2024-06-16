@@ -11,7 +11,9 @@ import ArtTitle from './ArtTitle';
 import Tegs from './Tegs';
 
 export default function ArtInfo({ ArtWorkId, Title, Name, AuthorId, AuthorImg, Description="This work does not have a description of it." }: { ArtWorkId: number, Title: string, Name: string, AuthorId: number, AuthorImg: string,Description?: string }) {
-    
+    if(Description==null){
+        Description="This work does not have a description of it.";
+    }
     return (
         <>
             <div className={styles.ArtInfo}>

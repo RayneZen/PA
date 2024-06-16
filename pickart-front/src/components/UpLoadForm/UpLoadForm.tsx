@@ -85,6 +85,9 @@ export default function UpLoadForm() {
         }
     };
 
+    const removeTeg = (tegToRemove) => {
+        setTegs((prevTegs) => prevTegs.filter(teg => teg !== tegToRemove));
+    };
     return (
         <>
             {isUpLoad ? (
@@ -171,8 +174,13 @@ export default function UpLoadForm() {
                                     onKeyPress={handleKeyPress}
                                     ref={tegsInputRef}
                                 />
+                            </div>
+                            <div className={styles.Tegs}>
                                 {tegs.map((teg) => (
-                                    <p key={teg}>{teg}</p>
+                                    <div className={styles.Teg} key={teg} onClick={() => removeTeg(teg, setTegs)}>
+                                        <p>{teg}</p>
+                                        <div className={styles.delete}></div>
+                                    </div>
                                 ))}
                             </div>
                         </div>

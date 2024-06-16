@@ -146,7 +146,7 @@ app.get('/', async (req, res) => {
       return;
     else {
       // console.log(offset)
-      const [data] = await mysql.query('SELECT * FROM artwork limit ? offset ?', [+limit, +offset])
+      const [data] = await mysql.query('SELECT ArtWork.ArtWorkId, Artwork.Title, Artwork.FileName, Artwork.AuthorId, Artwork.Description ,SUM(ViewerID) AS views_sum,SUM(LikerId) AS likes_sum,SUM(CommentatorId) AS comments_sum FROM ArtWork LEFT JOIN Views ON ArtWork.ArtWorkId  = views.ArtWorkId  LEFT JOIN     likes ON ArtWork.ArtWorkId  = likes.ArtWorkId LEFT JOIN comments ON ArtWork.ArtWorkId  = comments.ArtWorkId  GROUP BY ArtWork.ArtWorkId, Artwork.Title, Artwork.FileName, Artwork.AuthorId, Artwork.Description ORDER BY views_sum + likes_sum*2 + comments_sum*2 DESC limit ? offset ?', [+limit, +offset])
       res.json(data)
     }
   } catch (error) {
@@ -681,6 +681,23 @@ app.get('/Art', async (req, res) => {
     console.log(error)
   }
 })
+
+app.post("/DeleteArtWork", verifyUserToken, async (req, res) => {
+  try {
+    if(req.user.Role=="Admin"){
+      await mysql.query(`delete from ArtWork where ArtWorkId=${req.body.ArtWorkId} `)
+      await mysql.query(`delete from Tegs where ArtWorkId=${req.body.ArtWorkId} `)
+      await mysql.query(`delete from Likes where ArtWorkId=${req.body.ArtWorkId} `)
+      await mysql.query(`delete from Views where ArtWorkId=${req.body.ArtWorkId} `)
+      await mysql.query(`delete from Comments where ArtWorkId=${req.body.ArtWorkId} `)
+      res.status(200).send("sucsess Delete!");
+    }else{
+      res.send("not Admin");
+    }
+  } catch (error) {
+    console.log(error)
+  }
+});
 
 app.listen(PORT, () => {
   console.log("Start server");

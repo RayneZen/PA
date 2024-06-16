@@ -2,5 +2,8 @@
   "/page": "app/page.js",
   "/Art/[Id]/page": "app/Art/[Id]/page.js",
   "/UpLoad/page": "app/UpLoad/page.js",
-  "/Search/[Data]/page": "app/Search/[Data]/page.js"
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/Profile/[Id]/page": "app/Profile/[Id]/page.js",
+  "/Partfolio/page": "app/Partfolio/page.js",
+  "/Settings/page": "app/Settings/page.js"
 }

@@ -14,7 +14,39 @@ $hightTotBar: 2.5rem;
     justify-content: center;
     color: $white;
 }
-
+.Tegs {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    max-width: 100%;
+    flex-wrap: wrap;
+    .Teg {
+        background-color: $grafit;
+        height: $hightTotBar*0.6;
+        width: auto;
+        padding: 2%;
+        color: $white;
+        border-radius: calc($hightTotBar/5);
+        opacity: $op;
+        margin-right: calc($hightTotBar/10);
+        margin-left: calc($hightTotBar/10);
+        margin-top: calc($hightTotBar/10);
+        margin-bottom: calc($hightTotBar/10);
+        box-sizing: border-box;
+        .delete {
+            background-image: url('./ArrowWhite.png');
+            background-repeat: no-repeat;
+            min-height: $hightTotBar*0.5;
+            width: auto;
+        }
+    }
+}
+.Teg:hover{
+    background-color: $darkGrafit;
+    color: $white;
+    border-style: solid;
+    border-color: $white;
+}
 .Button {
     display: flex;
     align-items: center;
