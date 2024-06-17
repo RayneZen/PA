@@ -61,7 +61,7 @@ export default function Background({
           {!isSearch ? (
             <>
               <div className={styles.Logo}>
-                <Image src={Logo} priority alt='' width={500} height={500} />
+                <Image src={Logo? Logo: "/Logotip_Black.png"} priority alt='' width={500} height={500} />
                 <p>{Title}</p>
               </div>
               <p>{Description}</p>

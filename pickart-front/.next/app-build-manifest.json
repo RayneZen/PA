@@ -12,17 +12,11 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/Art/[Id]/page": [
+    "/SignIn/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/Art/[Id]/page.css",
-      "static/chunks/app/Art/[Id]/page.js"
-    ],
-    "/UpLoad/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/UpLoad/page.css",
-      "static/chunks/app/UpLoad/page.js"
+      "static/css/app/SignIn/page.css",
+      "static/chunks/app/SignIn/page.js"
     ],
     "/Profile/[Id]/page": [
       "static/chunks/webpack.js",
@@ -30,16 +24,17 @@
       "static/css/app/Profile/[Id]/page.css",
       "static/chunks/app/Profile/[Id]/page.js"
     ],
-    "/Partfolio/page": [
+    "/Art/[Id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/Partfolio/page.css",
-      "static/chunks/app/Partfolio/page.js"
+      "static/css/app/Art/[Id]/page.css",
+      "static/chunks/app/Art/[Id]/page.js"
     ],
-    "/Settings/page": [
+    "/SignUp/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/Settings/page.js"
+      "static/css/app/SignUp/page.css",
+      "static/chunks/app/SignUp/page.js"
     ]
   }
 }

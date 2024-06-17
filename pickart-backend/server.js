@@ -212,7 +212,7 @@ app.get('/Liked', verifyUserToken, async (req, res) => {
     else {
       // console.log("Res ",Res);
       if (Res[0]) {
-        const [data] = await mysql.query(`SELECT * FROM artwork where ArtWorkId IN (${Res}) limit ? offset ?`, [+limit, +offset])
+        const [data] = await mysql.query(`SELECT * FROM artwork where ArtWorkId IN (${Res}) order by ArtWorkId desc limit ? offset ?`, [+limit, +offset])
         res.json(data)
       } else res.json([])
     }
@@ -226,23 +226,12 @@ const mysqlP = require('mysql2/promise');
 
 app.post('/Reg', async (req, res) => {
   try {
-    // Hash password
+    console.log("Req  ",req.query);
     const salt = await bcrypt.genSalt(10);
-    const hasPassword = await bcrypt.hash(req.body.password, salt);
-    const connection = await mysqlP.createConnection({
-      host: "localhost",
-      user: "root",
-      database: "PickArt",
-      password: "AdRootPass123"
-    });
-    const query = `INSERT INTO user (Name, Password, Email) VALUES('${req.body.name}','${hasPassword}','${req.body.email}')`;
-    const [results] = await connection.query(query);
-    // console.log(results);
-    await connection.end(); // Close the connection after query execution
-    let payload = { Name: req.body.name, Role: "User" };
-    const token = jwt.sign(payload, "config.TOKEN_SECRET");
-    res.status(200).send({ token })
-    // res.status(200).json({ message: 'User registered successfully' });
+    const password = req.query.password;
+    const hasPassword = await bcrypt.hash(password, salt);
+    const [results] = await mysql.query(`INSERT INTO user (Name, Password, Email) VALUES('${req.query.name}','${hasPassword}','${req.query.email}')`);
+    res.status(200).json({ message: 'User registered successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
@@ -250,16 +239,18 @@ app.post('/Reg', async (req, res) => {
 });
 app.post('/Log', async (req, res) => {
   try {
+    // console.log("body: ",req.body);
+
     const user = await mysql.query(`SELECT * FROM user where user.Email='${req.body.email}'`);
-    // console.log("Log: ",req.body);
-    if (user != null) {
-      const validPass = await bcrypt.compare(req.body.password, user[0][0].Password);
-      if (!validPass) return res.status(401).send("Mobile/Email or Password is wrong");
-      let payload = { Id: user[0][0].Id, Role: user[0][0].Role, };
+    if (user[0][0] != null) {
+      // console.log("user: ",user);
+      const validPass = await bcrypt.compare(req.body.password,user[0][0]['Password']);
+      if (!validPass) return res.status(401).json({ error: "Invalid credentials" });
+      let payload = { Id: user[0][0]['Id'], Role: user[0][0]['Role'], };
       const token = jwt.sign(payload, "config.TOKEN_SECRET");
-      res.status(200).header("auth-token", token).send({ "token": token, "Id": user[0][0].Id, "Name": user[0][0].Name, "Avatar": user[0][0].Avatar });
+      res.status(200).header("auth-token", token).send({ "token": token, "Id": user[0][0]['Id'], "Name": user[0][0]['Name'], "Avatar": user[0][0]['Avatar'] });
     } else {
-      res.status(401).send('Invalid mobile')
+      return res.status(401).json({ error: "Invalid credentials" });
     }
   } catch (error) {
     console.error(error);

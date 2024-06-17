@@ -1,70 +1,73 @@
-import InputBox from "@/components/SignIn/InputBox";
-import { Button } from "@/components/SignIn/Button";
-// "use client";
-import { useRef } from "react";
-import { useRouter } from "next/navigation";
+"use client"
+import styles from './SignIn.module.scss';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import Link from 'next/link';
 import { signIn } from "next-auth/react";
-import Link from "next/link";
+// import { useRouter } from 'next/router';
 
-type Props = {
-  className?: string;
-  callbackUrl?: string;
-  error?: string;
-};
+export default function SignIn() {
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            if (event.target === userName.current) {
+                password.current.focus();
+            } else if (event.target === password.current) {
+                onSubmit(event);
+            }
+        }
+    };
+    const [error, setError] = useState(null);
+    const userName = useRef<HTMLInputElement>(null);
+    const password = useRef<HTMLInputElement>(null);
+    // const router = useRouter();
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!userName.current || !password.current) return;
+        try {
+            const result = await signIn("credentials", {
+                email: userName.current.value,
+                password: password.current.value,
+                redirect: true,
+                callbackUrl: "/",
+            });
+            if (!result) console.log("error");
+        } catch (e: any) {
+            setError(e.message);
+            console.log("Error ", error);
+            setTimeout(() => {
+                // setFocused(false);
+            }, 50000);
+        }
+    };
 
-export default function SignIn(props: Props) {
-  const router = useRouter();
-  const userName = useRef("");
-  const pass = useRef("");
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Cred: ", userName.current, pass.current);
-    const res = await signIn("Credentials", {
-      email: userName.current,
-      password: pass.current,
-      redirect: false,
-    });
-    console.log("Cred: ", res?.error);
+    const handleSignUp = () => {
+        router.push('/SignUp');
+    };
 
-    if (!res?.error) {
-      router.push(props.callbackUrl ?? "http://localhost:3000");
-    }
-  };
-
-  return (
-    <div className={props.className}>
-      <div className="bg-gradient-to-b  from-slate-50 to-slate-200 p-2 text-center text-slate-600">
-        Login Form
-      </div>
-      {!!props.error && (
-        <p className="bg-red-100 text-red-600 text-center p-2">
-          Authentication Failed
-        </p>
-      )}
-      <form onSubmit={onSubmit} className="p-2 flex flex-col gap-3">
-        <InputBox
-          name="username"
-          labelText="User Name"
-          onChange={(e) => (userName.current = e.target.value)}
-        />
-        <InputBox
-          name="password"
-          type="password"
-          labelText="Password"
-          onChange={(e) => (pass.current = e.target.value)}
-        />
-        <div className="flex items-center justify-center mt-2 gap-2">
-          <Button type="submit" className="w-28">
-            Sign In
-          </Button>
-          <Link
-            href={props.callbackUrl ?? "/"}
-            className="w-28 border border-red-600 text-center py-2 rounded-md text-red-600 transition hover:bg-red-600 hover:text-white hover:border-transparent active:scale-95"
-          >
-            Cancel
-          </Link>
+    return (
+        <div className={styles.UpLoadForm}>
+            <div className={styles.Conteiner}>
+                <div className={styles.ConteinerTop}>Sign In</div>
+                <div className={styles.ConteinerInside}>
+                    <form onSubmit={onSubmit}>
+                        <input
+                            placeholder='UserName'
+                            onChange={(e) => (userName.current.value = e.target.value)}
+                            onKeyPress={handleKeyPress}
+                            ref={userName}></input>
+                        <input
+                            placeholder='Password'
+                            onChange={(e) => (password.current.value = e.target.value)}
+                            onKeyPress={handleKeyPress}
+                            ref={password}></input>
+                    </form>
+                    <div>
+                        <div className={styles.Button} onClick={onSubmit}>Sign In</div>
+                        <Link href={'/SignUp'} className={styles.Link}>
+                            <div className={styles.Button} >Sign Up</div>
+                        </Link>
+                    </div>
+                </div>
+            </div>
         </div>
-      </form>
-    </div>
-  );
-}
+    );
+};

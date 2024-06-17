@@ -18,7 +18,7 @@ export default function ArtInfo({ ArtWorkId, Title, Name, AuthorId, AuthorImg, D
         <>
             <div className={styles.ArtInfo}>
                 <div className={styles.AuthorInfo}>
-                    <Link href={`/Profile/${AuthorId}`}>
+                    <Link href={`/Profile/${AuthorId}`} className={styles.Link}>
                         <IPT title={Name} img={AuthorImg} size='L'></IPT>
                     </Link>
                     <SubButton AuthorId={AuthorId} ></SubButton>
