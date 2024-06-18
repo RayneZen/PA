@@ -20,15 +20,16 @@ export default function PartfolioPage() {
     const [user, setUser] = useState<User>();
     const session = useSession();
     const [fetching, setFetching] = useState<boolean>(false);
-    const [isHide, setIsHide] = useState<boolean>(false);
+    const [isHide, setIsHide] = useState<boolean>(true);
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!file) return;
         try {
+            console.log("Des ",description);
             const res = await axios.post(`http://localhost:3001/SetDescription?Description=${description}` );
             setDescription('');
             setFetching(true);
+            setIsHide(true)
         } catch (e: any) {
             console.error(e);
         }
@@ -85,12 +86,24 @@ export default function PartfolioPage() {
     const descriptionInputRef = useRef(null);
     const [description, setDescription] = useState('');
     const handleKeyPress = (event) => {
+        console.log(event.key);
         if (event.key === 'Enter') {
             if (event.target === descriptionInputRef.current) {
-               onSubmit;
+               onSubmit(event);
             }
         }
     };
+    useEffect(() => {
+        const handleKeydown = (event) => {
+            if (event.key === 'Escape') {
+                setIsHide(true);
+            }
+        };
+        document.addEventListener('keydown', handleKeydown);
+        return () => {
+            document.removeEventListener('keydown', handleKeydown);
+        };
+    }, [setIsHide]);
     return (
         <>
             <Background Title={user?.Name ? user.Name : "User"} Logo={user?.Avatar ? filePath + user.Avatar : "/Logotip_Black.png"} Description={user?.Information_about_yourself ? user?.Information_about_yourself : "Information about youself."} ></Background>
@@ -110,15 +123,15 @@ export default function PartfolioPage() {
                     />
                     Edit Avatar
                 </div>
-                <div className={styles.ButtonF}>Edit Description</div>
+                <div className={styles.ButtonF} onClick={()=>{setIsHide(false)}}>Edit Description</div>
             </div>
-            <div className={styles.EditForm}>
+            <div className={ !isHide? styles.EditForm : styles.Hide}>
                 <div className={styles.FConteiner}>
-                    <div className={styles.FConteinerTop}>
+                    <div className={styles.FConteinerTop} >
                         Edit Description:
                     </div>
                     <div className={styles.FConteinerInside}>
-                        <form onSubmit={onSubmit}>
+                        {/* <form onSubmit={onSubmit}> */}
                             <input
                                 placeholder="Description"
                                 name="Title"
@@ -126,10 +139,10 @@ export default function PartfolioPage() {
                                 onChange={(event) => setDescription(event.target.value)}
                                 onKeyPress={handleKeyPress}
                                 ref={descriptionInputRef}
-
+                                autoFocus
                             />
                             <div className={styles.Button} onClick={onSubmit}>Send</div>
-                        </form>
+                        {/* </form> */}
                     </div>
                 </div>
 

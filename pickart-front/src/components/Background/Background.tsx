@@ -67,25 +67,10 @@ export default function Background({
               <p>{Description}</p>
             </>
           ) : (
-            <div className={styles.RightSite}>
-              <input
-                id='Search'
-                placeholder="Search"
-                ref={inputSearch}
-                type="text"
-                value={inputValue}
-                onChange={(event) => setInputValue(event.target.value)}
-                onKeyPress={(event) => {
-                  if (event.key === 'Enter') {
-                    handleSubmit();
-                  }
-                }}
-              ></input>
-              <div className={styles.Send} onClick={handleSubmit}>
-                <p>Send</p>
-                <div className={styles.arrow}></div>
+            <div className={styles.Logo}>
+                <Image src="/search.png" priority alt='' width={500} height={500} />
+                <p>{SearchData}</p>
               </div>
-            </div>
           )}
         </div>
       </div>

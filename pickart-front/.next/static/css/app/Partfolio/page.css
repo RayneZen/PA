@@ -434,29 +434,36 @@
 }
 
 .Background_RightSite__lpPNY {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.Background_RightSite__lpPNY input {
-  height: 5rem;
+  min-height: 5rem;
   width: 40rem;
   margin: 0.4375rem;
   margin-right: 0.3125rem;
-  border-radius: 1.25rem;
-  background-color: #4a4a4a;
-  border-color: #4a4a4a;
+  opacity: 0.6;
+  background-color: #313131;
+  border-radius: 0.5rem;
+  filter: drop-shadow(-1px 2px 2px #121212);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.Background_RightSite__lpPNY input::placeholder {
+  font-size: 1rem;
+}
+.Background_RightSite__lpPNY input {
   text-decoration: none;
-  outline: #121212;
+  background-color: #313131;
+  border: none;
   color: #ffffff;
-  padding: 0 1.25rem;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7098039216));
-  border: 1px;
-  background-image: url(/_next/static/media/search_White.ad2d5f5f.png);
-  background-repeat: no-repeat;
-  text-indent: 3%;
-  background-size: 2.5rem;
-  background-position: 2% center;
+  height: 1.5rem;
+  width: 99%;
+  margin: 0.1875rem;
+}
+.Background_RightSite__lpPNY input:focus {
+  outline: none;
+  box-shadow: none;
+  border: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
 }
 
 .Background_RightSite__lpPNY input:hover {
@@ -471,8 +478,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 1.40625rem;
-  margin: 0.234375rem;
+  height: 2.5rem;
+  margin: 0.9375rem;
   width: 15%;
   background-color: #ffffff;
   opacity: 0.6;

@@ -70,7 +70,7 @@ app.use(express.json());
 const PORT = process.env.PORT || 3001
 app.get('/Search', async (req, res) => {
   try {
-    // console.log(req.body)
+    console.log(req.query)
     const SerchData = req.query.SearchData
     const page = req.query.page
     const limit = 6 * 4
@@ -81,8 +81,7 @@ app.get('/Search', async (req, res) => {
     if (Id[0][0]) {
       const TegedId = await mysql.query(`SELECT ArtWorkId from Tegs WHERE Id = ${Id[0][0].Id}`)
       const Res = TegedId[0].map(item => item.ArtWorkId);
-      // console.log("TegedID ",Res);
-      if (page > totalPage || page == 0) {
+      if ((page > totalPage || page == 0) && Res.length<1) {
         return;
       } else {
         const [data] = await mysql.query(`SELECT * FROM artwork where Title LIKE '%${SerchData}%' OR ArtWorkId In (${Res}) limit ? offset ?`, [+limit, +offset])
@@ -385,6 +384,17 @@ app.post('/UpLoadAvatar', verifyUserToken, upload.single('file'), async (req, re
     res.sendStatus(500);
   }
 });
+app.post('/SetDescription', verifyUserToken, async (req, res) => {
+  console.log("req ", req.query);
+  try {
+    await mysql.query(`UPDATE User SET Information_about_yourself = '${req.query.Description}' WHERE Id = ${req.user.Id};`);
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 app.post("/AddComment", verifyUserToken, async (req, res) => {
   // console.log("Req: ", req.query)

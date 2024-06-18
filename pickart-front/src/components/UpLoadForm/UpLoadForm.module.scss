@@ -157,7 +157,7 @@ $hightTotBar: 2.5rem;
     filter: drop-shadow(-1px 2px 2px $black);
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 
     input::placeholder {
         font-size: $hightTotBar/2.5;
