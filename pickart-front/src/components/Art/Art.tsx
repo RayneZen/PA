@@ -64,7 +64,7 @@ export default function Art({ id }: { id: number }) {
                     Title={art.Title}
                     Name={art.Name}
                     AuthorId={art.AuthorId}
-                    AuthorImg={AvatarPath + art.Avatar}
+                    AuthorImg={ art.Avatar ? AvatarPath + art.Avatar: "/Login_white.png"}
                     Description={art.Description ?art.Description : null }
                 ></ArtInfo>
             </div >

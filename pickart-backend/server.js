@@ -221,7 +221,6 @@ app.get('/Liked', verifyUserToken, async (req, res) => {
   }
 })
 
-const mysqlP = require('mysql2/promise');
 
 
 app.post('/Reg', async (req, res) => {
@@ -338,6 +337,49 @@ app.post('/UpLoad', verifyUserToken, upload.single('file'), async (req, res) => 
     };
     // console.log("res ",result);
     return res.json(result);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+
+
+
+app.post('/UpLoadAvatar', verifyUserToken, upload.single('file'), async (req, res) => {
+  console.log("req ", req.body);
+  if (!req.file) {
+    return res.status(400).json({ success: false });
+  }
+  try {
+    const filePath = req.file.path;
+    const fileBuffer = await fs.readFile(filePath);
+    const folderPath = path.join(__dirname, './public/Avatars/');
+
+    // Check if a file with the same name and size already exists
+    let existingFilePath = req.file.originalname;
+    // console.log("ExPathStart ",existingFilePath);
+    try {
+      let index = 1;
+      while (await fs.stat(path.join(folderPath, existingFilePath))) {
+        const fileExtension = path.extname(req.file.originalname);
+        const fileNameWithoutExtension = path.basename(req.file.originalname, fileExtension);
+        existingFilePath = `${fileNameWithoutExtension}-${index}${fileExtension}`;
+        index++;
+        // console.log("ExPath ",existingFilePath);
+      }
+      // console.log("ExPathWrite ",existingFilePath);
+      req.file.originalname = existingFilePath;
+    } catch (err) {
+      // console.log("ExPathWrite ",existingFilePath);
+      req.file.originalname = existingFilePath;
+    }
+    // console.log("write", req.file.originalname);
+
+    await fs.writeFile(folderPath + req.file.originalname, fileBuffer);
+
+    await fs.unlink(filePath); // Remove the temporary file
+    await mysql.query(`UPDATE User SET Avatar = '${req.file.originalname}' WHERE Id = ${req.user.Id};`);
+    res.sendStatus(200);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
@@ -601,7 +643,7 @@ app.post("/UnLike", verifyUserToken, async (req, res) => {
 
 app.get('/Profile', async (req, res) => {
   try {
-    // console.log(req.query)
+    console.log(req.query)
     const Id = req.query.Id
     // const ID = req.query.page
     const Artist = await mysql.query(`SELECT Name,Avatar,Information_about_yourself from user where Id=${Id}`)
@@ -625,7 +667,7 @@ app.get('/CreatedBy', async (req, res) => {
       return;
     else {
       // console.log(offset)
-      const [data] = await mysql.query(`SELECT * FROM artwork where AuthorId=${AuthorId} limit ? offset ?`, [+limit, +offset])
+      const [data] = await mysql.query(`SELECT * FROM artwork where AuthorId=${AuthorId} ORDER BY ArtWorkId DESC limit ? offset ?`, [+limit, +offset])
       res.json(data)
     }
   } catch (error) {
@@ -648,7 +690,7 @@ app.get('/LikedBy', async (req, res) => {
     else {
       // console.log("Res ",Res);
       if (Res[0]) {
-        const [data] = await mysql.query(`SELECT * FROM artwork where ArtWorkId IN (${Res}) limit ? offset ?`, [+limit, +offset])
+        const [data] = await mysql.query(`SELECT * FROM artwork where ArtWorkId IN (${Res}) ORDER BY ArtWorkId DESC limit ? offset ?`, [+limit, +offset])
         res.json(data)
       } else res.json([])
     }
@@ -675,12 +717,13 @@ app.get('/Art', async (req, res) => {
 
 app.post("/DeleteArtWork", verifyUserToken, async (req, res) => {
   try {
-    if(req.user.Role=="Admin"){
-      await mysql.query(`delete from ArtWork where ArtWorkId=${req.body.ArtWorkId} `)
-      await mysql.query(`delete from Tegs where ArtWorkId=${req.body.ArtWorkId} `)
-      await mysql.query(`delete from Likes where ArtWorkId=${req.body.ArtWorkId} `)
-      await mysql.query(`delete from Views where ArtWorkId=${req.body.ArtWorkId} `)
-      await mysql.query(`delete from Comments where ArtWorkId=${req.body.ArtWorkId} `)
+    const AuthorId=await mysql.query(`SELECT AuthorId FROM ArtWork WHERE ArtWorkId=${req.query.ArtWorkId}`)
+    if(req.user.Role=="Admin" || req.user.Id ==AuthorId[0][0]['AuthorId']){
+      await mysql.query(`delete from ArtWork where ArtWorkId=${req.query.ArtWorkId} `)
+      await mysql.query(`delete from Tegs where ArtWorkId=${req.query.ArtWorkId} `)
+      await mysql.query(`delete from Likes where ArtWorkId=${req.query.ArtWorkId} `)
+      await mysql.query(`delete from Views where ArtWorkId=${req.query.ArtWorkId} `)
+      await mysql.query(`delete from Comments where ArtWorkId=${req.query.ArtWorkId} `)
       res.status(200).send("sucsess Delete!");
     }else{
       res.send("not Admin");

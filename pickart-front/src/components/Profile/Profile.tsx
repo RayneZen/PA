@@ -45,7 +45,7 @@ export default function Profile({ Id }: { Id: number }) {
     } else {
         return (
             <>
-                <Backgrounde Title={profile.Name} Logo={AvatarPath+profile.Avatar? AvatarPath+profile.Avatar : "/Logotip_Black.png"} Description={profile.Information_about_yourself ? profile.Information_about_yourself : "Profile"}></Backgrounde>
+                <Backgrounde Title={profile.Name} Logo={profile.Avatar ?  AvatarPath+profile.Avatar : "/Login_Black.png"} Description={profile.Information_about_yourself ? profile.Information_about_yourself : "Profile"}></Backgrounde>
                 <ProfileImgBoard ProfileId={Id}></ProfileImgBoard>
             </>
         );

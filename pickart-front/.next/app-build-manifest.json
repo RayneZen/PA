@@ -12,11 +12,10 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/SignIn/page": [
+    "/Settings/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/SignIn/page.css",
-      "static/chunks/app/SignIn/page.js"
+      "static/chunks/app/Settings/page.js"
     ],
     "/Profile/[Id]/page": [
       "static/chunks/webpack.js",
@@ -24,11 +23,29 @@
       "static/css/app/Profile/[Id]/page.css",
       "static/chunks/app/Profile/[Id]/page.js"
     ],
+    "/Partfolio/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/Partfolio/page.css",
+      "static/chunks/app/Partfolio/page.js"
+    ],
     "/Art/[Id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/Art/[Id]/page.css",
       "static/chunks/app/Art/[Id]/page.js"
+    ],
+    "/UpLoad/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/UpLoad/page.css",
+      "static/chunks/app/UpLoad/page.js"
+    ],
+    "/SignIn/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/SignIn/page.css",
+      "static/chunks/app/SignIn/page.js"
     ],
     "/SignUp/page": [
       "static/chunks/webpack.js",
