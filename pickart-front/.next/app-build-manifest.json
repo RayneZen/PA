@@ -12,29 +12,23 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
+    "/UpLoad/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/UpLoad/page.css",
+      "static/chunks/app/UpLoad/page.js"
+    ],
     "/SignIn/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/SignIn/page.css",
       "static/chunks/app/SignIn/page.js"
     ],
-    "/Partfolio/page": [
+    "/SignUp/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/Partfolio/page.css",
-      "static/chunks/app/Partfolio/page.js"
-    ],
-    "/Search/[Data]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/Search/[Data]/page.css",
-      "static/chunks/app/Search/[Data]/page.js"
-    ],
-    "/UpLoad/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/UpLoad/page.css",
-      "static/chunks/app/UpLoad/page.js"
+      "static/css/app/SignUp/page.css",
+      "static/chunks/app/SignUp/page.js"
     ]
   }
 }
