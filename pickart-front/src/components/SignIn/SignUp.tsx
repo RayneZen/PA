@@ -30,7 +30,7 @@ export default function SignUp() {
         e.preventDefault();
         if (!userName.current || !password.current) return;
         try {
-            if (userName.current.value != '' && email.current.value != '' && password.current.value != '') {
+            if (userName.current.value != '' && email.current.value != '' && password.current.value != '' && password.current.value == confirmPassword.current.value ) {
                 const Reg = await axios.post(`${API_URL}/Reg?name=${userName.current.value}&email=${email.current.value}&password=${password.current.value}`);
                 if (Reg) {
                     const result = await signIn("credentials", {

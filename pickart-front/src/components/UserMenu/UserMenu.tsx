@@ -13,9 +13,9 @@ export default function Menu() {
                     <li>
                         <Link className={styles.Link} href={`/Profile/${sesion.data?.user.Id}`}>My Profile</Link>
                     </li>
-                    <li>
+                    {/* <li>
                         <Link className={styles.Link} href={`/Settings`}>Settings</Link>
-                    </li>
+                    </li> */}
                     <li>
                         <Link className={styles.Link} href={`/Partfolio`}>Partfolio</Link>
                     </li>
