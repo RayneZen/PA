@@ -77,7 +77,7 @@ export default function ImgBoard({SearchData}:{SearchData: string}) {
         return function () {
             document.removeEventListener('scroll', scrollHandler);
         };
-    }, [fetching]);
+    }, []);
     const session = useSession();
     const TreadingClick = () => {
         setIsTreading(true);
@@ -106,7 +106,7 @@ export default function ImgBoard({SearchData}:{SearchData: string}) {
                         </Link>
                     )
                 })
-                }
+                } {(fetching && currentPage<1) && <h1>Loading</h1>} 
             </div>
         </>
     )

@@ -93,16 +93,16 @@ export default function ImgBoard() {
     }, [fetching]);
 
     useEffect(() => {
-        const scrollHandler = () => {
-            if (document.documentElement.scrollHeight - (document.documentElement.scrollTop + window.innerHeight) < 100) {
-                setFetching(true);
-            }
+    const scrollHandler = () => {
+        if (document.documentElement.scrollHeight - (document.documentElement.scrollTop + window.innerHeight) < 100 && !fetching) {
+            setFetching(true);
         }
-        document.addEventListener('scroll', scrollHandler);
-        return function () {
-            document.removeEventListener('scroll', scrollHandler);
-        };
-    }, [fetching]);
+    }
+    document.addEventListener('scroll', scrollHandler);
+    return function () {
+        document.removeEventListener('scroll', scrollHandler);
+    };
+}, [fetching]);
     const session = useSession();
     const TreadingClick = () => {
         setIsLiked(false);
@@ -142,7 +142,8 @@ export default function ImgBoard() {
             axios.defaults.headers.common['Authorization'] = `Bearer ${session.data?.user.token}`;
         }
     }, [session]);
-    return (
+    // console.log("Arts ",arts)
+;    return (
         <>
             {session.status === "authenticated" ? (
                 <div className={styles.MidBar}>
@@ -156,15 +157,12 @@ export default function ImgBoard() {
                     <p onClick={LatestClick} className={isLatest ? styles.Active : styles.Passive}>Latest</p>
                 </div>)}
             <div className={styles.ImgBoard}>
-            {arts.length > 0 ? (
-                    arts.map((post: Art) => (
+            {arts.map((post: Art) => (
                         <Link href={`/Art/${post.ArtWorkId}`} key={post.ArtWorkId}>
                             <ImgPreview key={post.ArtWorkId} title={post.Title} img={filePath + post.FileName} />
                         </Link>
                     ))
-                ) : (
-                    <h1>Loading</h1>
-                )}
+            } {(fetching && currentPage<1) && <h1>Loading</h1>} 
             </div>
         </>
     )

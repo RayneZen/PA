@@ -18,11 +18,11 @@
       "static/css/app/SignIn/page.css",
       "static/chunks/app/SignIn/page.js"
     ],
-    "/UpLoad/page": [
+    "/SignUp/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/UpLoad/page.css",
-      "static/chunks/app/UpLoad/page.js"
+      "static/css/app/SignUp/page.css",
+      "static/chunks/app/SignUp/page.js"
     ],
     "/Art/[Id]/page": [
       "static/chunks/webpack.js",
@@ -36,11 +36,11 @@
       "static/css/app/Search/[Data]/page.css",
       "static/chunks/app/Search/[Data]/page.js"
     ],
-    "/SignUp/page": [
+    "/UpLoad/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/SignUp/page.css",
-      "static/chunks/app/SignUp/page.js"
+      "static/css/app/UpLoad/page.css",
+      "static/chunks/app/UpLoad/page.js"
     ],
     "/Profile/[Id]/page": [
       "static/chunks/webpack.js",

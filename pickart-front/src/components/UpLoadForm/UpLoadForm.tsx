@@ -122,7 +122,7 @@ export default function UpLoadForm() {
                                 <p>Upload art:</p>
                             </div>
                             <div>
-                                <div className={styles.Button} onClick={() => filePicker.current.click()}>
+                                <div className={!file? styles.Button: styles.ButtonPress} onClick={() => filePicker.current.click()}>
                                     <input
                                         className={styles.Hide}
                                         ref={filePicker}

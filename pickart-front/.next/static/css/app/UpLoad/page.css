@@ -69,6 +69,33 @@
   border-color: #ffffff;
 }
 
+.UpLoadForm_ButtonPress___k_G7 {
+  background-color: #202020;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  border-style: solid;
+  border-color: #ffffff;
+  font-size: 1.25rem;
+  height: 2.5rem;
+  width: 10rem;
+  margin: 0.625rem;
+  margin-top: 0.875rem;
+  box-sizing: border-box;
+  border-radius: 1rem;
+  opacity: 0.6;
+  filter: drop-shadow(-1px 2px 2px #121212);
+}
+
+.UpLoadForm_ButtonPress___k_G7 :hover {
+  color: #121212;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  border-radius: 1rem;
+  opacity: 0.6;
+}
+
 .UpLoadForm_UpButton__vxnmy {
   display: flex;
   align-items: center;

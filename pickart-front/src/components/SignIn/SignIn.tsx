@@ -32,7 +32,7 @@ export default function SignIn() {
             redirect: true,
             callbackUrl: "/",
           });
-          if (!result?.ok) {
+          if (result?.error) {
             setIsWrong(true);
             setError(result?.error || "An unknown error occurred.");
           } else {

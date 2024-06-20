@@ -1,5 +1,6 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { API_URL } from "../../../../../Const";
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
@@ -9,7 +10,7 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        const res = await fetch("http://localhost:3001/Log", {
+        const res = await fetch(`${API_URL}/Log`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -16,17 +16,15 @@ export default function ArtTitle({ Title, ArtWorkId }: { Title: string, ArtWorkI
 
     useEffect(() => {
         if (session.status === "authenticated") {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${session.data?.user.token}`;
-            axios.get(`${API_URL}/isLiked?ArtWorkId=${ArtWorkId}`)
-                .then((response) => {
-                    setIsLiked(response.data.isLiked);
-                })
-                .finally(() => {
-                    setFetching(true);
-                });
-
+          if (session.data && session.data.user) {
+            axios.defaults.headers.common['Authorization'] = `Bearer ${session.data.user.token}`;
+          }
+          axios.get(`${API_URL}/isLiked?ArtWorkId=${ArtWorkId}`)
+            .then((response) => {
+              setIsLiked(response.data.isLiked);
+            });
         }
-    }, [session]);
+      }, [ArtWorkId, session]);
 
     useEffect(() => {
         if (fetching) {

@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState, useRef} from "react";
+import React, { useEffect, useState, useRef, useCallback} from "react";
 import axios from "axios"
 import styles from './Art.module.scss'
 import IPT from "../ImgPlusText/IPT";
@@ -15,8 +15,8 @@ interface Comment {
     CommentText: string;
 }
 
-const filePath = "http://localhost:3001/Arts/";
-const AvatarPath = "http://localhost:3001/Avatars/";
+const filePath = `${API_URL}/Arts/`;
+const AvatarPath = `${API_URL}/Avatars/`;
 
 export default function Comments({ ArtWorkId }: { ArtWorkId: number }) {
     const [comment, setComment] = useState<Comment[]>([]);
@@ -27,7 +27,9 @@ export default function Comments({ ArtWorkId }: { ArtWorkId: number }) {
 
     useEffect(() => {
         if (session.status === "authenticated") {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${session.data?.user.token}`;
+            if (session.data && session.data.user) {
+                axios.defaults.headers.common['Authorization'] = `Bearer ${session.data.user.token}`;
+              }
         }
     }, [session]);
 
@@ -69,24 +71,25 @@ export default function Comments({ ArtWorkId }: { ArtWorkId: number }) {
     }, [fetching, comment.length]);
 
     const InputComment = () => {
-        const inputRef = useRef(null);
+        const inputRef = useRef<HTMLInputElement>(null);
     
-        useEffect(() => {
-            if (inputRef.current) {
-                inputRef.current.focus();
-                const handleKeyUp = (event) => {
-                    if (event.keyCode === 13) {
-                        handleSubmit();
-                    }
-                };
-                inputRef.current.addEventListener("keyup", handleKeyUp);
-                return () => {
-                    if (inputRef.current) {
-                        inputRef.current.removeEventListener("keyup", handleKeyUp);
-                    }
-                };
+        const handleKeyUp = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
+            if (event.key === 'Enter') {
+              handleSubmit();
             }
-        }, []);
+          }, [handleSubmit]);
+        
+          useEffect(() => {
+            if (inputRef.current) {
+              inputRef.current.focus();
+              inputRef.current.addEventListener("keyup", handleKeyUp);
+              return () => {
+                if (inputRef.current) {
+                  inputRef.current.removeEventListener("keyup", handleKeyUp);
+                }
+              };
+            }
+          }, [handleKeyUp]);
     
         return (
             <div className={styles.CommentInput}>
