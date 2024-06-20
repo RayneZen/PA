@@ -1,0 +1,21 @@
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+self["webpackHotUpdate_N_E"]("app/page",{
+
+/***/ "(app-pages-browser)/./src/components/ImgBoard/ImgBoard.module.scss":
+/*!******************************************************!*\
+  !*** ./src/components/ImgBoard/ImgBoard.module.scss ***!
+  \******************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+eval(__webpack_require__.ts("// extracted by mini-css-extract-plugin\nmodule.exports = {\"Shadow\":\"ImgBoard_Shadow__lOFno\",\"MidBar\":\"ImgBoard_MidBar__JrIKZ\",\"Active\":\"ImgBoard_Active__QjM2d\",\"Passive\":\"ImgBoard_Passive__xu8VT\",\"ImgBoard\":\"ImgBoard_ImgBoard__4ydrX\",\"ArtPreview\":\"ImgBoard_ArtPreview__GCOqN\",\"Title\":\"ImgBoard_Title__JIjw_\"};\n    if(true) {\n      // 1718851260115\n      var cssReload = __webpack_require__(/*! ./node_modules/next/dist/compiled/mini-css-extract-plugin/hmr/hotModuleReplacement.js */ \"(app-pages-browser)/./node_modules/next/dist/compiled/mini-css-extract-plugin/hmr/hotModuleReplacement.js\")(module.id, {\"publicPath\":\"/_next/\",\"esModule\":false,\"locals\":true});\n      module.hot.dispose(cssReload);\n      \n    }\n  \nmodule.exports.__checksum = \"d8dbdba4f949\"\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwcC1wYWdlcy1icm93c2VyKS8uL3NyYy9jb21wb25lbnRzL0ltZ0JvYXJkL0ltZ0JvYXJkLm1vZHVsZS5zY3NzIiwibWFwcGluZ3MiOiJBQUFBO0FBQ0Esa0JBQWtCO0FBQ2xCLE9BQU8sSUFBVTtBQUNqQjtBQUNBLHNCQUFzQixtQkFBTyxDQUFDLHdNQUErSCxjQUFjLHNEQUFzRDtBQUNqTyxNQUFNLFVBQVU7QUFDaEI7QUFDQTtBQUNBO0FBQ0EseUJBQXlCIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vX05fRS8uL3NyYy9jb21wb25lbnRzL0ltZ0JvYXJkL0ltZ0JvYXJkLm1vZHVsZS5zY3NzPzRmODgiXSwic291cmNlc0NvbnRlbnQiOlsiLy8gZXh0cmFjdGVkIGJ5IG1pbmktY3NzLWV4dHJhY3QtcGx1Z2luXG5tb2R1bGUuZXhwb3J0cyA9IHtcIlNoYWRvd1wiOlwiSW1nQm9hcmRfU2hhZG93X19sT0Zub1wiLFwiTWlkQmFyXCI6XCJJbWdCb2FyZF9NaWRCYXJfX0pySUtaXCIsXCJBY3RpdmVcIjpcIkltZ0JvYXJkX0FjdGl2ZV9fUWpNMmRcIixcIlBhc3NpdmVcIjpcIkltZ0JvYXJkX1Bhc3NpdmVfX3h1OFZUXCIsXCJJbWdCb2FyZFwiOlwiSW1nQm9hcmRfSW1nQm9hcmRfXzR5ZHJYXCIsXCJBcnRQcmV2aWV3XCI6XCJJbWdCb2FyZF9BcnRQcmV2aWV3X19HQ09xTlwiLFwiVGl0bGVcIjpcIkltZ0JvYXJkX1RpdGxlX19KSWp3X1wifTtcbiAgICBpZihtb2R1bGUuaG90KSB7XG4gICAgICAvLyAxNzE4ODUxMjYwMTE1XG4gICAgICB2YXIgY3NzUmVsb2FkID0gcmVxdWlyZShcIkM6L1VzZXJzL1BDL0Rlc2t0b3AvUGlja0FydC9waWNrYXJ0LWZyb250L25vZGVfbW9kdWxlcy9uZXh0L2Rpc3QvY29tcGlsZWQvbWluaS1jc3MtZXh0cmFjdC1wbHVnaW4vaG1yL2hvdE1vZHVsZVJlcGxhY2VtZW50LmpzXCIpKG1vZHVsZS5pZCwge1wicHVibGljUGF0aFwiOlwiL19uZXh0L1wiLFwiZXNNb2R1bGVcIjpmYWxzZSxcImxvY2Fsc1wiOnRydWV9KTtcbiAgICAgIG1vZHVsZS5ob3QuZGlzcG9zZShjc3NSZWxvYWQpO1xuICAgICAgXG4gICAgfVxuICBcbm1vZHVsZS5leHBvcnRzLl9fY2hlY2tzdW0gPSBcImQ4ZGJkYmE0Zjk0OVwiXG4iXSwibmFtZXMiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(app-pages-browser)/./src/components/ImgBoard/ImgBoard.module.scss\n"));
+
+/***/ })
+
+});

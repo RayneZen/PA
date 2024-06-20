@@ -48,13 +48,6 @@ export default function ArtInfo({ ArtWorkId, Title, Name, AuthorId, AuthorImg, D
                         <Tegs ArtWorkId={ArtWorkId}></Tegs>
                     </div>
                 </div>
-                {/* <div className={styles.Conteiner}>
-                    <div className={styles.ConteinerTop}>
-                        <p>Add to group:</p>
-                    </div>
-                    <div className={styles.ConteinerInside}>
-                    </div>
-                </div> */}
             </div>
         </>
     )

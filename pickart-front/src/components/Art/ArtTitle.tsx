@@ -4,6 +4,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import axios from 'axios';
 import React, { useState, useEffect, useCallback } from 'react';
 import { API_URL } from '../../../Const';
+import SignIn from '../SignIn/SignIn';
 
 export default function ArtTitle({ Title, ArtWorkId }: { Title: string, ArtWorkId: number }) {
     const session = useSession();
@@ -76,10 +77,10 @@ export default function ArtTitle({ Title, ArtWorkId }: { Title: string, ArtWorkI
                             <Image src="/likesWhite.png" alt="Liks" width={32} height={32} />
                             <p>{likes + " Likes"}</p>
                         </div> :
-                            <div className={styles.Passive}  onClick={() => addLike(ArtWorkId)}>
+                            <div className={styles.Passive}  onClick={ () => addLike(ArtWorkId)}>
                                 <Image src="/likesWhite.png" alt="Liks" width={32} height={32} />
                                 <p>{likes + " Likes"}</p>
-                            </div>) : (<div className={styles.Passive} onClick={() => console.log("Need Sign In!")}>
+                            </div>) : (<div className={styles.Passive} onClick={() => signIn()}>
                                 <Image src="/likesWhite.png" alt="Liks" width={32} height={32} />
                                 <p>{likes + " Likes"}</p>
                             </div>)}

@@ -46,7 +46,7 @@
   color: #121212;
   font-size: 1.25rem;
   height: 2.5rem;
-  width: 10rem;
+  width: 10vw;
   margin: 0.9375rem;
   background-color: #ffffff;
   box-sizing: border-box;
@@ -151,7 +151,7 @@
   border: none;
   color: #ffffff;
   height: 2.5rem;
-  width: 99%;
+  width: 20vw;
   margin-top: 0.9375rem;
   margin-bottom: 0.9375rem;
   border-radius: 0.5rem;
@@ -175,4 +175,50 @@
 .SignIn_Link__QG_ny {
   color: #ffffff;
   text-decoration: none;
+}
+
+.SignIn_Error__dhJOc {
+  color: red;
+  opacity: 0.6;
+}
+
+.SignIn_Center__cIAdY {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 850px) {
+  .SignIn_Conteiner__2wdkT {
+    width: 80%;
+    height: auto;
+  }
+  .SignIn_Conteiner__2wdkT input {
+    width: 99%;
+  }
+  .SignIn_Button__4Y8hJ {
+    height: 2.5rem;
+    width: 20vw;
+    margin: 0.9375rem;
+  }
+  .SignIn_ConteinerInside__AkDJI input {
+    height: 2.5rem;
+    width: 45vw;
+  }
+}
+@media (max-width: 525px) and (max-width: 850px) {
+  .SignIn_Conteiner__2wdkT {
+    width: 80%;
+    height: auto;
+  }
+  .SignIn_Button__4Y8hJ {
+    height: 2.5rem;
+    width: 7.5rem;
+    margin: 0.9375rem;
+  }
+  .SignIn_ConteinerInside__AkDJI input {
+    height: 2.5rem;
+    width: 45vw;
+  }
 }

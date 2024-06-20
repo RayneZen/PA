@@ -90,7 +90,7 @@ export default function Comments({ ArtWorkId }: { ArtWorkId: number }) {
     
         return (
             <div className={styles.CommentInput}>
-                <IPT title=' ' img={session.status === "authenticated"? AvatarPath+session.data.user?.Avatar:"/likesWhite.png"} size='S'></IPT>
+                <IPT title=' ' img={session.status === "authenticated" && session.data.user?.Avatar ? AvatarPath+session.data.user?.Avatar : "/Login_White.png"} size='S'></IPT>
                 <input
                     ref={inputRef}
                     type="text"
@@ -115,8 +115,8 @@ export default function Comments({ ArtWorkId }: { ArtWorkId: number }) {
                 comment.map((comment: Comment) => (
                     <div className={styles.Comment}>
                         <div className={styles.CommentTop}>
-                            <Link href={`/Profile/${comment.CommentatorId}`}>
-                                <IPT title={comment.Name} img={AvatarPath + comment.Avatar} size='M'></IPT>
+                            <Link className={styles.Link} href={`/Profile/${comment.CommentatorId}`}>
+                                <IPT title={comment.Name} img={ comment.Avatar? AvatarPath + comment.Avatar : "/Login_White.png"} size='M'></IPT>
                             </Link>
                             <p className={styles.time}>8 hours ago</p>
                         </div>

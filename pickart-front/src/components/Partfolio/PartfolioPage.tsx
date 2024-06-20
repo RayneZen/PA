@@ -87,7 +87,6 @@ export default function PartfolioPage() {
     const descriptionInputRef = useRef(null);
     const [description, setDescription] = useState('');
     const handleKeyPress = (event) => {
-        console.log(event.key);
         if (event.key === 'Enter') {
             if (event.target === descriptionInputRef.current) {
                onSubmit(event);

@@ -129,10 +129,30 @@ $hightTotBar: 2.5rem;
 }
 
 
-@media (max-width: 576px) {
-    .RightSite {
-        input {
+// @media (max-width: 576px) {
+//     .RightSite {
+//         input {
+//             display: none;
+//         }
+//     }
+// }
+@media (max-width: 768px) { 
+    .RightSite input {
+            width: calc($hightTotBar*4); 
+        }
+ }
+
+
+
+@media (max-width: 525px)and (max-width: 768px) { 
+    .RightSite input {
+        width: calc($hightTotBar*3); 
+    }
+    .Header{
+        p{
             display: none;
+            opacity: 0;
+            width: 0px;
         }
     }
-}
+ }

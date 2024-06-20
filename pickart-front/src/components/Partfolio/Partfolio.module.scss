@@ -105,7 +105,7 @@ $hightTotBar: 2.5rem;
 .Conteiner {
     display: flex;
     background-color: $darkGrafit;
-    width: 23vw;
+    width: 90%;
     height: $hightTotBar*3.5;
     min-height: calc($hightTotBar*1.25*2);
     padding: $hightTotBar/4;
@@ -121,11 +121,11 @@ $hightTotBar: 2.5rem;
     filter: drop-shadow(0 0px 2px #000000b5);
     border-bottom-width: 3px;
     .Right{
-        width: 35%;
+        width: 40%;
         img {
             border-radius: calc($hightTotBar/5);
-            height: auto;
-            width: 90%;
+            height: 95%;
+            width: auto;
             aspect-ratio: 1 / 1;
             object-fit: cover;
             border-color: $darkGrafit;
@@ -138,11 +138,12 @@ $hightTotBar: 2.5rem;
         }
     }
     .Left {
+        width: 90%;
         .Top{
             display: flex;
             justify-content: center;
             align-items: center;
-            min-width: 100%;
+            width: 95%;
             height: 40%;
             p{
                 color: $white;
@@ -151,7 +152,7 @@ $hightTotBar: 2.5rem;
             }
         }
         .Bottom{
-            width: 100%;
+            width: 95%;
             height: 40%;
             display: flex;
             justify-content: space-between;
@@ -368,7 +369,7 @@ $hightTotBar: 2.5rem;
 }
 
 .FConteinerInside {
-    min-height: $hightTotBar;
+    height: $hightTotBar;
     margin: $hightTotBar/4;
     margin-top: calc($hightTotBar/4 + $hightTotBar/5/2);
     opacity: $op;
@@ -388,8 +389,8 @@ $hightTotBar: 2.5rem;
         background-color: $grafit;
         border: none;
         color: $white;
-        height: calc($hightTotBar*0.75*0.8);
-        width: 99%;
+        height: 80%;
+        width: 10vw;
         margin: calc($hightTotBar*(0.75 - 0.75 * 0.8)/2);
     }
 }
@@ -404,7 +405,7 @@ $hightTotBar: 2.5rem;
     position: absolute;
     width: 20vw;
     left: 40vw;
-    top: 30vh;
+    top: 22.5vw;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -418,7 +419,7 @@ $hightTotBar: 2.5rem;
         color: $black;
         font-size: calc($hightTotBar*0.5);
         height: 4vh;
-        width: 10vw;
+        min-width: 15vw;
         margin: $hightTotBar/4;
         // margin-top: calc($hightTotBar/4 + $hightTotBar/5/2);
         background-color: $white;
@@ -436,3 +437,16 @@ $hightTotBar: 2.5rem;
     
     }
 }
+@media (max-width: 768px) { 
+    .ImgBoard{
+        grid-template-columns: repeat(2, 1fr);
+    }
+ }
+
+
+
+@media (max-width: 525px)and (max-width: 768px) { 
+    .ImgBoard{
+        grid-template-columns: repeat(1, 1fr);
+    }
+ }

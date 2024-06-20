@@ -82,6 +82,7 @@ $hightTotBar: 2.5rem;
     opacity: $op;
     filter: drop-shadow(-1px 2px 2px $black);
 }
+
 .Button:hover {
     background-color: $darkGrafit;
     color: $white;
@@ -105,14 +106,16 @@ $hightTotBar: 2.5rem;
     justify-content: left;
     align-items: center;
     max-width: 100%;
+
     .Teg {
         background-color: $darkGrafit;
         height: $hightTotBar*0.6;
         width: auto;
-        padding-left: 2%;
-        padding-right: 2%;
+        padding-left: $hightTotBar*0.3;
+        padding-right: $hightTotBar*0.3;
         color: $white;
-        border-radius: 25%;
+        border-radius: $hightTotBar*0.15;
+        margin-right: $hightTotBar*0.2;
     }
 }
 
@@ -148,6 +151,9 @@ $hightTotBar: 2.5rem;
     filter: drop-shadow(-1px 2px 2px $black);
     font-size: calc($hightTotBar*0.6);
     padding-left: 1.5%;
+    word-wrap: break-word;
+    white-space: normal;
+
 
     p {
         opacity: $op;
@@ -220,6 +226,10 @@ $hightTotBar: 2.5rem;
     font-size: calc($hightTotBar*0.6);
     padding-left: 1.5%;
     padding-right: 1.5%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
 
     p {
         font-size: calc($hightTotBar*0.6*0.75);
@@ -230,6 +240,7 @@ $hightTotBar: 2.5rem;
         opacity: $op;
     }
 }
+
 .Comment {
     background-color: $darkGrafit;
     width: 97%;
@@ -244,6 +255,7 @@ $hightTotBar: 2.5rem;
     }
 
 }
+
 .CommentTop {
     display: flex;
     align-items: center;
@@ -256,34 +268,39 @@ $hightTotBar: 2.5rem;
     font-size: calc($hightTotBar*0.6);
     padding-left: 1.5%;
     padding-right: 1.5%;
-    p{
+
+    p {
         // font-size: $hightTotBar/2;
         opacity: $op;
     }
-    .time{
+
+    .time {
         font-size: $hightTotBar/3;
 
     }
 }
+
 .CommentInside {
     height: auto;
     padding: 3.5%;
     opacity: $op;
     word-wrap: break-word;
-  white-space: normal;
+    white-space: normal;
 }
 
 .Comments {
     align-items: center;
-    
+
 }
+
 .CommentInput input:focus {
     outline: none;
     box-shadow: none;
     border: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
-  }
+}
+
 .CommentInput {
     background-color: $darkGrafit;
     align-items: center;
@@ -303,7 +320,7 @@ $hightTotBar: 2.5rem;
         height: calc($hightTotBar*0.75*0.8);
         width: 85%;
         margin: calc($hightTotBar*(0.75 - 0.75 * 0.8)/2);
-    } 
+    }
 
     img {
         width: calc($hightTotBar)*0.5625;
@@ -368,4 +385,41 @@ $hightTotBar: 2.5rem;
 .Link {
     color: #ffffff;
     text-decoration: none;
+}
+
+
+@media (max-width: 850px) {
+    .Art {
+        display: block;
+        height: auto;
+    }
+
+    .ArtImg {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    .ArtInfo {
+        padding-top: 2px;
+        width: 100%;
+        height: auto;
+    }
+}
+
+
+@media (max-width: 525px)and (max-width: 850px) {
+    .Art {
+        display: block;
+    }
+    .ArtImg {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+    .ArtInfo {
+        padding-top: 1px;
+        width: 100%;
+        height: auto;
+    }
 }

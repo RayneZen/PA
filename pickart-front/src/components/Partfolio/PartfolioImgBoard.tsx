@@ -77,24 +77,28 @@ export default function PartfolioImgBoard({ ProfileId }: { ProfileId: number }) 
     return (
         <>
             <div className={styles.ImgBoard}>
-                {arts.map((post) => (
-                    <div key={post.ArtWorkId} className={styles.Conteiner}>
-                        <div className={styles.Right}>
-                            <Image className={styles.IMG} src={filePath + post.FileName} priority alt='' width={400} height={400} />
-                        </div>
-                        <div className={styles.Left}>
-                            <div className={styles.Top}>
-                                <p>{post.Title}</p>
+                {arts.length > 0 ? (
+                    arts.map((post) => (
+                        <div key={post.ArtWorkId} className={styles.Conteiner}>
+                            <div className={styles.Right}>
+                                <Image className={styles.IMG} src={filePath + post.FileName} priority alt='' width={400} height={400} />
                             </div>
-                            <div className={styles.Bottom}>
-                                <div className={styles.Button} onClick={() => DeleteArt(post.ArtWorkId)}>Delete</div>
-                                <Link className={styles.Link} href={`/Art/${post.ArtWorkId}`}>
-                                    <div className={styles.Button}>View</div>
-                                </Link>
+                            <div className={styles.Left}>
+                                <div className={styles.Top}>
+                                    <p>{post.Title}</p>
+                                </div>
+                                <div className={styles.Bottom}>
+                                    <div className={styles.Button} onClick={() => DeleteArt(post.ArtWorkId)}>Delete</div>
+                                    <Link className={styles.Link} href={`/Art/${post.ArtWorkId}`}>
+                                        <div className={styles.Button}>View</div>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                ) : (
+                    <h1>Loading...</h1>
+                )}
             </div>
         </>
     );

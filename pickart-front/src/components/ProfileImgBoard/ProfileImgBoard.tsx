@@ -94,14 +94,15 @@ export default function ImgBoard({ ProfileId }: { ProfileId: number }) {
                 <p onClick={LikedClick} className={isLiked ? styles.Active : styles.Passive}>Liked</p>
             </div>
             <div className={styles.ImgBoard}>
-                {arts.map((post: Art) => {
-                    return (
-                        <Link href={`/Art/${post.ArtWorkId}`} >
-                            <ImgPreview key={post.ArtWorkId} title={post.Title} img={filePath + post.FileName}></ImgPreview>
+            {arts.length > 0 ? (
+                    arts.map((post: Art) => (
+                        <Link href={`/Art/${post.ArtWorkId}`} key={post.ArtWorkId}>
+                            <ImgPreview key={post.ArtWorkId} title={post.Title} img={filePath + post.FileName} />
                         </Link>
-                    )
-                })
-                }
+                    ))
+                ) : (
+                    <h1>Loading</h1>
+                )}
             </div>
         </>
     )

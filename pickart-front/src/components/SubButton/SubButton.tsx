@@ -31,13 +31,15 @@ const SubButton = ({ AuthorId }: { AuthorId: number }) => {
     }, [fetching]);
 
     const addSub = useCallback(async (authorId: number) => {
-        axios.post(`${API_URL}/Subscription?AuthorId=${authorId}`)
-            .then((response) => {
-                // console.log(response.status);
-            })
-            .finally(() => {
-                setFetching(true);
-            });
+        if (session.status === "authenticated") {
+            axios.post(`${API_URL}/Subscription?AuthorId=${authorId}`)
+                .then((response) => {
+                    // console.log(response.status);
+                })
+                .finally(() => {
+                    setFetching(true);
+                });
+        } else { () => signIn() }
     }, []);
 
     const unSub = useCallback(async (authorId: number) => {
@@ -61,7 +63,7 @@ const SubButton = ({ AuthorId }: { AuthorId: number }) => {
                 <div className={styles.Button} onClick={() => addSub(AuthorId)}>Subscribe</div>
             )
         ) : (
-            <div className={styles.Button} onClick={() => console.log("Need Sign In!")}>Subscribe</div>
+            <div className={styles.Button} onClick={() => signIn()}>Subscribe</div>
         )}
         </>
     );

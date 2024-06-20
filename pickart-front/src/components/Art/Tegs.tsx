@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios"
 import styles from './Art.module.scss'
+import { API_URL } from "../../../Const";
+import Link from "next/link";
 
 
 
@@ -17,7 +19,7 @@ export default function Tegs({ ArtWorkId }: { ArtWorkId: number }) {
 
     useEffect(() => {
         if (fetching) {
-            axios.get<string[]>(`http://localhost:3001/ArtTegs?ArtWorkId=${ArtWorkId}`)
+            axios.get<string[]>(`${API_URL}/ArtTegs?ArtWorkId=${ArtWorkId}`)
                 .then(response => {
                     console.log("res: ",response.data, ArtWorkId);
                     setTegs(tegs => [...tegs, ...response.data]);
@@ -34,7 +36,9 @@ export default function Tegs({ ArtWorkId }: { ArtWorkId: number }) {
         <><div className={styles.Tegs}>
             {tegs.map((teg: string) => {
                 return (
+                    <Link className={styles.Link} href={`/Search/${teg}`}>
                         <div className={styles.Teg}>{teg}</div>
+                    </Link>
                 )
             })
             }

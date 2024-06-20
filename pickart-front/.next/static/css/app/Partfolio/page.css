@@ -92,7 +92,7 @@
 .Partfolio_Conteiner__ioOEW {
   display: flex;
   background-color: #202020;
-  width: 23vw;
+  width: 90%;
   height: 8.75rem;
   min-height: 6.25rem;
   padding: 0.625rem;
@@ -108,12 +108,12 @@
   border-bottom-width: 3px;
 }
 .Partfolio_Conteiner__ioOEW .Partfolio_Right__HTUIl {
-  width: 35%;
+  width: 40%;
 }
 .Partfolio_Conteiner__ioOEW .Partfolio_Right__HTUIl img {
   border-radius: 0.5rem;
-  height: auto;
-  width: 90%;
+  height: 95%;
+  width: auto;
   aspect-ratio: 1/1;
   object-fit: cover;
   border-color: #202020;
@@ -123,11 +123,14 @@
   box-sizing: border-box;
   border-bottom-width: 3px;
 }
+.Partfolio_Conteiner__ioOEW .Partfolio_Left__tkC_g {
+  width: 90%;
+}
 .Partfolio_Conteiner__ioOEW .Partfolio_Left__tkC_g .Partfolio_Top__mvdAF {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 100%;
+  width: 95%;
   height: 40%;
 }
 .Partfolio_Conteiner__ioOEW .Partfolio_Left__tkC_g .Partfolio_Top__mvdAF p {
@@ -136,7 +139,7 @@
   font-size: 1.25rem;
 }
 .Partfolio_Conteiner__ioOEW .Partfolio_Left__tkC_g .Partfolio_Bottom__mHKx1 {
-  width: 100%;
+  width: 95%;
   height: 40%;
   display: flex;
   justify-content: space-between;
@@ -327,7 +330,7 @@
 }
 
 .Partfolio_FConteinerInside__y3UI6 {
-  min-height: 2.5rem;
+  height: 2.5rem;
   margin: 0.625rem;
   margin-top: 0.875rem;
   opacity: 0.6;
@@ -346,8 +349,8 @@
   background-color: #313131;
   border: none;
   color: #ffffff;
-  height: 1.5rem;
-  width: 99%;
+  height: 80%;
+  width: 10vw;
   margin: 0.1875rem;
 }
 
@@ -363,7 +366,7 @@
   position: absolute;
   width: 20vw;
   left: 40vw;
-  top: 30vh;
+  top: 22.5vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -375,7 +378,7 @@
   color: #121212;
   font-size: 1.25rem;
   height: 4vh;
-  width: 10vw;
+  min-width: 15vw;
   margin: 0.625rem;
   background-color: #ffffff;
   box-sizing: border-box;
@@ -387,6 +390,17 @@
   color: #ffffff;
   border-style: solid;
   border-color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .Partfolio_ImgBoard__gMkX2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 525px) and (max-width: 768px) {
+  .Partfolio_ImgBoard__gMkX2 {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 /*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[9].use[3]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[13].oneOf[9].use[4]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[13].oneOf[9].use[5]!./src/components/Background/Background.module.scss ***!
@@ -492,4 +506,53 @@
 }
 .Background_Send__fhnCE p {
   color: #121212;
+}
+
+@media (max-width: 768px) {
+  .Background_Content__WiO7S {
+    padding-top: 2.5rem;
+  }
+  .Background_Logo__7u1Mp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+  }
+  .Background_Logo__7u1Mp img {
+    width: 2.5rem;
+    height: auto;
+    margin: 0.4166666667rem;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+  .Background_Logo__7u1Mp p {
+    font-size: 1.875rem;
+    margin: 0;
+    color: #121212;
+  }
+}
+@media (max-width: 525px) and (max-width: 768px) {
+  .Background_Content__WiO7S {
+    padding-top: 1.25rem;
+  }
+  .Background_Logo__7u1Mp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+  }
+  .Background_Logo__7u1Mp img {
+    width: 1.25rem;
+    height: auto;
+    margin: 0.2083333333rem;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+  .Background_Logo__7u1Mp p {
+    font-size: 1.875rem;
+    margin: 0;
+    color: #121212;
+  }
 }

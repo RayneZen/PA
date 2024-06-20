@@ -4,6 +4,7 @@ import axios from "axios"
 import styles from './Art.module.scss'
 import ArtImg from './ArtImg'
 import ArtInfo from "./ArtInfo";
+import { API_URL } from "../../../Const";
 // import { Session } from "inspector";
 
 
