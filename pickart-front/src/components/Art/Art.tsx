@@ -21,8 +21,8 @@ interface Art {
     Comments: number;
 }
 
-const filePath = "http://localhost:3001/Arts/";
-const AvatarPath = "http://localhost:3001/Avatars/";
+const filePath = `${API_URL}/Arts/`;
+const AvatarPath = `${API_URL}/Avatars/`;
 
 
 export default function Art({ id }: { id: number }) {
@@ -37,7 +37,7 @@ export default function Art({ id }: { id: number }) {
 
     useEffect(() => {
         if (fetching) {
-            axios.get<Art>(`http://localhost:3001/Art?Id=${id}`)
+            axios.get<Art>(`${API_URL}/Art?Id=${id}`)
                 .then(response => {
                     // console.log("Arts ",response.data);
                     setArt(response.data);

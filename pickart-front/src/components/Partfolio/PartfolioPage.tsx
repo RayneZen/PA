@@ -8,8 +8,9 @@ import IPT from '../ImgPlusText/IPT';
 import styles from './Partfolio.module.scss';
 import Background from '../Background/Background';
 import PartfolioImgBoard from './PartfolioImgBoard';
+import { API_URL } from '../../../Const';
 
-const filePath = "http://localhost:3001/Avatars/";
+const filePath = `${API_URL}/Avatars/`;
 interface User {
     Name: string,
     Avatar: string,
@@ -26,7 +27,7 @@ export default function PartfolioPage() {
         e.preventDefault();
         try {
             console.log("Des ",description);
-            const res = await axios.post(`http://localhost:3001/SetDescription?Description=${description}` );
+            const res = await axios.post(`${API_URL}/SetDescription?Description=${description}` );
             setDescription('');
             setFetching(true);
             setIsHide(true)
@@ -38,7 +39,7 @@ export default function PartfolioPage() {
     useEffect(() => {
         if (session.status === "authenticated") {
             axios.defaults.headers.common['Authorization'] = `Bearer ${session.data?.user.token}`;
-            axios.get<User>(`http://localhost:3001/Profile?Id=${session.data?.user.Id}`)
+            axios.get<User>(`${API_URL}/Profile?Id=${session.data?.user.Id}`)
                 .then((response) => {
                     setUser(response.data);
                     console.log("user ", user);
@@ -58,7 +59,7 @@ export default function PartfolioPage() {
         if (file) {
             const data = new FormData();
             data.append('file', file);
-            axios.post('http://localhost:3001/UpLoadAvatar', data)
+            axios.post(`${API_URL}/UpLoadAvatar`, data)
                 .then((response) => {
                     setFile(undefined);
                     console.log(response);
@@ -74,7 +75,7 @@ export default function PartfolioPage() {
 
     useEffect(() => {
         if (fetching) {
-            axios.get<User>(`http://localhost:3001/Profile?Id=${session.data?.user.Id}`)
+            axios.get<User>(`${API_URL}/Profile?Id=${session.data?.user.Id}`)
                 .then((response) => {
                     setUser(response.data);
                 })

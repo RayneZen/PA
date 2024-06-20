@@ -3,6 +3,7 @@ import styles from './Art.module.scss'
 import { signIn, signOut, useSession } from 'next-auth/react';
 import axios from 'axios';
 import React, { useState, useEffect, useCallback } from 'react';
+import { API_URL } from '../../../Const';
 
 export default function ArtTitle({ Title, ArtWorkId }: { Title: string, ArtWorkId: number }) {
     const session = useSession();
@@ -15,7 +16,7 @@ export default function ArtTitle({ Title, ArtWorkId }: { Title: string, ArtWorkI
     useEffect(() => {
         if (session.status === "authenticated") {
             axios.defaults.headers.common['Authorization'] = `Bearer ${session.data?.user.token}`;
-            axios.get(`http://localhost:3001/isLiked?ArtWorkId=${ArtWorkId}`)
+            axios.get(`${API_URL}/isLiked?ArtWorkId=${ArtWorkId}`)
                 .then((response) => {
                     setIsLiked(response.data.isLiked);
                 })
@@ -29,7 +30,7 @@ export default function ArtTitle({ Title, ArtWorkId }: { Title: string, ArtWorkI
     useEffect(() => {
         if (fetching) {
             // console.log("sesion: ", session.status);
-            axios.get(`http://localhost:3001/CountInfo?ArtWorkId=${ArtWorkId}`)
+            axios.get(`${API_URL}/CountInfo?ArtWorkId=${ArtWorkId}`)
                 .then((response) => {
                     setViews(response.data.Views);
                     setLikes(response.data.Likes);
@@ -42,7 +43,7 @@ export default function ArtTitle({ Title, ArtWorkId }: { Title: string, ArtWorkI
     }, [fetching]);
 
     const addLike = useCallback(async (authorId: number) => {
-        axios.post(`http://localhost:3001/AddLike?ArtWorkId=${authorId}`)
+        axios.post(`${API_URL}/AddLike?ArtWorkId=${authorId}`)
             .then((response) => {
                 setIsLiked(response.data.isLiked);
             })
@@ -52,7 +53,7 @@ export default function ArtTitle({ Title, ArtWorkId }: { Title: string, ArtWorkI
     }, []);
 
     const unLike = useCallback(async (authorId: number) => {
-        axios.post(`http://localhost:3001/UnLike?ArtWorkId=${authorId}`)
+        axios.post(`${API_URL}/UnLike?ArtWorkId=${authorId}`)
             .then((response) => {
                 setIsLiked(response.data.isLiked);
             })

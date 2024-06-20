@@ -5,6 +5,7 @@ import axios from "axios"
 import styles from './ProfileImgBoard.module.scss'
 import ImgPreview from "../ImgBoard/ImgPreview";
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { API_URL } from "../../../Const";
 
 
 
@@ -14,7 +15,7 @@ interface Art {
     FileName: string;
 }
 
-const filePath = "http://localhost:3001/Arts/";
+const filePath = `${API_URL}/Arts/`;
 
 export default function ImgBoard({ ProfileId }: { ProfileId: number }) {
 
@@ -34,7 +35,7 @@ export default function ImgBoard({ ProfileId }: { ProfileId: number }) {
     useEffect(() => {
         if (fetching) {
             if (isPartfolio) {
-                axios.get<Art[]>(`http://localhost:3001/CreatedBy?page=${currentPage}&AuthorId=${ProfileId}`)
+                axios.get<Art[]>(`${API_URL}/CreatedBy?page=${currentPage}&AuthorId=${ProfileId}`)
                     .then(response => {
                         setArts(arts => [...arts, ...response.data]);
                         setCurrentPage(currentPage + 1);
@@ -46,7 +47,7 @@ export default function ImgBoard({ ProfileId }: { ProfileId: number }) {
                         }
                     });
             } else if (isLiked) {
-                axios.get<Art[] | null>(`http://localhost:3001/LikedBy?page=${currentPage}&AuthorId=${ProfileId}`)
+                axios.get<Art[] | null>(`${API_URL}/LikedBy?page=${currentPage}&AuthorId=${ProfileId}`)
                     .then(response => {
                         setArts(arts => [...arts, ...response.data!]);
                         setCurrentPage(currentPage + 1);

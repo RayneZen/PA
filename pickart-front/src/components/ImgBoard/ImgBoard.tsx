@@ -5,6 +5,7 @@ import axios from "axios"
 import styles from './ImgBoard.module.scss'
 import ImgPreview from './ImgPreview'
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { API_URL } from "../../../Const";
 
 // import MidBar from './MidBar'
 
@@ -16,7 +17,7 @@ interface Art {
     FileName: string;
 }
 
-const filePath = "http://localhost:3001/Arts/";
+const filePath = `${API_URL}/Arts/`;
 
 export default function ImgBoard() {
     const [arts, setArts] = useState<Art[]>([]);
@@ -40,7 +41,7 @@ export default function ImgBoard() {
     useEffect(() => {
         if (fetching) {
             if(isTreading){
-                axios.get<Art[]>(`http://localhost:3001/?page=${currentPage}`)
+                axios.get<Art[]>(`${API_URL}/?page=${currentPage}`)
                     .then(response => {
                         setArts(arts => [...arts, ...response.data]);
                         setCurrentPage(currentPage + 1);
@@ -52,7 +53,7 @@ export default function ImgBoard() {
                         }
                     });
             }else if(isLatest){
-                axios.get<Art[]>(`http://localhost:3001/Latest?page=${currentPage}`)
+                axios.get<Art[]>(`${API_URL}/Latest?page=${currentPage}`)
                 .then(response => {
                     setArts(arts => [...arts, ...response.data]);
                     setCurrentPage(currentPage + 1);
@@ -64,7 +65,7 @@ export default function ImgBoard() {
                     }
                 });
             }else if(isFollowing){
-                axios.get<Art[]>(`http://localhost:3001/Following?page=${currentPage}`)
+                axios.get<Art[]>(`${API_URL}/Following?page=${currentPage}`)
                 .then(response => {
                     setArts(arts => [...arts, ...response.data]);
                     setCurrentPage(currentPage + 1);
@@ -76,7 +77,7 @@ export default function ImgBoard() {
                     }
                 });
             }else if(isLiked){
-                axios.get<Art[]>(`http://localhost:3001/Liked?page=${currentPage}`)
+                axios.get<Art[]>(`${API_URL}/Liked?page=${currentPage}`)
                 .then(response => {
                     setArts(arts => [...arts, ...response.data]);
                     setCurrentPage(currentPage + 1);

@@ -5,8 +5,9 @@ import axios from 'axios';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { API_URL } from '../../../Const';
 
-const filePath = "http://localhost:3001/Arts/";
+const filePath = `${API_URL}/Arts/`;
 
 export default function UpLoadForm() {
     const filePicker = useRef(null);
@@ -31,7 +32,7 @@ export default function UpLoadForm() {
             data.append('Title', title);
             data.append('Description', description);
             data.append('Tegs', tegs.join(','));
-            const res = await axios.post('http://localhost:3001/UpLoad', data);
+            const res = await axios.post(`${API_URL}/UpLoad`, data);
             setFile(undefined);
             setTitle('');
             setDescription('');

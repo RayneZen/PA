@@ -13,6 +13,7 @@ import SignInMenu from '../SignInMenu/SignInMenu';
 import SignOutMenu from '../SignInMenu/SignOutMenu';
 import UserMenu from '../UserMenu/UserMenu';
 import { useRouter } from 'next/navigation';
+import { API_URL } from '../../../Const';
 // import RightSite from './RightSite'
 
 export default function Header() {
@@ -72,7 +73,7 @@ export default function Header() {
                 <div className={styles.Header}>
                     <Link href={`/`} className={styles.Logo}>
                         <Image src='/Logotip_White.png' priority alt='' width={500} height={500} />
-                        <p>PickArt</p>
+                      <p>PickArt</p>
                     </Link>
                     <div className={styles.RightSite}>
                         <input id='Search'
@@ -94,7 +95,7 @@ export default function Header() {
                             </Link>
                                 {/* onClick={() => signOut({ callbackUrl: "/" })} */}
                                 <div onClick={SignOutClick} >
-                                    <IPT title={session.data.user.Name} img={session.data.user?.Avatar? "http://localhost:3001/Avatars/"+session.data.user?.Avatar :"/Login_White.png" }  ></IPT>
+                                    <IPT title={session.data.user.Name} img={session.data.user?.Avatar? `${API_URL}/Avatars/`+session.data.user?.Avatar :"/Login_White.png" }  ></IPT>
                                 </div>
                                 <div onClick={BurgerClick} className={isHideUM ? styles.ImgButton : styles.ImgButtonClick}>
                                     <ImgButton img={"/BM.png"}></ImgButton>

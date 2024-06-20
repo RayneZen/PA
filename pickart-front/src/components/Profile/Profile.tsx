@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProfileImgBoard from '@/components/ProfileImgBoard/ProfileImgBoard';
 import Backgrounde from '@/components/Background/Background';
+import { API_URL } from "../../../Const";
 
 interface Profile {
     Name: string;
@@ -9,7 +10,7 @@ interface Profile {
     Information_about_yourself: string;
 }
 
-const AvatarPath = "http://localhost:3001/Avatars/";
+const AvatarPath = `${API_URL}/Avatars/`;
 
 export default function Profile({ Id }: { Id: number }) {
     const [profile, setProfile] = useState<Profile | null>(null);
@@ -24,7 +25,7 @@ export default function Profile({ Id }: { Id: number }) {
 
     useEffect(() => {
         if (fetching) {
-            axios.get<Profile>(`http://localhost:3001/Profile/?Id=${Id}`)
+            axios.get<Profile>(`${API_URL}/Profile/?Id=${Id}`)
                 .then(response => {
                     setProfile(response.data);
                 })

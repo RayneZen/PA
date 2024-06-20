@@ -1,8 +1,8 @@
-// File: C:\Users\PC\Desktop\PickArt\pickart-front\src\app\SignIn\page.tsx
-import * as entry from '../../../../src/app/SignIn/page.js'
+// File: C:\Users\PC\Desktop\PickArt\pickart-front\src\app\Profile\[Id]\page.tsx
+import * as entry from '../../../../../src/app/Profile/[Id]/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
-type TEntry = typeof import('../../../../src/app/SignIn/page.js')
+type TEntry = typeof import('../../../../../src/app/Profile/[Id]/page.js')
 
 // Check that the entry is a valid entry
 checkFields<Diff<{

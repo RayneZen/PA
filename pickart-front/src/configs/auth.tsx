@@ -241,6 +241,7 @@
 import { getServerSession } from "next-auth/next"
 import type { AuthOptions, User } from 'next-auth'
 import GoggleProvider from 'next-auth/providers/google'
+import { API_URL } from "../../Const";
 // import NextAuth from "next-auth"
 const jwt = require('jsonwebtoken');
 export const authConfig: AuthOptions = {
@@ -277,7 +278,7 @@ export const authConfig: AuthOptions = {
       };
 
       // Выполнение POST запроса
-      fetch('http://localhost:3001/api/auth/session', requestOptions)
+      fetch(`${API_URL}/api/auth/session`, requestOptions)
         .then(response => {
           if (response.ok) {
             return response.json(); // Если запрос успешен, обрабатываем ответ как JSON

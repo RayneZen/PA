@@ -5,6 +5,7 @@ import styles from './Art.module.scss'
 import IPT from "../ImgPlusText/IPT";
 import Link from "next/link";
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { API_URL } from "../../../Const";
 
 interface Comment {
     ArtWorkId: number;
@@ -34,7 +35,7 @@ export default function Comments({ ArtWorkId }: { ArtWorkId: number }) {
         try {
             if(inputValue!='') {
                 const response = await axios.post(
-                    `http://localhost:3001/AddComment?ArtWorkId=${ArtWorkId}&Comment=${inputValue}`
+                    `${API_URL}/AddComment?ArtWorkId=${ArtWorkId}&Comment=${inputValue}`
                 );
                 // console.log(response.data);
                 setInputValue('');
@@ -53,7 +54,7 @@ export default function Comments({ ArtWorkId }: { ArtWorkId: number }) {
 
     useEffect(() => {
         if (fetching ) {
-            axios.get<Comment[]>(`http://localhost:3001/Comments?ArtWorkId=${ArtWorkId}`)
+            axios.get<Comment[]>(`${API_URL}/Comments?ArtWorkId=${ArtWorkId}`)
                 .then(response => {
                     console.log("Comments ", response.data);
                     setComment(response.data);

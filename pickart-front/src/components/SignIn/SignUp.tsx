@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { signIn } from "next-auth/react";
 import axios from 'axios';
+import { API_URL } from '../../../Const';
 
 
 export default function SignUp() {
@@ -30,7 +31,7 @@ export default function SignUp() {
         if (!userName.current || !password.current) return;
         try {
             if (userName.current.value != '' && email.current.value != '' && password.current.value != '') {
-                const Reg = await axios.post(`http://localhost:3001/Reg?name=${userName.current.value}&email=${email.current.value}&password=${password.current.value}`);
+                const Reg = await axios.post(`${API_URL}/Reg?name=${userName.current.value}&email=${email.current.value}&password=${password.current.value}`);
                 if (Reg) {
                     const result = await signIn("credentials", {
                         email: userName.current.value,

@@ -5,6 +5,7 @@ import axios from "axios"
 import styles from './ImgBoard.module.scss'
 import ImgPreview from '@/components/ImgBoard/ImgPreview'
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { API_URL } from "../../../Const";
 
 // import MidBar from './MidBar'
 
@@ -16,7 +17,7 @@ interface Art {
     FileName: string;
 }
 
-const filePath = "http://localhost:3001/Arts/";
+const filePath = `${API_URL}/Arts/`;
 
 export default function ImgBoard({SearchData}:{SearchData: string}) {
     const [arts, setArts] = useState<Art[]>([]);
@@ -40,7 +41,7 @@ export default function ImgBoard({SearchData}:{SearchData: string}) {
     useEffect(() => {
         if (fetching) {
             if (isTreading) {
-                axios.get<Art[]>(`http://localhost:3001/Search?page=${currentPage}&SearchData=${SearchData}`)
+                axios.get<Art[]>(`${API_URL}/Search?page=${currentPage}&SearchData=${SearchData}`)
                     .then(response => {
                         setArts(arts => [...arts, ...response.data]);
                         setCurrentPage(currentPage + 1);
@@ -52,7 +53,7 @@ export default function ImgBoard({SearchData}:{SearchData: string}) {
                         }
                     });
             } else
-                axios.get<Art[]>(`http://localhost:3001/SearchLatest?page=${currentPage}&SearchData=${SearchData}`)
+                axios.get<Art[]>(`${API_URL}/SearchLatest?page=${currentPage}&SearchData=${SearchData}`)
                     .then(response => {
                         setArts(arts => [...arts, ...response.data]);
                         setCurrentPage(currentPage + 1);

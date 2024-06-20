@@ -6,14 +6,15 @@ import styles from './Partfolio.module.scss';
 import ImgPreview from "../ImgBoard/ImgPreview";
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { API_URL } from '../../../Const';
+
 
 interface Art {
     ArtWorkId: number;
     Title: string;
     FileName: string;
 }
-
-const filePath = "http://localhost:3001/Arts/";
+const filePath = `${API_URL}/Arts/`;
 
 export default function PartfolioImgBoard({ ProfileId }: { ProfileId: number }) {
     const session = useSession();
@@ -37,7 +38,7 @@ export default function PartfolioImgBoard({ ProfileId }: { ProfileId: number }) 
 
     useEffect(() => {
         if (fetching) {
-            axios.get<Art[]>(`http://localhost:3001/CreatedBy?page=${currentPage}&AuthorId=${ProfileId}`)
+            axios.get<Art[]>(`${API_URL}/CreatedBy?page=${currentPage}&AuthorId=${ProfileId}`)
                 .then(response => {
                     setArts(arts => [...arts, ...response.data]);
                     setCurrentPage(currentPage + 1);
@@ -64,7 +65,7 @@ export default function PartfolioImgBoard({ ProfileId }: { ProfileId: number }) 
     }, [fetching]);
 
     const DeleteArt = useCallback(async (ArtWorkId: number) => {
-        axios.post(`http://localhost:3001/DeleteArtWork?ArtWorkId=${ArtWorkId}`)
+        axios.post(`${API_URL}/DeleteArtWork?ArtWorkId=${ArtWorkId}`)
             .then(() => {
                 setArts(arts => arts.filter((art) => art.ArtWorkId !== ArtWorkId));
             })
